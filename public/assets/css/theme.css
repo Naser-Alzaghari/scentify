@@ -2540,7 +2540,7 @@ progress {
 .form-control {
   display: block;
   width: 100%;
-  padding: 0.5rem 2.5rem;
+  padding: 0.5rem 0.5rem;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -3070,7 +3070,7 @@ textarea.form-control-lg {
 .form-floating > .form-control,
 .form-floating > .form-select {
   height: calc(3.5rem + 2px);
-  padding: 1rem 2.5rem;
+  padding: 1rem 1rem;
 }
 
 .form-floating > label {
