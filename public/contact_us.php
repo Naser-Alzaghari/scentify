@@ -64,10 +64,13 @@
                                     </div>
                                 </div>
 
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="Message" placeholder="Leave a comment here"
-                                        id="Message" style="min-height:200px" required></textarea>
+                                <div class="mb-3 form-floating">
+                                    <textarea class="form-control" name="Message"
+                                    id="Message" style="min-height:200px" placeholder="" required></textarea>
+                                    <label for="Message" class="form-label">Leave a comment here</label>
+                                        
                                 </div>
+                                
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">Send</button>
 
