@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
 
@@ -29,12 +30,37 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/style.css" rel="stylesheet" />
 
 </head>
 
 
 <body>
+    <?php
+    echo isset($_SESSION['added_item']);
+        if(isset($_SESSION['added_item'])){
+            echo "1";
+            echo "<div class='alert alert-success alert-position' role='alert' id='bottom-alert'>
+                {$_SESSION['added_item']} has been added to cart!
+            </div>";
+            echo "<script>// Show the alert when the page loads
+    window.addEventListener('load', function() {
+      // Get the alert element
+      const alert = document.getElementById('bottom-alert');
 
+      // Show the alert
+      alert.style.display = 'block';
+
+      // Hide the alert after 4 seconds
+      setTimeout(function() {
+        alert.style.display = 'none';
+      }, 4000);  // 4000 milliseconds = 4 seconds
+    });</script>";
+            unset($_SESSION['added_item']);
+        }
+
+    ?>
+            
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
@@ -45,8 +71,9 @@
                 style="background-image:url(assets/img/gallery/header-bg.png);background-size:cover;">
             </div>
             <!--/.bg-holder-->
-
+            
             <div class="container">
+            
                 <div class="row flex-center">
                     <div class="col-12 mb-10">
                         <div class="d-flex align-items-center flex-column">
@@ -63,19 +90,19 @@
         <section class="py-0" id="header" style="margin-top: -23rem !important;">
 
             <div class="container">
-                <div class="row g-0">
+                <div class="row g-4">
                     <div class="col-md-6">
-                        <div class="card card-span h-100 text-white"> <img class="img-fluid"
-                                src="assets/img/gallery/her.png" width="790" alt="..." />
+                        <div class="card card-span h-100 text-white rounded category"> <img class="img-fluid rounded"
+                                src="assets/img/gallery/women.png" width="590" alt="..." style="aspect-ratio: 1 / 1;" />
                             <div class="card-img-overlay d-flex flex-center"> <a class="btn btn-lg btn-light"
-                                    href="#!">For Her</a></div>
+                                    href="categories.php?category=Women">For Her</a></div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card card-span h-100 text-white"> <img class="img-fluid"
-                                src="assets/img/gallery/him.png" width="790" alt="..." />
+                        <div class="card card-span h-100 text-white rounded category"> <img class="img-fluid rounded"
+                                src="assets/img/gallery/men.png" width="590" alt="..." />
                             <div class="card-img-overlay d-flex flex-center"> <a class="btn btn-lg btn-light"
-                                    href="#!">For Him </a></div>
+                                    href="categories.php?category=Men">For Him</a></div>
                         </div>
                     </div>
                 </div>
@@ -86,36 +113,7 @@
 
 
         <section>
-            <ul class="nav nav-pills justify-content-center mb-5" id="pills-tab-women" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-wtshirt-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-wtshirt" type="button" role="tab" aria-controls="pills-wtshirt"
-                        aria-selected="true">T-Shirt</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-dresses-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-dresses" type="button" role="tab" aria-controls="pills-dresses"
-                        aria-selected="false">Shirt</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-wshoes-tab" data-bs-toggle="pill" data-bs-target="#pills-wshoes"
-                        type="button" role="tab" aria-controls="pills-wshoes" aria-selected="false">Shoes</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-wwatch-tab" data-bs-toggle="pill" data-bs-target="#pills-wwatch"
-                        type="button" role="tab" aria-controls="pills-wwatch" aria-selected="false">Watch </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-wsunglasses-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-wsunglasses" type="button" role="tab" aria-controls="pills-wsunglasses"
-                        aria-selected="false">Sunglasses </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-wbagpacks-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-wbagpacks" type="button" role="tab" aria-controls="pills-wbagpacks"
-                        aria-selected="false">Bagpacks </button>
-                </li>
-            </ul>
+            <h1 class="text-center mb-4">Top Selling</h1>
             <div class="container">
             
                 <div class="row">
@@ -128,18 +126,18 @@
                                     foreach($products as $product){
                                         echo "<form action='newindex.php' method='get' class='col-sm-6 col-md-4 col-lg-3 mb-3 mb-md-0 h-100'>
                                         <input type='hidden' value='{$product['product_id']}' name='product_id'>
-                        <div class='card card-span h-100 text-white'><img class='img-fluid h-100'
+                        <div class='card card-span h-100 text-white'><img class='img-fluid rounded h-100'
                                 src='assets/img/gallery/{$product['product_image']}' alt='...'>
                             <div class='ps-0'> </div>
                             <div class='card-body ps-0 pe-0 bg-200'>
-                                <div class='d-flex justify-content-between card-description'>
+                                <div class='card-description'>
                                     <div class=''>
                                         <h5 class='fw-bold text-1000 text-truncate'>{$product['product_name']}</h5>
                                     </div>
-                                    <div class='fw-bold'><span
-                                                class='text-600 me-2 text-decoration-line-through'>{$product['price']}</span><span
-                                                class='text-primary'>".round((float)($product['price']*0.8),2)."</span>
-                                        </div>
+                                    <p class='fw-bold mb-2'><span
+                                                class='text-600 me-2 text-decoration-line-through'>\${$product['price']}</span><span
+                                                class='text-primary'>\$".round((float)($product['price']*0.8),2)."</span>
+                                        </p>
                                 </div>
                                 <button type='button' class='btn btn-primary w-100 add-to' data-bs-toggle='modal' data-bs-target='#exampleModal' id='add_item_{$product['product_id']}' product_id={$product['product_id']}>
                                             <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor'
@@ -217,67 +215,32 @@
 
     <div class="row h-100 g-2 py-1">
         <h1>Catigorys</h1>
-            <div class="col-md-4">
-              <div class="card card-span h-100 text-white"><img class="card-img h-100" src="assets/img/gallery/vanity-bag.png" alt="...">
-                <div class="card-img-overlay bg-dark-gradient">
-                  <div class="d-flex align-items-end justify-content-center h-100"><a class="btn btn-lg text-light fs-1" href="#!" role="button">Vanity Bags
-                      <svg class="bi bi-arrow-right-short" xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"> </path>
-                      </svg></a></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-span h-100 text-white"><img class="card-img h-100" src="assets/img/gallery/hat.png" alt="...">
-                <div class="card-img-overlay bg-dark-gradient">
-                  <div class="d-flex align-items-end justify-content-center h-100"><a class="btn btn-lg text-light fs-1" href="#!" role="button">Hats
-                      <svg class="bi bi-arrow-right-short" xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"> </path>
-                      </svg></a></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-span h-100 text-white"><img class="card-img h-100" src="assets/img/gallery/BLU.png" alt="...">
-                <div class="card-img-overlay bg-dark-gradient">
-                  <div class="d-flex align-items-end justify-content-center h-100"><a class="btn btn-lg text-light fs-1" href="#!" role="button">High Heels
-                      <svg class="bi bi-arrow-right-short" xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"> </path>
-                      </svg></a></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-span h-100 text-white"><img class="card-img h-100" src="assets/img/gallery/BLU.png" alt="...">
-                <div class="card-img-overlay bg-dark-gradient">
-                  <div class="d-flex align-items-end justify-content-center h-100"><a class="btn btn-lg text-light fs-1" href="#!" role="button">High Heels
-                      <svg class="bi bi-arrow-right-short" xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"> </path>
-                      </svg></a></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-span h-100 text-white"><img class="card-img h-100" src="assets/img/gallery/BLU.png" alt="...">
-                <div class="card-img-overlay bg-dark-gradient">
-                  <div class="d-flex align-items-end justify-content-center h-100"><a class="btn btn-lg text-light fs-1" href="#!" role="button">High Heels
-                      <svg class="bi bi-arrow-right-short" xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"> </path>
-                      </svg></a></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-span h-100 text-white"><img class="card-img h-100" src="assets/img/gallery/BLU.png" alt="...">
-                <div class="card-img-overlay bg-dark-gradient">
-                  <div class="d-flex align-items-end justify-content-center h-100"><a class="btn btn-lg text-light fs-1" href="#!" role="button">High Heels
-                      <svg class="bi bi-arrow-right-short" xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"> </path>
-                      </svg></a></div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+            <?php
+                include "conn.php";
+                $sql = "SELECT * FROM categories";
+                $statment = $conn->query($sql);
+                $categorys = $statment->fetchAll(PDO::FETCH_ASSOC);
+                if($statment->rowCount()>0){
+                    foreach($categorys as $category){
+                        echo "<div class='col-md-4'>
+                                <div class='card card-span h-100 text-white category'><img class='card-img h-100 rounded' src='assets/img/gallery/{$category['image']}' alt='...'>
+                                    <div class='card-img-overlay bg-dark-gradient'>
+                                    <div class='d-flex align-items-end justify-content-center h-100'><a class='btn btn-lg text-light fs-1' href='categories.php?category={$category['category_name']}' role='button'>{$category['category_name']}
+                                        <svg class='bi bi-arrow-right-short' xmlns='http://www.w3.org/2000/svg' width='23' height='23' fill='currentColor' viewBox='0 0 16 16'>
+                                            <path fill-rule='evenodd' d='M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z'> </path>
+                                        </svg></a></div>
+                                        
+                                        </div>
+                                    
+                                    </div>
+                                
+                                </div>
+                                ";
+                    }
+                }
+            ?>
+            
           
                 </div>
             </div>
@@ -354,12 +317,8 @@
                     min_quantity.setAttribute("disabled","");
                 }
                 document.getElementById("add_quantity").removeAttribute("disabled");
-                
-                
-            
-            
         });
-
+        
         
     </script>
 </body>

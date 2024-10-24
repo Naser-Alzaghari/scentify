@@ -84,9 +84,10 @@
     $statment->bindParam(':order_id',$order_id,PDO::PARAM_INT);
     $statment->execute();
 
+    $_SESSION['added_item']=$product["product_name"];
+    header("location: index.php");
+
     
-
-
 
     
 
