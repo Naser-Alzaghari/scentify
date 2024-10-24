@@ -38,7 +38,7 @@ This message was sent from your website Scentify.";
 try {
     $mail->send();
     $_SESSION["mail"] = true;
-} catch (e){
+} catch(error $e){
     $_SESSION["mail"] = false;
 }
 
