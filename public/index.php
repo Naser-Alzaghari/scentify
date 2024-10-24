@@ -39,7 +39,7 @@
     <!--    Main Content-->
     <!-- ===============================================-->
     <main class="main" id="top">
-        <?php include "nav_bar.html" ?>
+        <?php include "nav_bar.php" ?>
         <section class="py-11 bg-light-gradient border-bottom border-white border-5">
             <div class="bg-holder overlay overlay-light"
                 style="background-image:url(assets/img/gallery/header-bg.png);background-size:cover;">
@@ -117,7 +117,7 @@
                 </li>
             </ul>
             <div class="container">
-    
+            
                 <div class="row">
                     
                     <?php
