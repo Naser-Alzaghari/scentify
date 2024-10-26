@@ -1,0 +1,26 @@
+
+.category{
+    transition-duration: .3s;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    opacity: 1;
+    
+}
+
+.category:hover{
+    opacity: 0.7;
+    color: red;
+    scale: 1.01;
+}
+
+
+.alert-position {
+    position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999; /* High z-index to ensure it's on top */
+      display: none; /* Initially hidden */
+      width: 80%; /* Make sure it's not too wide */
+      max-width: 500px; /* Limit maximum width */
+  }

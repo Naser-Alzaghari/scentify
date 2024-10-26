@@ -34,7 +34,7 @@
 
 <body>
     <main class="main" id="top">
-        <?php include "nav_bar.html" ?>
+        <?php include "nav_bar.php"; ?>
         <section class="py-9 bg-light-gradient border-white border-5">
             <div class="bg-holder overlay overlay-light"
                 style="background-image:url(assets/img/gallery/header-bg.png);background-size:cover;">
@@ -82,11 +82,14 @@
                                 <div class="card bg-300 p-3">
                                     <h4>Why Scentify?</h4>
                                     <ul class="mb-0 fs-1">
-                                      <li>Expertly Curated: A selection of only the finest perfumes from trusted, world-class brands.
+                                        <li>Expertly Curated: A selection of only the finest perfumes from trusted,
+                                            world-class brands.
                                         </li>
-                                      <li>Personalized Experience: Our knowledgeable team is here to guide you in finding the perfect scent.
+                                        <li>Personalized Experience: Our knowledgeable team is here to guide you in
+                                            finding the perfect scent.
                                         </li>
-                                      <li>Customer First: Your satisfaction is our top priority. We offer fast shipping, secure payments, and easy returns.</li>
+                                        <li>Customer First: Your satisfaction is our top priority. We offer fast
+                                            shipping, secure payments, and easy returns.</li>
                                     </ul>
                                 </div>
                             </div>
@@ -113,25 +116,98 @@
                         </div>
                         <!-- end of cards -->
                         <h1 class="fs-3 fs-lg-6 fs-md-4 fw-bold mb-5 text-center">Explore our collection today and let your scent journey begin!</h1>
-                    </div>
+                        <div id="our-accounts" class="py-4 row">
+        <h1 class="mb-3">Our Team</h1>
+          <!-- First Card -->
+          <div class="col-md-4 mb-4">
+            <div class="bg-300 card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Mohammed Alqadome</h5>
+                <p class="card-text">Computer Science<br><span>Full Stack</span></p>
+                <div class="social-icons">
+                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
                 </div>
+              </div>
             </div>
+          </div>
+    
+          <!-- Second Card -->
+          <div class="col-md-4 mb-4">
+            <div class="bg-300 card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Anas Esbitan</h5>
+                <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
+                <div class="social-icons">
+                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Third Card -->
+          <div class="col-md-4 mb-4">
+            <div class="bg-300 card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Rand</h5>
+                <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
+                <div class="social-icons">
+                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Additional Cards -->
+          <div class="col-md-4 mb-4">
+            <div class="bg-300 card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Naser Alzaghari</h5>
+                <p class="card-text">Computer Science<br><span>Full Stack</span></p>
+                <div class="social-icons">
+                  <a href="https://github.com/Naser-Alzaghari" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="https://www.linkedin.com/in/naser-alzaghari-4549a919a/" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-md-4 mb-4">
+            <div class="bg-300 card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Razan Alhroub</h5>
+                <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
+                <div class="social-icons">
+                  <a href="#" class="card-link"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="#" class="card-link"><i class="fa-brands fa-linkedin fs-3"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+                            
+            
+            
+
         </section>
-</main>
 
-        <?php include "footer.html" ?>
-        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap"
-            rel="stylesheet">
-        <script src="vendors/@popperjs/popper.min.js"></script>
-        <script src="vendors/bootstrap/bootstrap.min.js"></script>
-        <script src="vendors/is/is.min.js"></script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-        <script src="vendors/feather-icons/feather.min.js"></script>
-        <script>
-        feather.replace();
-        </script>
-        <script src="assets/js/theme.js"></script>
+    </main>
 
+    <?php include "footer.html"; ?>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet">
+    <script src="vendors/@popperjs/popper.min.js"></script>
+    <script src="vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="vendors/feather-icons/feather.min.js"></script>
+    <script>
+    feather.replace();
+    </script>
+    <script src="assets/js/theme.js"></script>
+    <script src="https://kit.fontawesome.com/29bcb0d26a.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

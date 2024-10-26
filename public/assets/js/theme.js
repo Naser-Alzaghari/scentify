@@ -378,3 +378,13 @@ docReady(navbarInit);
 docReady(detectorInit);
 docReady(scrollToTop);
 //# sourceMappingURL=theme.js.map
+
+// document.getElementById("cart_image")
+// let temp = document.getElementById("exampleModal");
+// temp.classList.remove("show");
+// temp.removeAttribute("aria-modal");
+// temp.removeAttribute("role");
+// temp.style.display = "none";
+// temp.style.paddingLeft = "auto";
+// temp.setAttribute("aria-hidden","true");
+

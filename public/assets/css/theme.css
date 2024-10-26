@@ -14346,7 +14346,10 @@ fieldset:disabled .btn {
   .rounded-lg-0 {
     border-radius: 0 !important;
   }
+
 }
+
+
 
 @media (min-width: 1200px) {
   .float-xl-start {
@@ -18476,3 +18479,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 -----------------------------------------------*/
 
 /*# sourceMappingURL=theme.css.map */
+
+
+/* ستايلاتي ^_^ */
+
+.quantity {
+  border: 1px solid black;
+  border-radius: 10px;
+  color: red;
+
+}
+
+
+
+/* #cart_image {
+  width: 200px;
+  height: 200px;
+} */
