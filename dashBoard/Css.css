@@ -1,0 +1,99 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8; /* لون الخلفية العام */
+}
+
+.container {
+    background-image: url('path/to/your/background-image.jpg'); /* استبدل بالمسار الصحيح للصورة */
+    background-size: cover; /* تغطية كاملة */
+    background-position: center; /* محاذاة في المنتصف */
+    border-radius: 15px; /* زوايا دائرية */
+    padding: 20px; /* حشو */
+    margin-top: 20px; /* مسافة أعلى */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ظل خفيف */
+}
+
+.card {
+    margin-top: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.navbar-brand svg {
+    width: 100px;
+    height: auto;
+    max-height: 50px;
+}
+
+.table {
+    background-color: #ffffff; /* لون خلفية الجدول */
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.table th {
+    text-align: center;
+    background-color: #007bff; /* لون خلفية رؤوس الجدول */
+    color: white; /* لون النص لرؤوس الجدول */
+}
+
+.table td,
+.table th {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.btn {
+    border-radius: 20px;
+}
+
+.btn-primary {
+    background-color: #5b7cfa;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #ff6b6b;
+    border: none;
+}
+
+.img-thumbnail {
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.footer {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
