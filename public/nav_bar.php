@@ -1,11 +1,17 @@
 <?php session_start();
 include "conn.php";
+if(isset($_SESSION['user_id'])){
+  $user_id=$_SESSION['user_id'];
+} else {
+  $user_id = 3; // guest mode
+}
 $sql = "SELECT COUNT('on_cart') as count FROM `order_items` JOIN `orders` on order_items.order_id = orders.order_id WHERE user_id = :user_id and on_cart = 1";
 $statment = $conn->prepare($sql);
-$statment->bindParam(':user_id',$_SESSION['user_id']);
+$statment->bindParam(':user_id',$user_id);
 $statment->execute();
 $cart_count = $statment->fetch(PDO::FETCH_ASSOC);
 ?>
+
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
     <div class="container"><a class="navbar-brand d-inline-flex" href="index.php"><img class="d-inline-block" src="assets/img/gallery/scentify-high-resolution-logo-transparent.svg" alt="logo" /></a>
       <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -17,6 +23,12 @@ $cart_count = $statment->fetch(PDO::FETCH_ASSOC);
           <li class="nav-item px-2"><a class="nav-link fw-medium" href="#outlet">Outlet</a></li>
         </ul>
         <form class="d-flex align-items-center">
+          <?php
+            if(isset($_SESSION['user_name'])){
+              echo "<p class='mb-0 me-3'>Hello {$_SESSION['user_name']}</p>";
+            }
+          ?>
+          
           <a type="button" href="login.php" class="btn btn-primary me-3 d-none" id="login_button">login</a>
           <a class="text-1000" href="#!">
             <svg class="feather feather-phone me-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -71,25 +83,7 @@ $cart_count = $statment->fetch(PDO::FETCH_ASSOC);
       
     ?>
     <?php
-        if(isset($_SESSION['added_item'])){
-            echo "<div class='alert alert-success alert-position' role='alert' id='bottom-alert'>
-                {$_SESSION['added_item']} has been added to cart!
-            </div>";
-            echo "<script>// Show the alert when the page loads
-    window.addEventListener('load', function() {
-      // Get the alert element
-      const alert = document.getElementById('bottom-alert');
-
-      // Show the alert
-      alert.style.display = 'block';
-
-      // Hide the alert after 4 seconds
-      setTimeout(function() {
-        alert.style.display = 'none';
-      }, 4000);  // 4000 milliseconds = 4 seconds
-    });</script>";
-            unset($_SESSION['added_item']);
-        }
+    
 
     ?>
     <script>

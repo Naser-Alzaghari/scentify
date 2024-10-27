@@ -52,57 +52,13 @@ class HTMLDocument {
     $alert = new Alert();
     $alert->showAlert();
     ?>
+    
+    <?php include "insert_data_form.php" ?>
     <main class="main" id="top">
-    <section class='py-11 bg-light-gradient border-bottom border-white border-5'>
-            <div class='bg-holder overlay overlay-light'
-                style='background-image:url(assets/img/gallery/header-bg.png);background-size:cover;'>
-            </div>
-            <!--/.bg-holder-->
-            
-            <div class='container'>
-            
-                <div class='row flex-center'>
-                    <div class='col-12 mb-10'>
-                        <div class='d-flex align-items-center flex-column'>
-                            <h1 class='fw-normal'>Elevate Your Aura with Premium Perfumes</h1>
-                            <h1 class='fs-4 fs-lg-8 fs-md-6 fw-bold'>Fragrances That Define You</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-0" id="header" style="margin-top: -23rem !important;">
-
-            <div class="container mb-6">
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="card card-span h-100 text-white rounded category"> <img class="img-fluid rounded"
-                                src="assets/img/gallery/women.png" width="590" alt="..." style="aspect-ratio: 1 / 1;" />
-                            <div class="card-img-overlay d-flex flex-center"> <a class="btn btn-lg btn-light"
-                                    href="categories.php?category=Women">For Her</a></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-span h-100 text-white rounded category"> <img class="img-fluid rounded"
-                                src="assets/img/gallery/men.png" width="590" alt="..." />
-                            <div class="card-img-overlay d-flex flex-center"> <a class="btn btn-lg btn-light"
-                                    href="categories.php?category=Men">For Him</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end of .container-->
-
-        </section>
-        <?php include "insert_data_form.php" ?>
-    <h1 class='text-center mb-4'>Top Selling</h1>
+    <div class="mt-8"><h1 class='text-center mb-4'><?=$_GET['category_name']?></h1></div>
     <?php
     $productDisplay = new ProductDisplay();
-    $productDisplay->render("SELECT * FROM products");
-
-    $categoryDisplay = new CategoryDisplay();
-    $categoryDisplay->render();
-
+    $productDisplay->render("SELECT * FROM `products` JOIN `categories` on products.category_id = categories.category_id WHERE category_name = '{$_GET['category_name']}'");
     ?>
     </main>
     <?php
