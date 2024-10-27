@@ -99,7 +99,6 @@ class HTMLDocument {
                 </div>
             </div>
             <!-- end of .container-->
-
         </section>
         <?php include "insert_data_form.php" ?>
     <h1 class='text-center mb-4'>Top Selling</h1>

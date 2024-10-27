@@ -20,7 +20,7 @@
                             
                             <div class="col-7">
                                 <h4 class="" id="add_item_title" name="add_item_title"></h4>
-                                <h4 class='text-primary' id="cart_price"></h4>
+                                <h4 class='text-info' id="cart_price"></h4>
                                 <div class="" style="padding: 0 auto;">
                                     <div class="d-inline-flex quantity text-center border border-black rounded mt-3" style="width: fit-content;">
                                     <input class="" id="min_quantity" type="button" value="-" disabled>
@@ -35,7 +35,7 @@
                     <div class="modal-footer">
                         <!-- Updated buttons for Bootstrap 5 -->
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-secondary" name="add_student" value="Add">
+                        <input type="submit" class="btn btn-info" name="add_student" value="Add">
                     </div>
                 </div>
             </div>
