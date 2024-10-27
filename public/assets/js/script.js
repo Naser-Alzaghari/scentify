@@ -5,7 +5,7 @@ const add_quantity = document.getElementById("add_quantity");
         const add_item_title = document.getElementById('add_item_title');
         const cart_price = document.getElementById('cart_price');
         const min_quantity = document.getElementById("min_quantity");
-
+        const product_description = document.getElementById("product_description");
         function addbutton($num){
             if(++quantity_num.value >= $num){
                 add_quantity.setAttribute("disabled","");
@@ -14,7 +14,6 @@ const add_quantity = document.getElementById("add_quantity");
                     min_quantity.removeAttribute("disabled");
                 }
         }
-        
         min_quantity.addEventListener("click",()=>{
                 if(--quantity_num.value < 2){
                     min_quantity.setAttribute("disabled","");

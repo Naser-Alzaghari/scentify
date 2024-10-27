@@ -21,6 +21,7 @@
                             <div class="col-7">
                                 <h4 class="" id="add_item_title" name="add_item_title"></h4>
                                 <h4 class='text-info' id="cart_price"></h4>
+                                <p id="product_description"></p>
                                 <div class="" style="padding: 0 auto;">
                                     <div class="d-inline-flex quantity text-center border border-black rounded mt-3" style="width: fit-content;">
                                     <input class="" id="min_quantity" type="button" value="-" disabled>

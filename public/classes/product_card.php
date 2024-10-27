@@ -34,6 +34,7 @@
                                             add_quantity.setAttribute('onclick', 'addbutton({$this->product['stock_quantity']})')
                                             add_quantity.removeAttribute('disabled');
                                             min_quantity.setAttribute('disabled', '');
+                                            product_description.innerHTML='{$this->product['product_description']}';
                                         });
                                         if({$this->product['stock_quantity']} <= 0){
                                                 document.getElementById('add_item_{$this->product['product_id']}').setAttribute('disabled','');
