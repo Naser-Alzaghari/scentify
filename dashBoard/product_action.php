@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($validationResult !== true) {
         $response['message'] = $validationResult;
     } else {
-        $imagePath = "uploads/" . basename($image['name']);
+        $imagePath = basename($image['name']);
         move_uploaded_file($image['tmp_name'], $imagePath);
 
         if ($action == 'add') {

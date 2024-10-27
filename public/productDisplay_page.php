@@ -58,7 +58,7 @@ class HTMLDocument {
     <div class="mt-8"><h1 class='text-center mb-4'><?=$_GET['category_name']?></h1></div>
     <?php
     $productDisplay = new ProductDisplay();
-    $productDisplay->render("SELECT * FROM `products` JOIN `categories` on products.category_id = categories.category_id WHERE category_name = '{$_GET['category_name']}'");
+    $productDisplay->render("SELECT * FROM `products` JOIN `categories` on products.category_id = categories.category_id WHERE category_name = '{$_GET['category_name']}' and products.is_deleted != 1");
     ?>
     </main>
     <?php

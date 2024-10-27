@@ -104,7 +104,7 @@ class HTMLDocument {
     <h1 class='text-center mb-4'>Top Selling</h1>
     <?php
     $productDisplay = new ProductDisplay();
-    $productDisplay->render("SELECT * FROM products");
+    $productDisplay->render("SELECT * FROM products WHERE is_deleted != 1");
 
     $categoryDisplay = new CategoryDisplay();
     $categoryDisplay->render();

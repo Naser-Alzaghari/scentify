@@ -16,6 +16,12 @@ $coupons = $couponObj->getAllCoupons();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="Css.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../public/assets/img/gallery/title_logo.png">
+    <meta name="msapplication-TileImage" content="../public/assets/img/gallery/title_logo.png">
+    <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>

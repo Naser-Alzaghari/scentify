@@ -21,6 +21,12 @@ foreach ($categories as $category) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="Css.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../public/assets/img/gallery/title_logo.png">
+    <meta name="msapplication-TileImage" content="../public/assets/img/gallery/title_logo.png">
+    <meta name="theme-color" content="#ffffff">
     <style>
                 .search-bar-wrapper {
     max-width: 400px; /* أقصى عرض لشريط البحث */
@@ -125,7 +131,7 @@ foreach ($categories as $category) {
                         <td><?php echo $product['price']; ?></td>
                         <td><?php echo $product['stock_quantity']; ?></td>
                         <td><?php echo isset($categoryNames[$product['category_id']]) ? $categoryNames[$product['category_id']] : 'N/A'; ?></td>
-                        <td><img src="<?php echo $product['product_image']; ?>" alt="Product Image" class="img-thumbnail" width="50"></td>
+                        <td><img src="../public/assets/img/gallery/<?php echo $product['product_image']; ?>" alt="Product Image" class="img-thumbnail" width="50"></td>
                         <td>
                             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#productModal" onclick="editProduct(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>', '<?php echo $product['product_description']; ?>', '<?php echo $product['price']; ?>', '<?php echo $product['stock_quantity']; ?>', '<?php echo $product['category_id']; ?>', '<?php echo $product['product_image']; ?>')">Edit</button>
                             <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?php echo $product['product_id']; ?>)">Delete</button>

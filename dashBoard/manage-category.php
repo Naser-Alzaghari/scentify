@@ -21,6 +21,12 @@ $categories = $category->getAll();
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="Css.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../public/assets/img/gallery/title_logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../public/assets/img/gallery/title_logo.png">
+    <meta name="msapplication-TileImage" content="../public/assets/img/gallery/title_logo.png">
+    <meta name="theme-color" content="#ffffff">
     <style>
                 .search-bar-wrapper {
     max-width: 400px; /* أقصى عرض لشريط البحث */
@@ -127,7 +133,7 @@ $categories = $category->getAll();
                         <td>{$name}</td>
                         <td>{$created_at}</td>
                         <td>{$updated_at}</td>
-                        <td><img src='{$image}' alt='Category Image' class='img-thumbnail'></td>
+                        <td><img src='../public/assets/img/gallery/{$image}' alt='Category Image' class='img-thumbnail'></td>
                         <td>
                             <button class='btn btn-primary btn-sm' data-toggle='modal' data-target='#categoryModal' onclick=\"editCategory({$id}, '{$name}', '{$image}')\">Edit</button>
                             <button class='btn btn-danger btn-sm' onclick='confirmDelete({$id})'>Delete</button>

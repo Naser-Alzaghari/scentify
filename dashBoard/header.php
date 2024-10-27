@@ -83,9 +83,7 @@
                     </svg>
                     <!-- SVG content here -->
                 </a>
-                <a class="navbar-brand brand-logo-mini" href="index.php">
-                    <img src="images/logo-mini.svg" alt="logo" />
-                </a>
+                
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <ul class="navbar-nav navbar-nav-right">

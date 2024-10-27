@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        $uploadDir = 'uploads/';
+        $uploadDir = '../public/assets/img/gallery/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -43,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // إذا كان هناك معرّف، قم بالتحديث وإلا قم بإدراج فئة جديدة
     if ($id) {
-        $success = $category->update($id, $name, $image);
+        $success = $category->update($id, $name, $uniqueImageName);
     } else {
-        $success = $category->create($name, $image);
+        $success = $category->create($name, $uniqueImageName);
     }
 
     if ($success) {
