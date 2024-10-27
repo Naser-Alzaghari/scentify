@@ -71,7 +71,7 @@
                                 </div>
                                 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Send</button>
+                                    <button type="submit" class="btn btn-dark">Send</button>
                                 </div>
                             </form>
                             <p class="text-success d-none" id="message_sent">message sent successfully</p>

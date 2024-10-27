@@ -24,3 +24,8 @@
       width: 80%; /* Make sure it's not too wide */
       max-width: 500px; /* Limit maximum width */
   }
+
+
+  .btn-primary{
+    background-color: blue;
+  }

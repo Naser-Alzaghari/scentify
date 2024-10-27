@@ -8,9 +8,14 @@
 <body>
     <?php
     session_start();
-    $_SESSION['user_id']=1;
     $product_id = $_POST['add_item_id'];
     $quantity = $_POST['quantity'];
+    if(isset($_SESSION['user_id'])){
+        $user_id=$_SESSION['user_id'];
+    } else {
+        $_SESSION["product_id"]=$product_id;
+        header("location: login_page.php"); // not logiedin
+    }
     echo "product_id: $product_id";
     echo "<br>";
     echo "quantity: $quantity";
@@ -27,11 +32,11 @@
     print_r($product);
     echo "<br><br><br>";
 
-
+    
     // get last order number and check if cart is empty
     $query="SELECT Max(orders.order_id) as last_order, MAX(on_cart) as cart_not_empty FROM `order_items` JOIN `orders` on order_items.order_id = orders.order_id WHERE user_id = :user_id";
     $statment=$conn->prepare($query);
-    $statment->bindParam(':user_id',$_SESSION['user_id'],PDO::PARAM_INT);
+    $statment->bindParam(':user_id',$user_id,PDO::PARAM_INT);
     $statment->execute();
     $last_order = $statment->fetch(PDO::FETCH_ASSOC);
     print_r($last_order);
@@ -43,7 +48,7 @@
     } else {
         $sql ="INSERT INTO `orders`(`user_id`) VALUES (:user_id);";
         $statment=$conn->prepare($sql);
-        $statment->bindParam(':user_id',$_SESSION['user_id'],PDO::PARAM_INT);
+        $statment->bindParam(':user_id',$user_id,PDO::PARAM_INT);
         $statment->execute();
         $sql = "SELECT MAX(order_id) AS last_order FROM orders;";
         $statment=$conn->prepare($sql);
@@ -72,7 +77,7 @@
     // calculat total price for order
     $sql ="SELECT SUM(price) as total_amount FROM `order_items` JOIN `orders` on order_items.order_id = orders.order_id WHERE user_id = :user_id and on_cart = 1;";
     $statment=$conn->prepare($sql);
-    $statment->bindParam(':user_id',$_SESSION['user_id'],PDO::PARAM_INT);
+    $statment->bindParam(':user_id',$user_id,PDO::PARAM_INT);
     $statment->execute();
     $total_amount = $statment->fetch(PDO::FETCH_ASSOC);
     echo $total_amount['total_amount'];
@@ -83,6 +88,7 @@
     $statment->bindParam(':total_amount',$total_amount['total_amount']);
     $statment->bindParam(':order_id',$order_id,PDO::PARAM_INT);
     $statment->execute();
+
 
     $_SESSION['added_item']=$product["product_name"];
     header("location: index.php");
