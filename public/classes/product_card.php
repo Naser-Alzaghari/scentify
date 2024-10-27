@@ -35,14 +35,12 @@
                                             add_quantity.removeAttribute('disabled');
                                             min_quantity.setAttribute('disabled', '');
                                         });
+                                        if({$this->product['product_id']} <= 0){
+                                                document.getElementById('add_item_{$this->product['product_id']}').classList.add('btn-secondary');
+                                            }
                                     </script>
                                 </div>
                             </div>
                         </form>";
         }
-    
-    
-    
-        
     }
-?>

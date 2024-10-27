@@ -49,6 +49,12 @@ class HTMLDocument {
     $navbar = new Navbar();
     $navbar->render();
 
+    if(isset($_SESSION['product_id'])){
+        echo $_SESSION['product_id'];
+        unset($_SESSION['product_id']);
+        // header("location: product_page.php?product_id={$_SESSION['product_id']}");
+    }
+    
     $alert = new Alert();
     $alert->showAlert();
     ?>
@@ -71,6 +77,7 @@ class HTMLDocument {
                 </div>
             </div>
         </section>
+        
         <section class="py-0" id="header" style="margin-top: -23rem !important;">
 
             <div class="container mb-6">
