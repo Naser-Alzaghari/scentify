@@ -10,8 +10,11 @@
                     $obj = new product_card($product);
                     $obj->render();
                 }
+            
                 echo "</div>
                     </div>";
+            } else {
+                echo "<p class='text-center'>No products found</p>";
             }
         }
     }

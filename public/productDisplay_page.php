@@ -54,11 +54,11 @@ class HTMLDocument {
     ?>
     
     <?php include "insert_data_form.php" ?>
-    <main class="main" id="top">
+    <main class="main min-vh-100" id="top">
     <div class="mt-8"><h1 class='text-center mb-4'><?=$_GET['category_name']?></h1></div>
     <?php
     $productDisplay = new ProductDisplay();
-    $productDisplay->render("SELECT * FROM `products` JOIN `categories` on products.category_id = categories.category_id WHERE category_name = '{$_GET['category_name']}' and products.is_deleted != 1");
+    $productDisplay->render("SELECT * FROM `products` JOIN `categories` on products.category_id = categories.category_id WHERE category_name = '{$_GET['category_name']}'");
     ?>
     </main>
     <?php
