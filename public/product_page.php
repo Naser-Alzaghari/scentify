@@ -9,7 +9,7 @@ if (isset($_GET['product_id'])) {
 }
 
 include "conn.php";
-
+include "./includes/include.php";
 // Fetch product details from the database
 $query = $conn->prepare("SELECT * FROM products WHERE product_id = :product_id");
 $query->bindParam(':product_id', $product_id, PDO::PARAM_INT);
@@ -44,7 +44,7 @@ if (!$product) {
         
         <!-- Product Section -->
         <section class="py-5">
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-6">
                         <!-- Display product image -->
@@ -92,30 +92,14 @@ $related_products = $related_query->fetchAll(PDO::FETCH_ASSOC);
 
 <!-- Related items section -->
 <section class="py-5 bg-light">
-    <div class="container px-4 px-lg-5 mt-5">
+    <div class="container mt-5">
         <h2 class="fw-bolder mb-4">Related products</h2>
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <?php foreach ($related_products as $related_product): ?>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Related Product image -->
-                    <img class="card-img-top" src="assets/img/gallery/<?php echo htmlspecialchars($related_product['product_image']); ?>" alt="<?php echo htmlspecialchars($related_product['product_name']); ?>" />
-                    <!-- Related Product details -->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Related Product name -->
-                            <h5 class="fw-bolder"><?php echo htmlspecialchars($related_product['product_name']); ?></h5>
-                            <!-- Related Product price -->
-                            $<?php echo htmlspecialchars($related_product['price']); ?>
-                        </div>
-                    </div>
-                    <!-- Related Product actions -->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="product_page.php?product_id=<?php echo $related_product['product_id']; ?>">View Product</a></div>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
+        <div class="row justify-content-center">
+        <?php
+        $productDisplay = new ProductDisplay();
+        $productDisplay->render("SELECT * FROM `products` WHERE stock_quantity > 0 ORDER BY RAND() LIMIT 4");
+        ?>
+            
         </div>
     </div>
 </section>

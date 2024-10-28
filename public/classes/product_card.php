@@ -9,7 +9,7 @@
         public function render() {
             echo "<form action='newindex.php' method='get' class='col-sm-6 col-md-4 col-lg-3 mb-3 mb-md-0 h-100'>
                             <input type='hidden' value='{$this->product['product_id']}' name='product_id'>
-                            <div class='card card-span h-100 text-white bg-400 p-2 mb-3'><a href='product_page.php?product_id={$this->product['product_id']}' class='text-decoration-none'><img class='img-fluid rounded w-100 h-100 mb-2' src='assets/img/gallery/{$this->product['product_image']}' alt='...'></a>
+                            <div class='card card-span text-white bg-300 p-2 mb-3'><a href='product_page.php?product_id={$this->product['product_id']}' class='text-decoration-none'><img class='img-fluid rounded w-100 mb-2' src='assets/img/gallery/{$this->product['product_image']}' alt='...' style='height:250px;'></a>
                                 <div class='ps-0'> </div>
                                 <div class='card-body p-0 bg-transparent'>
                                     <div class='card-description'>

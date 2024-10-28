@@ -87,7 +87,7 @@ class HTMLDocument {
                     <div class="card card-span h-100 text-white rounded category"> 
                         <img class="img-fluid rounded" src="assets/img/gallery/women.png" width="590" alt="..." style="aspect-ratio: 1 / 1;" />
                         <div class="card-img-overlay d-flex flex-center"> 
-                            <a class="btn btn-lg btn-light" href="categories.php?category=Women">For Her</a>
+                            <a class="btn btn-lg btn-light" href="productDisplay_page.php?category_name=Women">For Her</a>
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@ class HTMLDocument {
                     <div class="card card-span h-100 text-white rounded category"> 
                         <img class="img-fluid rounded" src="assets/img/gallery/men.png" width="590" alt="..." />
                         <div class="card-img-overlay d-flex flex-center"> 
-                            <a class="btn btn-lg btn-light" href="categories.php?category=Men">For Him</a>
+                            <a class="btn btn-lg btn-light" href="productDisplay_page.php?category_name=Men">For Him</a>
                         </div>
                     </div>
                 </div>
