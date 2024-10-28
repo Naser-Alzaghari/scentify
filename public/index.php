@@ -1,5 +1,8 @@
 <?php
 include "./includes/include.php";
+include "conn.php";
+// Start the session to use session variables
+
 class HTMLDocument {
     private $title;
     private $stylesheets = [];
@@ -50,72 +53,81 @@ class HTMLDocument {
     $navbar->render();
 
     if(isset($_SESSION['product_id'])){
-        echo $_SESSION['product_id'];
+        // Unset session after use
+        $product_id = $_SESSION['product_id'];
         unset($_SESSION['product_id']);
-        // header("location: product_page.php?product_id={$_SESSION['product_id']}");
+        echo "<script>window.location.href='product_page.php?product_id=$product_id';</script>";
     }
-    
+
     $alert = new Alert();
     $alert->showAlert();
     ?>
     <main class="main" id="top">
     <section class='py-11 bg-light-gradient border-bottom border-white border-5'>
-            <div class='bg-holder overlay overlay-light'
-                style='background-image:url(assets/img/gallery/header-bg.png);background-size:cover;'>
-            </div>
-            <!--/.bg-holder-->
-            
-            <div class='container'>
-            
-                <div class='row flex-center'>
-                    <div class='col-12 mb-10'>
-                        <div class='d-flex align-items-center flex-column'>
-                            <h1 class='fw-normal'>Elevate Your Aura with Premium Perfumes</h1>
-                            <h1 class='fs-4 fs-lg-8 fs-md-6 fw-bold'>Fragrances That Define You</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div class='bg-holder overlay overlay-light'
+            style='background-image:url(assets/img/gallery/header-bg.png);background-size:cover;'>
+        </div>
         
-        <section class="py-0" id="header" style="margin-top: -23rem !important;">
-
-            <div class="container mb-6">
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="card card-span h-100 text-white rounded category"> <img class="img-fluid rounded"
-                                src="assets/img/gallery/women.png" width="590" alt="..." style="aspect-ratio: 1 / 1;" />
-                            <div class="card-img-overlay d-flex flex-center"> <a class="btn btn-lg btn-light"
-                                    href="categories.php?category=Women">For Her</a></div>
+        <div class='container'>
+            <div class='row flex-center'>
+                <div class='col-12 mb-10'>
+                    <div class='d-flex align-items-center flex-column'>
+                        <h1 class='fw-normal'>Elevate Your Aura with Premium Perfumes</h1>
+                        <h1 class='fs-4 fs-lg-8 fs-md-6 fw-bold'>Fragrances That Define You</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="py-0" id="header" style="margin-top: -23rem !important;">
+        <div class="container mb-6">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card card-span h-100 text-white rounded category"> 
+                        <img class="img-fluid rounded" src="assets/img/gallery/women.png" width="590" alt="..." style="aspect-ratio: 1 / 1;" />
+                        <div class="card-img-overlay d-flex flex-center"> 
+                            <a class="btn btn-lg btn-light" href="categories.php?category=Women">For Her</a>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card card-span h-100 text-white rounded category"> <img class="img-fluid rounded"
-                                src="assets/img/gallery/men.png" width="590" alt="..." />
-                            <div class="card-img-overlay d-flex flex-center"> <a class="btn btn-lg btn-light"
-                                    href="categories.php?category=Men">For Him</a></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-span h-100 text-white rounded category"> 
+                        <img class="img-fluid rounded" src="assets/img/gallery/men.png" width="590" alt="..." />
+                        <div class="card-img-overlay d-flex flex-center"> 
+                            <a class="btn btn-lg btn-light" href="categories.php?category=Men">For Him</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- end of .container-->
-        </section>
-        <?php include "insert_data_form.php" ?>
-    <h1 class='text-center mb-4'>Top Selling</h1>
-    <?php
-    $productDisplay = new ProductDisplay();
-    $productDisplay->render("SELECT * FROM products WHERE is_deleted != 1");
+        </div>
+    </section>
 
+    <!-- Include the insert data form -->
+    <?php include "insert_data_form.php" ?>
+
+    <h1 class='text-center mb-4'>Top Selling</h1>
+
+<?php
+// Fetch and display the top selling products
+$productDisplay = new ProductDisplay();
+$products = $conn->query("SELECT * FROM products LIMIT 6" )->fetchAll();
+
+
+?>
+    <?php
+    // Display the top selling products
+    $productDisplay = new ProductDisplay();
+    $productDisplay->render("SELECT * FROM products LIMIT 6");
+
+    // Display the categories
     $categoryDisplay = new CategoryDisplay();
     $categoryDisplay->render();
-
     ?>
     </main>
     <?php
     include "footer.html";
     ?>
-
-
 
     <script src="vendors/@popperjs/popper.min.js"></script>
     <script src="vendors/bootstrap/bootstrap.min.js"></script>
@@ -128,15 +140,15 @@ class HTMLDocument {
     
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet">
+
+    <!-- Check if product ID is set in the URL and output it for debugging -->
     <?php
         if(isset($_GET["product_id"])){
-            echo $_GET["product_id"];
+            echo "<p>Product ID: " . $_GET["product_id"] . "</p>";
         }
     ?>
 
-    <script src="./assets/js/script.js"> 
-        
-        
-    </script>
+    <!-- External custom script -->
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
