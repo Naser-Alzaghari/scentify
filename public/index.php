@@ -56,7 +56,7 @@ class HTMLDocument {
         // Unset session after use
         $product_id = $_SESSION['product_id'];
         unset($_SESSION['product_id']);
-        echo "<script>window.location.href='product_page.php?product_id=$product_id';</script>";
+        header("location: product_page.php");
     }
 
     $alert = new Alert();

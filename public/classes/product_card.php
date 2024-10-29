@@ -13,9 +13,15 @@
                                 <div class='ps-0'> </div>
                                 <div class='card-body p-0 bg-transparent'>
                                     <div class='card-description'>
-                                        <div class=''>
-                                            <h5 class='fw-bold text-1000 text-truncate'>{$this->product['product_name']}</h5>
+                                        <div class='d-flex justify-content-between align-items-center mb-2'>
+                                            <h5 class='fw-bold text-1000 text-truncate mb-0'>{$this->product['product_name']}</h5>
+                                            <a class=''>
+                                                <svg class='feather feather-heart me-1 text-1000' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+                                                    <path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'></path>
+                                                </svg>
+                                            </a>
                                         </div>
+                                        
                                         <p class='fw-bold mb-2'><span class='text-dark'>\${$this->product['price']}</span>
                                         </p>
                                     </div>

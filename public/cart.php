@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include 'conn.php';
 
 $query = "SELECT 
@@ -21,7 +22,7 @@ WHERE
 $stmt = $conn->prepare($query);
 
 // Bind the user_id parameter. Replace 1 with $_SESSION['user_id'] if it's coming from session
-$user_id = 1; // or use $_SESSION['user_id'] if session is set
+$user_id = $_SESSION['user_id']; // or use $_SESSION['user_id'] if session is set
 $stmt->execute(['user_id' => $user_id]);
 
 // Fetch the results if needed

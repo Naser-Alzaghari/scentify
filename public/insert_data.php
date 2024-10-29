@@ -14,7 +14,7 @@
         $user_id=$_SESSION['user_id'];
     } else {
         $_SESSION["product_id"]=$product_id;
-        header("location: login_page.php"); // not logiedin
+        header("location: LoginPage.php"); // not logiedin
     }
     echo "product_id: $product_id";
     echo "<br>";

@@ -1,5 +1,6 @@
 <?php
 // Fetch product_id from the URL
+
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
 } else {
