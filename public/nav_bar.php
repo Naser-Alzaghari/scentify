@@ -56,7 +56,7 @@ if(isset($_SESSION['user_id'])){
                 </svg>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">profile</a></li>
+                <li><a class="dropdown-item" href="profile.php">profile</a></li>
                 <li><a class="dropdown-item" href="logout.php">logout</a></li>
             </ul>
         </div>

@@ -29,6 +29,8 @@ const getData = (el, data) => {
   }
 };
 
+  
+
 /* ----------------------------- Colors function ---------------------------- */
 
 const hexToRgb = (hexValue) => {

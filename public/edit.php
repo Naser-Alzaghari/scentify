@@ -1,5 +1,5 @@
 <?php
-include('Database.php');
+include "./includes/include.php";
 include('User.php');
 
 session_start();
@@ -61,11 +61,12 @@ $userInfo = $user->getUserInfo($user_id);
               </div>
               <div class="col-md-12 mt-3">
                 <label for="password" class="form-label">Password:</label>
-                <input type="password" class="form-control" id="password" name="password">
-              </div>
+                  <input type="password" class="form-control" id="password" name="password"
+                      placeholder="Password *" required oninput="checkPasswordRequirements()" onfocus="showPasswordMessage()" onblur="hidePasswordMessage()" />
+              
             </div>
             <div class="text-end mt-3">
-              <button type="submit" class="btn btn-primary" name="update">Update</button>
+              <button type="submit" class="btn btn-primary" name="update" id="submit_button">Update</button>
             </div>
           </div>
         </form>
@@ -91,6 +92,34 @@ $userInfo = $user->getUserInfo($user_id);
       });
       <?php unset($_SESSION['error']); ?>
     <?php endif; ?>
+
+    function checkPasswordRequirements() {
+        const password = document.getElementById("password").value;
+        const uppercase = /[A-Z]/.test(password);
+        const lowercase = /[a-z]/.test(password);
+        const number = /[0-9]/.test(password);
+        const specialChar = /[!@#$%^&*]/.test(password);
+        const minLength = password.length >= 6;
+
+        document.getElementById("length").className = minLength ? "valid" : "invalid";
+        document.getElementById("uppercase").className = uppercase ? "valid" : "invalid";
+        document.getElementById("lowercase").className = lowercase ? "valid" : "invalid";
+        document.getElementById("number").className = number ? "valid" : "invalid";
+        document.getElementById("special").className = specialChar ? "valid" : "invalid";
+    }
+    function showPasswordMessage() {
+            document.getElementById("password-message").style.display = "block";
+        }
+
+    function hidePasswordMessage() {
+            document.getElementById("password-message").style.display = "none";
+        }
+
+        document.getElementById().addEventListener('submit',()=>{
+          prevent
+        }){
+  
+}
   </script>
 </body>
 </html>

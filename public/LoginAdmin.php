@@ -1,8 +1,7 @@
 <?php
 session_start();
-include ('Database.php');
 include ('User.php');
-
+include ('./includes/include.php');
 $database = new Database();
 $db = $database->getConnection();
 $user = new User($db);
@@ -27,11 +26,8 @@ if (isset($_POST['login'])) {
             $_SESSION['role'] = $row["role"];
 
            
-            if ($row['role'] === 'admin') {
-                header("Location: dashBoard.php");
-                exit();
-            } elseif ($row['role'] === 'super_admin') {
-                header("Location: dashBoard.php");
+            if ($row['role'] === 'admin' || $row['role'] === 'super_admin') {
+                header("Location: ../dashBoard/index.php");
                 exit();
             } else {
                 $_SESSION['error'] = "Access restricted to admin and super admin only.";

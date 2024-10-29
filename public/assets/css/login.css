@@ -12,7 +12,11 @@
 }
 body{
  background-image:url("https://lush.co.za/cdn/shop/files/vanillary_perfume_02.jpg");
- height: 100vh;
+}
+
+.form-container{
+    min-height: calc(100vh - 70px);
+
 }
 
 #password-message{
