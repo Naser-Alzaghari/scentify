@@ -4,7 +4,7 @@
         public function render() {
             $sql = "SELECT * FROM categories";
             $categories = $this->getConnection()->query($sql);
-            echo "<div class='container'><div class='row h-100 g-2 py-1'>
+            echo "<div class='container'><div class='row h-100 g-3'>
             <h1>Catigorys</h1>";
             foreach ($categories as $category) {
                 echo "<div class='col-md-4'>

@@ -51,13 +51,7 @@ class HTMLDocument {
 
     $navbar = new Navbar();
     $navbar->render();
-
-    if(isset($_SESSION['product_id'])){
-        // Unset session after use
-        $product_id = $_SESSION['product_id'];
-        unset($_SESSION['product_id']);
-        header("location: product_page.php");
-    }
+    
 
     $alert = new Alert();
     $alert->showAlert();

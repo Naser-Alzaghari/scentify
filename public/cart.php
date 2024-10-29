@@ -21,6 +21,10 @@ WHERE
 
 $stmt = $conn->prepare($query);
 
+if(!isset($_SESSION['user_id'])){
+    header("location: LoginPage.php");
+    exit();
+}
 // Bind the user_id parameter. Replace 1 with $_SESSION['user_id'] if it's coming from session
 $user_id = $_SESSION['user_id']; // or use $_SESSION['user_id'] if session is set
 $stmt->execute(['user_id' => $user_id]);

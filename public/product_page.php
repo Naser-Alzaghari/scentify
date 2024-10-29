@@ -106,7 +106,7 @@ $related_products = $related_query->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
         
-        <?php include "footer.html"; ?>
+        <?php include "insert_data_form.php"; include "footer.html"; ?>
     </main>
 
     <!-- Scripts -->

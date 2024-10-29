@@ -5,14 +5,15 @@ if(!isset($_SESSION)){
 include "conn.php";
 if(isset($_SESSION['user_id'])){
   $user_id=$_SESSION['user_id'];
+  $sql = "SELECT COUNT('on_cart') as count FROM `order_items` JOIN `orders` on order_items.order_id = orders.order_id WHERE user_id = :user_id and on_cart = 1";
+  $statment = $conn->prepare($sql);
+  $statment->bindParam(':user_id',$user_id);
+  $statment->execute();
+  $cart_count = $statment->fetch(PDO::FETCH_ASSOC);
 } else {
-  $user_id = 3; // guest mode
+  $cart_count['count']=0;
 }
-$sql = "SELECT COUNT('on_cart') as count FROM `order_items` JOIN `orders` on order_items.order_id = orders.order_id WHERE user_id = :user_id and on_cart = 1";
-$statment = $conn->prepare($sql);
-$statment->bindParam(':user_id',$user_id);
-$statment->execute();
-$cart_count = $statment->fetch(PDO::FETCH_ASSOC);
+
 ?> <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
     <div class="container"><a class="navbar-brand d-inline-flex" href="index.php"><img class="d-inline-block" src="assets/img/gallery/scentify-high-resolution-logo-transparent.svg" alt="logo" /></a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>

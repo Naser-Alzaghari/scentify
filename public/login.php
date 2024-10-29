@@ -30,6 +30,7 @@ if (isset($_POST['login'])) {
                 $product_id = $_SESSION['product_id'];
                 unset($_SESSION['product_id']);
                 header("Location: product_page.php?product_id=$product_id");
+                exit();
             }
 
             header("Location: index.php");
