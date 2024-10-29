@@ -65,7 +65,7 @@ class HTMLDocument {
     <main class="main" id="top">
     <section class='py-11 bg-light-gradient border-bottom border-white border-5'>
         <div class='bg-holder overlay overlay-light'
-            style='background-image:url(assets/img/gallery/header-bg.png);background-size:cover;'>
+            style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
         </div>
         
         <div class='container'>

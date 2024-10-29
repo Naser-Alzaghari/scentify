@@ -39,6 +39,9 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cart</title>
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         @media (min-width: 1025px) {
             .h-custom {
@@ -60,8 +63,9 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
   <?php include 'nav_bar.php'; ?>
     <main class="main" id="top">
         <section class="pt-9 pb-4 bg-light-gradient border-bottom border-white border-5">
-            <div class="bg-holder overlay overlay-light" style="background-image:url(assets/img/gallery/header-bg.png);background-size:cover;"></div>
-
+        <div class='bg-holder overlay overlay-light'
+            style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
+        </div>
             <div class="container">
                     <div class="row d-flex justify-content-center align-items-center">
                         <div class="col-12">
@@ -84,7 +88,7 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                                                             <h6 class="mb-0"><?php echo $item['product_description'] ?></h6>
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                            <input min="1" name="quantity" value="<?php echo $item['total_quantity'] ?>" type="number"
+                                                            <input style ="color : black ;" min="1" name="quantity" value="<?php echo $item['total_quantity'] ?>" type="number"
                                                                    class="form-control form-control-sm quantity" 
                                                                    data-unit-price="<?php echo $item['total_price'] / $item['total_quantity']; ?>"
                                                                    data-order-item-id="<?php echo $item['order_item_id']; ?>"
@@ -94,8 +98,14 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                                                             <h6 class="mb-0 total-price">$<?php echo $item['total_price'] ?></h6>
                                                         </div>
                                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                           <button>delete</button>
-                                                        </div>
+
+                                                        <button onclick="deleteItem(<?php echo $item['order_item_id']; ?>)" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                                            </svg>
+                                                        </button>
+
+                                                        </div>  
                                                     </div>
                                                     <hr class="my-4">
                                                 <?php endforeach; ?>
@@ -128,19 +138,17 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
         <script src="vendors/feather-icons/feather.min.js"></script>
         <script src="assets/js/theme.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
-        <script src="/scentify/public/cart.js"></script>
+        
         <script>
             function updateQuantity(input) {
                 const newQuantity = input.value;
                 const unitPrice = parseFloat(input.dataset.unitPrice);
                 const orderItemId = input.dataset.orderItemId;
 
-                // Calculate new total price for this item
                 const totalPriceElement = input.closest('.row').querySelector('.total-price');
                 const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
                 totalPriceElement.textContent = `$${newTotalPrice}`;
 
-                // Send AJAX request to update quantity in the database
                 fetch('update_quantity.php', {
                     method: 'POST',
                     headers: {
@@ -151,7 +159,6 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Update the cart summary total
                         document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
                     } else {
                         alert('Failed to update quantity');
@@ -160,6 +167,78 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                 .catch(error => console.error('Error:', error));
             }
         </script>
+
+        <script>
+function deleteItem(orderItemId) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-dark",
+            cancelButton: "btn btn-info"
+        },
+        buttonsStyling: false
+    });
+
+    swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, remove it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+        willOpen: () => {
+            // Add space between buttons
+            const swalActions = document.querySelector('.swal2-actions');
+            if (swalActions) swalActions.style.gap = '10px';
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Proceed with deletion if confirmed
+            fetch('delete_item.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ order_item_id: orderItemId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the item row from the cart
+                    const itemRow = document.querySelector(`[data-order-item-id="${orderItemId}"]`);
+                    if (itemRow) itemRow.remove();
+
+                    // Update the total amount in the cart
+                    document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
+
+                    // Show success message
+                    swalWithBootstrapButtons.fire({
+                        title: "Removed!",
+                        text: "The item has been removed from your cart.",
+                        icon: "success"
+                    });
+                } else {
+                    // Handle failure to delete
+                    Swal.fire("Error", "Failed to remove the item. Please try again.", "error");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                Swal.fire("Error", "An error occurred. Check the console for details.", "error");
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire({
+                title: "Cancelled",
+                text: "The item was not removed from your cart.",
+                icon: "error"
+            });
+        }
+    });
+}
+
+
+        </script>
+        
         <?php include 'footer.html'; ?>
     </body>
 </html>
