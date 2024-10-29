@@ -24,6 +24,11 @@ if(isset($_SESSION['user_id'])){
                 <li class="nav-item px-2"><a class="nav-link fw-medium" href="#collection">Collection</a></li>
                 <li class="nav-item px-2"><a class="nav-link fw-medium" href="#outlet">Outlet</a></li>
             </ul>
+            <form class="d-flex align-items-center" action="search.php" method="post">
+          <?php
+
+          ?>
+          <input id ="search" type="text" name ="usersearch" placeholder="Search a product">
             <form class="d-flex align-items-center"> <?php
             if(isset($_SESSION['user_name'])){
               echo "<p class='mb-0 me-3'>Hello {$_SESSION['user_name']}</p>";

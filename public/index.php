@@ -43,6 +43,7 @@ class HTMLDocument {
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/gallery/title_logo.png">
     <meta name="msapplication-TileImage" content="assets/img/gallery/title_logo.png">
     <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
     <?php
