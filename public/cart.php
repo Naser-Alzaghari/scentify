@@ -8,7 +8,8 @@ $query = "SELECT
     oi.quantity AS total_quantity,
     (oi.quantity * p.price) AS total_price,
     oi.product_id,
-    oi.order_item_id
+    oi.order_item_id,
+    o.order_id
 FROM 
     orders o
 JOIN 
@@ -31,7 +32,24 @@ $stmt->execute(['user_id' => $user_id]);
 
 // Fetch the results if needed
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
 $totalAmount = array_sum(array_column($results, 'total_price'));
+
+
+
+$query_user = "SELECT   `first_name`,`last_name`,`email`,`phone_number`,`address`  FROM `users` WHERE `user_id`=:user_id ;";
+$stmt_user = $conn->prepare($query_user);
+$stmt_user->bindParam('user_id', $user_id);
+$stmt_user->execute();
+$user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
+
+
+
+
+
+
 
 ?>
 
@@ -121,10 +139,10 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                                                 <hr class="my-4">
                                                 <div class="d-flex justify-content-between mb-4">
                                                     <h5 class="text-uppercase">Items <?php echo count($results); ?></h5>
-                                                    <h5 id="cart-total">$<?php echo $totalAmount; ?></h5>
+                                                    <h5 id="cart-total"><?php echo  "$" .$totalAmount; ?></h5>
                                                 </div>
-                                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark">Checkout</button>
-                                            </div>
+                                                <button style="border-radius: 0.75em;" class="btn btn-dark btn-block btn-lg" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed</button>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -133,8 +151,58 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                     </div>
                 </div>
             <section class="py-5"></section>
+
         </main>
         
+                <!-- Checkout Modal -->
+        <!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="checkout.php" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="order_id" value="<?=$results [0]['order_id']?>" >
+                    <p>Total Amount: <span id="checkout-total"><?php echo $totalAmount; ?></span></p>
+                    
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo $user_checkout['first_name'] ." ".$user_checkout['last_name'] ; ?>" required readonly>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo $user_checkout['email']  ?>" required readonly>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="address" placeholder="Address" value="<?php echo $user_checkout['address']  ?>" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="phone" placeholder="Phone number" value="<?php echo $user_checkout['phone_number']  ?>"readonly required>
+                    </div>
+
+                    <div class="mb-4">
+                        <textarea class="form-control" name="comments" placeholder="Order comments" rows="4"></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="coupon" placeholder="Coupon">
+                    </div>
+
+                    <hr class="mb-4">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info">Checkout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
         <script src="vendors/@popperjs/popper.min.js"></script>
         <script src="vendors/bootstrap/bootstrap.min.js"></script>
         <script src="vendors/is/is.min.js"></script>
