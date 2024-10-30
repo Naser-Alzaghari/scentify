@@ -81,16 +81,16 @@ class HTMLDocument {
     $alert->showAlert();
     ?>
 
-    <h2 class="fw-bolder mb-4 searchRes">Search Result</h2>
+    
 
     <section class="py-5 bg-light">
-        <div class="container px-4 px-lg-5 mt-5">
+        <div class="container mt-5">
+        <h2 class="mb-4">Search Result</h2>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
                 <?php
                 if (empty($results)) {
-                    
                     $image_path = "assets/img/gallery/search-not-found.svg";
-                    echo "<div class='no-result'>";
+                    echo "<div class='no-result container'>";
                     echo '<img src="' . $image_path . '" alt="No results found">';
                     echo "<p>No result found</p>";
                     echo "</div>";
