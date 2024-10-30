@@ -9,6 +9,7 @@ $orderItemId = $input['order_item_id'] ?? null;
 $response = ['success' => false];
 
 if ($orderItemId) {
+    // Delete item from the order_items table
     $deleteQuery = "DELETE FROM order_items WHERE order_item_id = :order_item_id";
     $stmt = $conn->prepare($deleteQuery);
     
@@ -23,7 +24,7 @@ if ($orderItemId) {
         $totalAmount = $totalStmt->fetchColumn();
         
         $response['success'] = true;
-        $response['newTotalCartAmount'] = $totalAmount;
+        $response['newTotalCartAmount'] = $totalAmount ?? 0.00; // Return 0.00 if null
     }
 }
 
