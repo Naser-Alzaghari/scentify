@@ -1,9 +1,13 @@
 <?php
 require 'config.php';
 
-if (isset($_POST['order_id'])) {
+if (isset($_POST['order_id']) && is_numeric($_POST['order_id'])) {
     // تأكد من أن قيمة order_id هي عدد صحيح
     $orderId = intval($_POST['order_id']); 
+
+    // إنشاء كائن الاتصال بقاعدة البيانات
+    $db = new Database();
+    $pdo = $db->getConnection();
 
     // إعداد الاستعلام مع الربط بين الجداول
     $stmt = $pdo->prepare("SELECT p.product_name, oi.quantity, oi.price 
@@ -48,7 +52,9 @@ if (isset($_POST['order_id'])) {
         }
     } else {
         // عرض خطأ في تنفيذ الاستعلام
-        echo "Query execution failed: " . implode(", ", $stmt->errorInfo());
+        echo "Query execution failed: " . htmlspecialchars(implode(", ", $stmt->errorInfo()));
     }
+} else {
+    echo "Invalid order ID.";
 }
 ?>

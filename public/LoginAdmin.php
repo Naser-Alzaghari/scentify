@@ -21,9 +21,10 @@ if (isset($_POST['login'])) {
         
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+            print_r($row);
             $_SESSION['user_id'] = $row["user_id"];
-            $_SESSION['role'] = $row["role"];
+            $_SESSION['user_role'] = $row["role"];
+            
 
            
             if ($row['role'] === 'admin' || $row['role'] === 'super_admin') {

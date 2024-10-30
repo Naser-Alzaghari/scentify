@@ -1,10 +1,26 @@
 <?php
-require 'config.php';
-require 'OrderManager.php';
+// تضمين الملفات الضرورية
+require_once 'config.php';
+require_once 'OrderManager.php';
 
+// إنشاء كائن الاتصال بقاعدة البيانات باستخدام الفئة الموجودة في config.php
+$database = new Database();
+$pdo = $database->getConnection();
+
+// إنشاء كائن OrderManager وتمرير الاتصال بقاعدة البيانات
 $orderManager = new OrderManager($pdo);
-$orders = $orderManager->getOrders();
+
+// احصل على الصفحة الحالية من عنوان URL، الافتراضي هو الصفحة الأولى
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 4; // عدد الطلبات في كل صفحة
+$offset = ($page - 1) * $limit;
+
+$totalOrders = $orderManager->getOrderCount(); // إجمالي عدد الطلبات
+$totalPages = ceil($totalOrders / $limit); // إجمالي الصفحات
+
+$orders = $orderManager->getOrders($limit, $offset); // جلب الطلبات حسب الصفحة
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,12 +32,6 @@ $orders = $orderManager->getOrders();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="Css.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../public/assets/img/gallery/title_logo.png">
-    <meta name="msapplication-TileImage" content="../public/assets/img/gallery/title_logo.png">
-    <meta name="theme-color" content="#ffffff">
 
     <style>
     .order-status-cancelled {
@@ -62,53 +72,86 @@ $orders = $orderManager->getOrders();
 .search-bar:focus {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* ظل خفيف */
 }
+.pagination {
+    margin-top: 20px; /* إضافة مساحة بين الجدول والـ pagination */
+    margin-bottom: 20px; /* إضافة مساحة في الأسفل إذا لزم الأمر */
+    justify-content: center; /* لتوسيط العناصر داخل الـ pagination */
+}
+
+.pagination .page-item .page-link {
+    border: 1px solid #007bff; /* إضافة حدود للروابط */
+}
+
+.pagination .active .page-link {
+    background-color: #007bff; /* لون خلفية للصفحة النشطة */
+    color: white; /* لون النص للصفحة النشطة */
+}
+
+.pagination .disabled .page-link {
+    color: #6c757d; /* لون النص للصفحات المعطلة */
+}
+.nav .nav-link.active {
+    background-color: #007bff !important; /* لون الخلفية عند التفعيل */
+    color: #ffffff !important; /* لون النص الأبيض */
+}
+
+.nav .nav-link.active .menu-title {
+    color: #ffffff !important; /* تأكد من أن النص داخل العنصر يكون لونه أبيض أيضًا */
+}
+
     </style>
 </head>
 
 <body>
-<?php include "header.php" ?>
+
     <div class="container-fluid page-body-wrapper">
-        <!-- Sidebar -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-users.php">
-                        <i class="icon-head menu-icon"></i>
-                        <span class="menu-title">Manage Users</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-orders.php">
-                        <i class="icon-cart menu-icon"></i>
-                        <span class="menu-title">Orders</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-products.php">
-                        <i class="icon-box menu-icon"></i>
-                        <span class="menu-title">Products</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-category.php">
-                        <i class="icon-tag menu-icon"></i>
-                        <span class="menu-title">Category</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-coupons.php">
-                        <i class="icon-tag menu-icon"></i>
-                        <span class="menu-title">Coupons</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+       <?php include "header.php" ?>
+    <!-- Sidebar -->
+        <?php
+// Get the current page name
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
+                <i class="icon-grid menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-users.php') ? 'active' : ''; ?>" href="manage-users.php">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Manage Users</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-orders.php') ? 'active' : ''; ?>" href="manage-orders.php">
+                <i class="icon-cart menu-icon"></i>
+                <span class="menu-title">Orders</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-products.php') ? 'active' : ''; ?>" href="manage-products.php">
+                <i class="icon-box menu-icon"></i>
+                <span class="menu-title">Products</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-category.php') ? 'active' : ''; ?>" href="manage-category.php">
+                <i class="icon-tag menu-icon"></i>
+                <span class="menu-title">Category</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-coupons.php') ? 'active' : ''; ?>" href="manage-coupons.php">
+                <i class="icon-tag menu-icon"></i>
+                <span class="menu-title">Coupons</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
 
         <div class="main-panel">
             <div class="content-wrapper">
@@ -116,8 +159,8 @@ $orders = $orderManager->getOrders();
                 <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="search-bar-wrapper ml-auto">
-                <input type="text" class="search-bar form-control" placeholder="Search Orders..." onkeyup="searchOrders(this.value)">
+        <div class="search-bar-wrapper ml-auto">
+                <input id="searchQuery" type="text" class="search-bar form-control" placeholder="Search Users..." onkeyup="searchOrders(this.value)">
             </div>
         </div>
         <div class="table-container">
@@ -154,6 +197,29 @@ $orders = $orderManager->getOrders();
                     <?php endforeach; ?>
                 </tbody>
             </table>
+           <!-- إضافة كود pagination -->
+<nav aria-label="Orders Pagination">
+    <ul class="pagination justify-content-center">
+        <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+            <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
+                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+            </li>
+        <?php endfor; ?>
+
+        <li class="page-item <?php if ($page >= $totalPages) echo 'disabled'; ?>">
+            <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
         </div>
     </div>
 </div>
@@ -179,24 +245,14 @@ $orders = $orderManager->getOrders();
             </div>
 
             <!-- Footer -->
-            <footer class="footer">
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2024.
-                        Scentify. All rights reserved.</span>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
-                        with 🤍<i class="ti-heart text-danger ml-1"></i></span>
-                </div>
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a
-                            href="https://www.scentify.com/" target="_blank">Scentify</a></span>
-                </div>
-            </footer>
+        
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./Search.js"></script>
 
     <script>
     // Function to view products in an order

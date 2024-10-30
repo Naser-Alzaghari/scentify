@@ -10,15 +10,15 @@ class Category {
     // التحقق مما إذا كانت الفئة موجودة بناءً على الاسم
     public function existsByName($name, $id = 0) {
         // الاستعلام للتحقق من الاسم مع استبعاد المعرف الحالي في حالة التعديل
-        $query = "SELECT COUNT(*) FROM categories WHERE category_name = :name";
+        $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE category_name = :name";
         if ($id > 0) {
             $query .= " AND category_id != :id";
         }
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         if ($id > 0) {
-            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         }
         $stmt->execute();
 
@@ -60,6 +60,12 @@ class Category {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getCategoriesCount() {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM " . $this->table . " WHERE is_deleted = 0");
+        $stmt->execute();
+        return $stmt->fetch()['total'];
+    }
+
     // إنشاء فئة جديدة
     public function create($name, $image) {
         if ($this->existsByName($name)) {
@@ -72,10 +78,10 @@ class Category {
         $created_at = date('Y-m-d H:i:s');
         $updated_at = $created_at;
 
-        $stmt->bindParam(':category_name', $name);
-        $stmt->bindParam(':image', $image);
-        $stmt->bindParam(':created_at', $created_at);
-        $stmt->bindParam(':updated_at', $updated_at);
+        $stmt->bindParam(':category_name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':image', $image, PDO::PARAM_STR);
+        $stmt->bindParam(':created_at', $created_at, PDO::PARAM_STR);
+        $stmt->bindParam(':updated_at', $updated_at, PDO::PARAM_STR);
 
         return $stmt->execute();
     }
@@ -85,7 +91,7 @@ class Category {
         if ($this->existsByName($name, $id)) {
             return "Category with this name already exists.";
         }
-    
+
         // إعداد الاستعلام لتحديث الفئة
         $query = "UPDATE " . $this->table . " SET category_name = :category_name, updated_at = :updated_at";
         
@@ -99,14 +105,14 @@ class Category {
         $stmt = $this->conn->prepare($query);
         $updated_at = date('Y-m-d H:i:s');
         
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':category_name', $name);
-        $stmt->bindParam(':updated_at', $updated_at);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':category_name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':updated_at', $updated_at, PDO::PARAM_STR);
         
         if ($image) {
-            $stmt->bindParam(':image', $image);
+            $stmt->bindParam(':image', $image, PDO::PARAM_STR);
         }
-    
+
         return $stmt->execute();
     }
 
@@ -114,14 +120,17 @@ class Category {
     public function softDelete($id) {
         $query = "UPDATE " . $this->table . " SET is_deleted = 1 WHERE category_id = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    // إحضار فئة بناءً على معرفها
     public function getById($id) {
         $query = "SELECT * FROM " . $this->table . " WHERE category_id = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
+?>

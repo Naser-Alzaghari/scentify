@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    if(!isset($_SESSION["user_id"])){
+        header('location:../public/AdminLoginPage.php');
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,12 +19,6 @@
     <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="apple-touch-icon" sizes="180x180" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../public/assets/img/gallery/title_logo.png">
-    <meta name="msapplication-TileImage" content="../public/assets/img/gallery/title_logo.png">
-    <meta name="theme-color" content="#ffffff">
     <style>
     /* CSS for Chart Containers */
     .chart-container {
@@ -69,72 +70,67 @@
         height: auto;
         max-height: 50px;
     }
-    .search-bar-wrapper {
-    max-width: 400px; /* أقصى عرض لشريط البحث */
+
+.nav .nav-link.active {
+background-color: #007bff !important; /* لون الخلفية عند التفعيل */
+color: #ffffff !important; /* لون النص الأبيض */
 }
 
-.search-bar {
-    background-color: white;
-    width: 250px; /* عرض كامل للعنصر */
-    padding: 10px 20px; /* حشوة داخلية */
-    border: none; /* إزالة الحدود */
-    border-radius: 50px; /* زوايا دائرية */
-    outline: none; /* إزالة الخط الخارجي عند التركيز */
-    font-size: 16px; /* حجم الخط */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* ظل خفيف */
-    transition: all 0.3s ease; /* تأثيرات انتقالية */
-}
-
-.search-bar:focus {
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* ظل خفيف */
+.nav .nav-link.active .menu-title {
+color: #ffffff !important; /* تأكد من أن النص داخل العنصر يكون لونه أبيض أيضًا */
 }
     </style>
 </head>
 
 <body>
-  <?php include "header.php"?>
-    <!-- Main Panel -->
-    <div class="container-fluid page-body-wrapper">
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-users.php">
-                        <i class="icon-head menu-icon"></i>
-                        <span class="menu-title">Manage Users</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-orders.php">
-                        <i class="icon-cart menu-icon"></i>
-                        <span class="menu-title">Orders</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-products.php">
-                        <i class="icon-box menu-icon"></i>
-                        <span class="menu-title">Products</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-category.php">
-                        <i class="icon-tag menu-icon"></i>
-                        <span class="menu-title">Category</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-coupons.php">
-                        <i class="icon-tag menu-icon"></i>
-                        <span class="menu-title">Coupons</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+<div class="container-fluid page-body-wrapper">
+      <?php include "header.php" ?>
+    <!-- Sidebar -->
+        <?php
+// Get the current page name
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
+                <i class="icon-grid menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-users.php') ? 'active' : ''; ?>" href="manage-users.php">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Manage Users</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-orders.php') ? 'active' : ''; ?>" href="manage-orders.php">
+                <i class="icon-cart menu-icon"></i>
+                <span class="menu-title">Orders</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-products.php') ? 'active' : ''; ?>" href="manage-products.php">
+                <i class="icon-box menu-icon"></i>
+                <span class="menu-title">Products</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-category.php') ? 'active' : ''; ?>" href="manage-category.php">
+                <i class="icon-tag menu-icon"></i>
+                <span class="menu-title">Category</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-coupons.php') ? 'active' : ''; ?>" href="manage-coupons.php">
+                <i class="icon-tag menu-icon"></i>
+                <span class="menu-title">Coupons</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
 
         <div class="main-panel">
             <div class="content-wrapper">
@@ -330,7 +326,7 @@
                         datasets: [{
                             data: data.userCountries.map(item => item.total),
                             backgroundColor: ['#d9aaf7', '#1f3bb3', '#00c5dc',
-                                '#f64e60', '#f7f700', '#04f702'
+                                '#f64e60', '#f7f700', '#04f702','#fb5708','#8e2a5c','#800000','#c0c0c0','#c4ead2','#fbc457'
                             ],
                         }]
                     },

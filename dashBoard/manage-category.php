@@ -3,12 +3,30 @@
 include_once 'config.php';
 include_once 'Category.php';
 
-// إنشاء كائن فئة
+// إنشاء كائن الاتصال بقاعدة البيانات باستخدام الفئة الموجودة في config.php
+$database = new Database();
+$pdo = $database->getConnection();
+
+// إنشاء كائن فئة Category وتمرير الاتصال بقاعدة البيانات
 $category = new Category($pdo);
 
-// جلب جميع الفئات غير المحذوفة
-$categories = $category->getAll();
+// إعداد pagination
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // الصفحة الحالية
+$limit = 4; // عدد الفئات في كل صفحة
+$offset = ($page - 1) * $limit; // الإزاحة
+
+$totalCategories = $category->getCategoriesCount(); // إجمالي عدد الفئات
+$totalPages = ceil($totalCategories / $limit); // إجمالي الصفحات
+
+// جلب جميع الفئات غير المحذوفة مع استخدام LIMIT و OFFSET
+$query = "SELECT * FROM categories WHERE is_deleted = 0 LIMIT :limit OFFSET :offset";
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+ر
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,12 +39,6 @@ $categories = $category->getAll();
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="Css.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../public/assets/img/gallery/title_logo.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../public/assets/img/gallery/title_logo.png">
-    <meta name="msapplication-TileImage" content="../public/assets/img/gallery/title_logo.png">
-    <meta name="theme-color" content="#ffffff">
     <style>
                 .search-bar-wrapper {
     max-width: 400px; /* أقصى عرض لشريط البحث */
@@ -47,53 +59,118 @@ $categories = $category->getAll();
 .search-bar:focus {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* ظل خفيف */
 }
+.pagination {
+    margin-top: 20px; /* إضافة مساحة بين الجدول والـ pagination */
+    margin-bottom: 20px; /* إضافة مساحة في الأسفل إذا لزم الأمر */
+    justify-content: center; /* لتوسيط العناصر داخل الـ pagination */
+}
+
+.pagination .page-item .page-link {
+    border: 1px solid #007bff; /* إضافة حدود للروابط */
+}
+
+.pagination .active .page-link {
+    background-color: #007bff; /* لون خلفية للصفحة النشطة */
+    color: white; /* لون النص للصفحة النشطة */
+}
+
+.pagination .disabled .page-link {
+    color: #6c757d; /* لون النص للصفحات المعطلة */
+}
+.nav .nav-link.active {
+    background-color: #007bff !important; /* لون الخلفية عند التفعيل */
+    color: #ffffff !important; /* لون النص الأبيض */
+}
+
+.nav .nav-link.active .menu-title {
+    color: #ffffff !important; /* تأكد من أن النص داخل العنصر يكون لونه أبيض أيضًا */
+}
+
+.sidebar-offcanvas {
+    width: 250px; /* عرض ثابت للشريط الجانبي */
+    background-color: #f8f9fa; /* لون الخلفية */
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin: 0; /* إزالة المسافات بين العناصر */
+    padding: 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px; /* حشوة داخلية متساوية */
+    color: #000000; /* لون النص الأساسي */
+    font-weight: 500;
+    text-decoration: none; /* إزالة الخط السفلي */
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: #007bff; /* لون الخلفية عند التفعيل أو التمرير */
+    color: #ffffff; /* لون النص عند التفعيل أو التمرير */
+}
+
+.menu-icon {
+    margin-right: 10px; /* مسافة بين الأيقونة والنص */
+}
+
+
     </style>
 </head>
 
 <body>
-    <?php include "header.php" ?>
+   
+<?php include "header.php" ?>
+    </div>
     <div class="container-fluid page-body-wrapper">
         <!-- Sidebar -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-users.php">
-                        <i class="icon-head menu-icon"></i>
-                        <span class="menu-title">Manage Users</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-orders.php">
-                        <i class="icon-cart menu-icon"></i>
-                        <span class="menu-title">Orders</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-products.php">
-                        <i class="icon-box menu-icon"></i>
-                        <span class="menu-title">Products</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-category.php">
-                        <i class="icon-tag menu-icon"></i>
-                        <span class="menu-title">Category</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="manage-coupons.php">
-                        <i class="icon-tag menu-icon"></i>
-                        <span class="menu-title">Coupons</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <?php
+// Get the current page name
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
+                <i class="icon-grid menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-users.php') ? 'active' : ''; ?>" href="manage-users.php">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Manage Users</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-orders.php') ? 'active' : ''; ?>" href="manage-orders.php">
+                <i class="icon-cart menu-icon"></i>
+                <span class="menu-title">Orders</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-products.php') ? 'active' : ''; ?>" href="manage-products.php">
+                <i class="icon-box menu-icon"></i>
+                <span class="menu-title">Products</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-category.php') ? 'active' : ''; ?>" href="manage-category.php">
+                <i class="icon-tag menu-icon"></i>
+                <span class="menu-title">Category</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-coupons.php') ? 'active' : ''; ?>" href="manage-coupons.php">
+                <i class="icon-tag menu-icon"></i>
+                <span class="menu-title">Coupons</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
         <div class="container-fluid content-background">
         <div class="content-wrapper">
@@ -102,8 +179,8 @@ $categories = $category->getAll();
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <button class="btn btn-primary" data-toggle="modal" data-target="#categoryModal" onclick="clearForm()">Add New Category</button>
-            <div class="search-bar-wrapper">
-                <input type="text" class="search-bar form-control" placeholder="Search Category">
+            <div class="search-bar-wrapper ml-auto">
+                <input id="searchQuery" type="text" class="search-bar form-control" placeholder="Search Category..." onkeyup="searchCategory(this.value)">
             </div>
         </div>
         <div class="table-container">
@@ -144,6 +221,28 @@ $categories = $category->getAll();
                     ?>
                 </tbody>
             </table>
+            <nav aria-label="Categories Pagination">
+    <ul class="pagination justify-content-center">
+        <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+            <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
+                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+            </li>
+        <?php endfor; ?>
+
+        <li class="page-item <?php if ($page >= $totalPages) echo 'disabled'; ?>">
+            <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
         </div>
     </div>
 </div>
@@ -186,6 +285,7 @@ $categories = $category->getAll();
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="./Search.js"></script>
         <script>
     $(document).ready(function() {
         $('#categoryForm').on('submit', function(e) {

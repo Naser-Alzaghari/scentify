@@ -71,7 +71,7 @@ session_start();
                                                 required />
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" minlength="10" maxlength="10" class="form-control" name="Phone"
+                                            <input type="text" minlength="14" maxlength="14" class="form-control" name="Phone"
                                                 placeholder="Your Phone *" required />
                                         </div>
                                         <div class="form-group">

@@ -1,9 +1,13 @@
 <?php
-require 'config.php';
+require 'config.php'; // Include the Database class definition
 require 'UserManager.php';
 session_start();
 
 header('Content-Type: application/json'); // Set content type to JSON
+
+// Create an instance of Database and get the PDO connection
+$db = new Database();
+$pdo = $db->getConnection();
 
 $userManager = new UserManager($pdo);
 

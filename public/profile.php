@@ -5,7 +5,7 @@ include('User.php');
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    echo "User not logged in.";
+    header("location: LoginPage.php");
     exit; 
 }
 

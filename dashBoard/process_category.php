@@ -2,12 +2,21 @@
 include_once 'config.php';
 include_once 'Category.php';
 
+// إنشاء اتصال بقاعدة البيانات وإنشاء كائن الفئة
+$db = new Database();
+$pdo = $db->getConnection();
 $category = new Category($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0; // Ensure ID is an integer
-    $name = isset($_POST['name']) ? $_POST['name'] : '';
+    $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $image = '';
+
+    // التحقق من أن الاسم ليس فارغًا
+    if (empty($name)) {
+        echo json_encode(['success' => false, 'message' => 'Category name is required.']);
+        exit();
+    }
 
     // تحقق من وجود فئة بنفس الاسم
     if ($category->existsByName($name, $id)) {
@@ -28,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mkdir($uploadDir, 0777, true);
         }
 
+        // استخدام basename لأمان أفضل عند تحديد اسم الملف
         $uniqueImageName = uniqid() . '-' . basename($_FILES['image']['name']);
         $image = $uploadDir . $uniqueImageName;
 
@@ -55,3 +65,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     exit();
 }
+?>

@@ -3,6 +3,10 @@
 
 require_once 'config.php'; // Include your PDO connection settings
 
+// إنشاء كائن الاتصال بقاعدة البيانات باستخدام الفئة الموجودة في config.php
+$database = new Database();
+$pdo = $database->getConnection();
+
 class Dashboard
 {
     private $pdo;
