@@ -7,33 +7,36 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 $order_item_id = $input['order_item_id'];
 $new_quantity = $input['quantity'];
+$order_id = $input['order_id'];
 
 try {
-    $conn->beginTransaction();
+    // $conn->beginTransaction();
 
     // Update quantity in order_items
     $updateQuery = "UPDATE order_items SET quantity = :quantity WHERE order_item_id = :order_item_id";
     $stmt = $conn->prepare($updateQuery);
     $stmt->execute(['quantity' => $new_quantity, 'order_item_id' => $order_item_id]);
-
-    // Calculate the new total price for the updated item
-    $itemQuery = "SELECT quantity, price FROM order_items WHERE order_item_id = :order_item_id";
-    $stmt = $conn->prepare($itemQuery);
-    $stmt->execute(['order_item_id' => $order_item_id]);
-    $item = $stmt->fetch(PDO::FETCH_ASSOC);
-    $newTotalPrice = $item['quantity'] * $item['price'];
+    $stmt = null;
 
     // Calculate the new total cart amount for the user
-    $cartTotalQuery = "SELECT SUM(quantity * price) AS total_cart_amount FROM order_items WHERE on_cart = 1";
+    $cartTotalQuery = "SELECT (oi.quantity * p.price) AS total_cart_amount FROM order_items oi, products p WHERE order_id = :order_id AND p.product_id = oi.product_id";
     $stmt = $conn->prepare($cartTotalQuery);
+    $stmt->bindParam('order_id', $order_id);
     $stmt->execute();
-    $cartTotal = $stmt->fetch(PDO::FETCH_ASSOC)['total_cart_amount'];
+    $cartTotal = array_sum(array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'total_cart_amount'));
+    $stmt = null;
 
-    $conn->commit();
+    $updateTotalAmountSql = "UPDATE orders SET total_amount = :cartTotal WHERE order_id = :order_id";
+    $stmt = $conn->prepare($updateTotalAmountSql);
+    $stmt->bindParam(':cartTotal', $cartTotal);
+    $stmt->bindParam(':order_id', $order_id);
+    $stmt->execute();
+    $stmt = null;
+    // $conn->commit();
 
     echo json_encode(['success' => true, 'newTotalCartAmount' => $cartTotal]);
 } catch (Exception $e) {
-    $conn->rollBack();
+    // $conn->rollBack();
     echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }
 ?>

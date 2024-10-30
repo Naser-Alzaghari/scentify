@@ -47,10 +47,6 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
 
 
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -114,6 +110,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                                    class="form-control form-control-sm quantity" 
                                                                    data-unit-price="<?php echo $item['total_price'] / $item['total_quantity']; ?>"
                                                                    data-order-item-id="<?php echo $item['order_item_id']; ?>"
+                                                                   data-order-id="<?=$item['order_id']?>"
                                                                    onchange="updateQuantity(this)" />
                                                         </div>
                                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
@@ -166,7 +163,6 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
             <form action="checkout.php" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="order_id" value="<?=$results [0]['order_id']?>" >
-                    <p>Total Amount: <span id="checkout-total"><?php echo $totalAmount; ?></span></p>
                     
                     <div class="mb-4">
                         <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo $user_checkout['first_name'] ." ".$user_checkout['last_name'] ; ?>" required readonly>
@@ -189,10 +185,14 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="mb-4">
-                        <input type="text" class="form-control" name="coupon" placeholder="Coupon">
+                        <p id="coupon_error"></p>
+                        <input type="text" class="form-control" id="coupon" name="coupon" placeholder="Coupon" style="border-bottom-left-radius:0; border-bottom-right-radius: 0;">
+                        <button type="button" class="form-control btn btn-info" style="border-top-left-radius:0; border-top-right-radius: 0;" onclick="checkCoupon();">Add coupon</button>
                     </div>
+                    <input type="hidden" name="up_to_date_total_amount" value="<?= $totalAmount; ?>">
 
                     <hr class="mb-4">
+                    <p>Total Amount: <span id="checkout-total">$<?php echo $totalAmount; ?></span></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
@@ -210,14 +210,16 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
         <script src="vendors/feather-icons/feather.min.js"></script>
         <script src="assets/js/theme.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         
         <script>
+            var total_amount_global = <?= $totalAmount ?>;
             function updateQuantity(input) {
                 const newQuantity = input.value;
                 const unitPrice = parseFloat(input.dataset.unitPrice);
                 const orderItemId = input.dataset.orderItemId;
-                
-                 
+                const order_id = input.dataset.orderId;                
 
                 const totalPriceElement = input.closest('.row').querySelector('.total-price');
                 
@@ -229,19 +231,60 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ order_item_id: orderItemId, quantity: newQuantity })
+                    body: JSON.stringify({ order_item_id: orderItemId, quantity: newQuantity, order_id: order_id })
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
+                        document.getElementById('cart-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
+                        document.getElementById('checkout-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         console.log(data.newTotalCartAmount);
+                        total_amount_global = data.newTotalCartAmount
                         
                     } else {
                         alert('Failed to update quantity');
                     }
                 })
                 .catch(error => console.error('Error:', error));
+            }
+
+            function checkCoupon() {
+                // 1. Check the format of the coupon
+                const coupon_string = $("input[name=coupon]").val();
+                const regex = /^\d{2}[A-Z]{4}$/;
+                if (!regex.test(coupon_string)) {
+                    $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-danger');
+                    $('p#coupon_error').html('Invalid coupon format');
+                    return;
+                } else {
+                    $('p#coupon_error').html('');
+                }
+                
+                // 2. Check if the coupon is valid or not (Maybe expired, or simple it does not exist).
+                $.ajax({
+                    type: "GET",
+                    url: "verify_coupon.php",
+                    data: {
+                        coupon: coupon_string
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == "success") {
+                            if (response.is_valid) {
+                                $('p#coupon_error').html('Coupon is valid');
+                                $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-success');
+                                var discount_percentage = parseFloat(response.discount_percentage);
+                                let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
+                                $('#checkout-total').html(final_value);
+                                $('input[name=up_to_date_total_amount]').val(final_value);
+                            } else {
+                                // Its not valid.
+                                $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-danger');
+                                $('p#coupon_error').html('Coupon is not valid');
+                            }
+                        }
+                    }
+                });
             }
         </script>
 
