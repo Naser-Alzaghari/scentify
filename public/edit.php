@@ -35,7 +35,7 @@ $userInfo = $user->getUserInfo($user_id);
   <div class="container my-5">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <form method="POST" action="update.php">
+        <form method="POST" action="update.php" id="update_form">
           <div class="card-body">
             <h5 class="card-title">User Profile</h5>
             <div class="row">
@@ -63,7 +63,6 @@ $userInfo = $user->getUserInfo($user_id);
                 <label for="password" class="form-label">Password:</label>
                   <input type="password" class="form-control" id="password" name="password"
                       placeholder="Password *" required oninput="checkPasswordRequirements()" onfocus="showPasswordMessage()" onblur="hidePasswordMessage()" />
-              
             </div>
             <div class="text-end mt-3">
               <button type="submit" class="btn btn-primary" name="update" id="submit_button">Update</button>
@@ -121,5 +120,34 @@ $userInfo = $user->getUserInfo($user_id);
   
 }
   </script>
+
+
+<script>
+  p1 = document
+  document.getElementById("update_form").addEventListener("submit", (e)=>{
+        if(!p1.value.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$")){
+            password_requirement_msg.classList.remove('d-none');
+            password_doesnot_match_msg.classList.add('d-none');
+            e.preventDefault();
+        }
+      });
+    // const p1 = document.getElementById("input_password");
+    // const p2 = document.getElementById("input_password_confirmation");
+    // const password_doesnot_match_msg = document.getElementById("password_doesnot_match");
+    // const password_requirement_msg = document.getElementById("password_requirement");
+    // document.querySelector("form[action='signup.php']").addEventListener("submit", (e)=>{
+    //     if(!p1.value.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$")){
+    //         password_requirement_msg.classList.remove('d-none');
+    //         password_doesnot_match_msg.classList.add('d-none');
+    //         e.preventDefault();
+    //     } else {
+    //         if(p1.value != p2.value){
+    //             password_requirement_msg.classList.add('d-none');
+    //             password_doesnot_match_msg.classList.remove('d-none');
+    //             e.preventDefault();
+    //         }
+    //     }
+    // });
+    </script>
 </body>
 </html>

@@ -66,7 +66,7 @@ if (!$product) {
                             <div class="d-flex">
                                 <input type="hidden" name="add_item_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
                                 
-                                <div class="d-inline-flex quantity text-center border border-black rounded mt-3 me-3" style="width: fit-content;">
+                                <div class="d-inline-flex quantity text-center border border-black rounded me-3" style="width: fit-content;">
                                     <input class="" id="min_quantity" type="button" value="-" disabled>
                                     <input type="num" class="p-2 text-center" name="quantity" id="quantity_num" value="1" style="width:50px" readonly>
                                     <input type="button" value="+" id="add_quantity" onclick="addbutton(<?=$product['stock_quantity']?>)">

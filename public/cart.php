@@ -148,11 +148,14 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                 const newQuantity = input.value;
                 const unitPrice = parseFloat(input.dataset.unitPrice);
                 const orderItemId = input.dataset.orderItemId;
+                
+                 
 
                 const totalPriceElement = input.closest('.row').querySelector('.total-price');
+                
                 const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
                 totalPriceElement.textContent = `$${newTotalPrice}`;
-
+                console.log(newTotalPrice);
                 fetch('update_quantity.php', {
                     method: 'POST',
                     headers: {
@@ -164,6 +167,8 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                 .then(data => {
                     if (data.success) {
                         document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
+                        console.log(data.newTotalCartAmount);
+                        
                     } else {
                         alert('Failed to update quantity');
                     }
