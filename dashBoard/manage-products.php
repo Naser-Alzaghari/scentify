@@ -298,8 +298,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"> </script>
+<<<<<<< HEAD
                 <script src = "./Search.js" > </script>
                
+=======
+                <script script src = "./Search.js" >
+                </script>
+                
+>>>>>>> c520d278fc1dc6a2ce8c2b1354f9c90458b86d99
                 <script>
                 function clearForm() {
                     document.getElementById('productForm').reset();

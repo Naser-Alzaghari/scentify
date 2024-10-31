@@ -107,7 +107,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                             <h6 class="mb-0"><?php echo $item['product_description'] ?></h6>
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                            <input style ="color : black ;" min="1" name="quantity" value="<?php echo $item['total_quantity'] ?>" type="number"
+                                                            <input min="1" name="quantity" value="<?php echo $item['total_quantity'] ?>" type="number"
                                                                    class="form-control form-control-sm quantity" 
                                                                    data-unit-price="<?php echo $item['total_price'] / $item['total_quantity']; ?>"
                                                                    data-order-item-id="<?php echo $item['order_item_id']; ?>"
@@ -140,7 +140,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                     <h5 id="cart-total"><?php echo  "$" .$totalAmount; ?></h5>
                                                 </div>
                                                 <!-- button procced -->
-                                                <button style="border-radius: 0.75em;" class="btn btn-dark btn-block btn-lg" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed</button>
+                                                <button  class="btn btn-primary1 btn-block btn-lg w-100 rounded" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed</button>
                                                 </div>
                                         </div>
                                     </div>
@@ -189,8 +189,8 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
                     <div class="mb-4">
                         <p id="coupon_error"></p>
-                        <input type="text" class="form-control" id="coupon" name="coupon" placeholder="Coupon" style="border-bottom-left-radius:0; border-bottom-right-radius: 0;">
-                        <button type="button" class="form-control btn btn-info" style="border-top-left-radius:0; border-top-right-radius: 0;" onclick="checkCoupon();">Add coupon</button>
+                        <input type="text" class="form-control mb-2" id="coupon" name="coupon" placeholder="Coupon" style="border-bottom-left-radius:0; border-bottom-right-radius: 0;">
+                        <button type="button" class="btn btn-primary1 rounded" style="" onclick="checkCoupon();">Add coupon</button>
                     </div>
                     <input type="hidden" name="up_to_date_total_amount" value="<?= $totalAmount; ?>">
 
@@ -198,8 +198,8 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                     <p>Total Amount: <span id="checkout-total">$<?php echo $totalAmount; ?></span></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-info">Checkout</button>
+                    <button type="button" class="btn" style="background-color: darkgrey; color: white;" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary1">Checkout</button>
                 </div>
             </form>
         </div>
@@ -225,11 +225,12 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                 const orderItemId = input.dataset.orderItemId;
                 const order_id = input.dataset.orderId;   //order id             
 
+                // Calculate new total price for this item
                 const totalPriceElement = input.closest('.row').querySelector('.total-price');
-                
                 const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
                 totalPriceElement.textContent = `$${newTotalPrice}`;
-                console.log(newTotalPrice);
+
+                // Send AJAX request to update quantity in the database
                 fetch('update_quantity.php', {
                     method: 'POST',
                     headers: {
