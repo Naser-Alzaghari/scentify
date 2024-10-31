@@ -38,7 +38,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $totalAmount = array_sum(array_column($results, 'total_price'));
 
 
-
+// model update
 $query_user = "SELECT   `first_name`,`last_name`,`email`,`phone_number`,`address`  FROM `users` WHERE `user_id`=:user_id ;";
 $stmt_user = $conn->prepare($query_user);
 $stmt_user->bindParam('user_id', $user_id);
@@ -138,6 +138,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                     <h5 class="text-uppercase">Items <?php echo count($results); ?></h5>
                                                     <h5 id="cart-total"><?php echo  "$" .$totalAmount; ?></h5>
                                                 </div>
+                                                <!-- button procced -->
                                                 <button style="border-radius: 0.75em;" class="btn btn-dark btn-block btn-lg" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed</button>
                                                 </div>
                                         </div>
@@ -159,6 +160,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
             <div class="modal-header">
                 <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- modal part -->
             </div>
             <form action="checkout.php" method="POST">
                 <div class="modal-body">
@@ -214,12 +216,13 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         
         <script>
+            // script name
             var total_amount_global = <?= $totalAmount ?>;
             function updateQuantity(input) {
                 const newQuantity = input.value;
                 const unitPrice = parseFloat(input.dataset.unitPrice);
                 const orderItemId = input.dataset.orderItemId;
-                const order_id = input.dataset.orderId;                
+                const order_id = input.dataset.orderId;   //order id             
 
                 const totalPriceElement = input.closest('.row').querySelector('.total-price');
                 
@@ -249,6 +252,8 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
             }
 
             function checkCoupon() {
+                // check coupon
+                const lorem="dump";
                 // 1. Check the format of the coupon
                 const coupon_string = $("input[name=coupon]").val();
                 const regex = /^\d{2}[A-Z]{4}$/;
