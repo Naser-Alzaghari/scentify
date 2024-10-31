@@ -1,13 +1,5 @@
 <?php
-session_start();
-// تضمين ملفات الاتصال بقاعدة البيانات والفئات الضرورية
-require_once 'config.php';
-require_once 'Product.php';
-
-
-$database = new Database();
-$pdo = $database->getConnection();
-
+require 'Product.php';
 
 $productManager = new Product($pdo);
 
@@ -286,17 +278,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
                 </div>
 
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"> </script>
-                <script script src = "./Search.js" >
-                </script>
-                
-                <script>
-                function clearForm() {
-                    document.getElementById('productForm').reset();
-                    document.getElementById('action').value = 'add';
-                }
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js">
+                    </script>
+                    <script>
+                    function clearForm() {
+                        document.getElementById('productForm').reset();
+                        document.getElementById('action').value = 'add';
+                    }
 
                 function editProduct(id, name, description, price, stock, category, image) {
                     document.getElementById('productId').value = id;

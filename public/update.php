@@ -1,5 +1,6 @@
 <?php
 include "./includes/include.php";
+include ('Database.php');
 include ('User.php');
 
 session_start();

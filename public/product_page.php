@@ -96,7 +96,6 @@ $related_products = $related_query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Related items section -->
-
     <div class="container mt-5">
         <h2 class="fw-bolder mb-4">Related products</h2>
         <div class="row justify-content-center">
@@ -107,7 +106,6 @@ $related_products = $related_query->fetchAll(PDO::FETCH_ASSOC);
             
         </div>
     </div>
-
 
         
         <?php include "insert_data_form.php"; include "footer.html"; ?>
