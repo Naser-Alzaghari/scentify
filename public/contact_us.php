@@ -28,6 +28,7 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/style.css" rel="stylesheet" />
 
 </head>
 
@@ -45,7 +46,7 @@
                         <div class="d-flex align-items-center flex-column">
                             <h1 class="fs-4 fs-lg-8 fs-md-6 fw-bold mb-5">Contact us</h1>
                         </div>
-                        <div class="bg-300 card p-3 border border-3 border-dark">
+                        <div class="card p-3 border border-3 border-primary1 bg-primary1" >
                             <form id="contact_us" method="POST" action="send_email.php">
                                 <div class="row">
                                     <div class="mb-3 col-md-4">
@@ -71,7 +72,7 @@
                                 </div>
                                 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-dark">Send</button>
+                                    <button type="submit" class="btn btn-primary1">Send</button>
                                 </div>
                             </form>
                             <p class="text-success d-none" id="message_sent">message sent successfully</p>

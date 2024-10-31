@@ -29,16 +29,17 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/style.css" rel="stylesheet" />
 
 </head>
 
 <body>
     <main class="main" id="top">
         <?php include "nav_bar.php"; ?>
-        <section class="py-9 bg-light-gradient border-white border-5">
-            <div class="bg-holder overlay overlay-light"
-                style="background-image:url(assets/img/gallery/header-bg.png);background-size:cover;">
-            </div>
+        <section class="pt-9 border-white border-5">
+        <div class='bg-holder overlay overlay-light'
+            style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:contain;'>
+        </div>
             <!--/.bg-holder-->
 
             <div class="container">
@@ -48,7 +49,7 @@
                             <h1 class="fs-4 fs-lg-8 fs-md-6 fw-bold mb-5">About Scentify</h1>
                             <div class="row g-0 mb-5">
                                 <div class="col-md-6">
-                                    <div class="h-100 p-3 bg-300">
+                                    <div class="h-100 p-3 bg-primary1" >
                                         <h4>Welcome to Scentify</h4>
                                         <p class="mb-3 fs-1">where we believe that every scent tells a story.</p>
                                         <p class="mb-3 fs-1">Founded with a passion for luxury fragrances, Scentify
@@ -79,7 +80,7 @@
                         <!-- end of card -->
                         <div class="col-md-12 mb-5">
                             <div class="">
-                                <div class="card bg-300 p-3">
+                                <div class="card p-3 bg-primary1">
                                     <h4>Why Scentify?</h4>
                                     <ul class="mb-0 fs-1">
                                         <li>Expertly Curated: A selection of only the finest perfumes from trusted,
@@ -97,7 +98,7 @@
                         <!-- end of card -->
                         <div class="row g-3 mb-6">
                             <div class="col-md-6">
-                                <div class="card h-100 bg-300 p-3">
+                                <div class="card h-100 bg-primary1 p-3">
                                     <h4>Our Promise</h4>
                                     <p class="mb-0 fs-1">We are committed to offering high-quality, authentic perfumes
                                         that inspire confidence and elevate your senses. From premium niche brands to
@@ -106,7 +107,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="card h-100 bg-300 p-3">
+                                <div class="card h-100 bg-primary1 p-3">
                                     <h4>Our Vision</h4>
                                     <p class="mb-0 fs-1">
                                         To become your go-to destination for discovering and experiencing luxurious
@@ -120,7 +121,7 @@
         <h1 class="mb-3">Our Team</h1>
           <!-- First Card -->
           <div class="col-md-4 mb-4">
-            <div class="bg-300 card h-100">
+            <div class="bg-primary1 card h-100">
               <div class="card-body">
                 <h5 class="card-title">Mohammed Alqadome</h5>
                 <p class="card-text">Computer Science<br><span>Full Stack</span></p>
@@ -134,7 +135,7 @@
     
           <!-- Second Card -->
           <div class="col-md-4 mb-4">
-            <div class="bg-300 card h-100">
+            <div class="bg-primary1 card h-100">
               <div class="card-body">
                 <h5 class="card-title">Anas Esbitan</h5>
                 <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
@@ -148,7 +149,7 @@
     
           <!-- Third Card -->
           <div class="col-md-4 mb-4">
-            <div class="bg-300 card h-100">
+            <div class="bg-primary1 card h-100">
               <div class="card-body">
                 <h5 class="card-title">Rand</h5>
                 <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
@@ -162,7 +163,7 @@
     
           <!-- Additional Cards -->
           <div class="col-md-4 mb-4">
-            <div class="bg-300 card h-100">
+            <div class="bg-primary1 card h-100">
               <div class="card-body">
                 <h5 class="card-title">Naser Alzaghari</h5>
                 <p class="card-text">Computer Science<br><span>Full Stack</span></p>
@@ -175,7 +176,7 @@
           </div>
     
           <div class="col-md-4 mb-4">
-            <div class="bg-300 card h-100">
+            <div class="bg-primary1 card h-100">
               <div class="card-body">
                 <h5 class="card-title">Razan Alhroub</h5>
                 <p class="card-text">Software Engineer<br><span>Full Stack</span></p>

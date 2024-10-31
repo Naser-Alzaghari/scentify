@@ -1,4 +1,5 @@
 <?php
+session_start();
 // تضمين الملفات الضرورية
 include_once 'config.php';
 include_once 'Category.php';
