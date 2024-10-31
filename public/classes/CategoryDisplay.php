@@ -2,7 +2,7 @@
     class CategoryDisplay extends Database {
 
         public function render() {
-            $sql = "SELECT * FROM categories";
+            $sql = "SELECT * FROM categories WHERE is_deleted != 1";
             $categories = $this->getConnection()->query($sql);
             echo "<div class='container' id='Categoreys'><div class='row h-100 g-3'>
             <h1>Catigorys</h1>";

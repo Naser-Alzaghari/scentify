@@ -44,7 +44,7 @@
                 <div class="row flex-center">
                     <div class="col-12">
                         <div class="d-flex align-items-center flex-column">
-                            <h1 class="fs-4 fs-lg-8 fs-md-6 fw-bold mb-5">Contact us</h1>
+                            <h1 class="fw-normal text-center mb-4">Contact us</h1>
                         </div>
                         <div class="card p-3 border border-3 border-primary1 bg-primary1" >
                             <form id="contact_us" method="POST" action="send_email.php">

@@ -17,6 +17,7 @@ if (isset($_POST['order_id'])) {
     } else {
         echo json_encode(['status' => 'error']);
     }
+    
 } else {
     // Handle case where 'order_id' is not set
     echo json_encode(['status' => 'error', 'message' => 'Order ID is missing']);
