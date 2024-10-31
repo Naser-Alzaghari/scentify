@@ -12,7 +12,7 @@ $orderManager = new OrderManager($pdo);
 
 // Get the current page from the URL, default is the first page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 4; 
+$limit = 10; 
 $offset = ($page - 1) * $limit;
 
 $totalOrders = $orderManager->getOrderCount(); 

@@ -96,7 +96,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                 <div class="d-flex justify-content-between align-items-center mb-5">
                                                     <h1 class="fw-bold mb-0">Shopping Cart</h1>
                                                 </div>
-
+                                                <?php if($results != []): ?>
                                                 <hr class="my-4">
                                                 <?php foreach ($results as $item): ?>
                                                     <div class="row mb-4 d-flex justify-content-between align-items-center" data-order-item-id="<?php echo $item['order_item_id']; ?>">
@@ -128,7 +128,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                         </div>  
                                                     </div>
                                                     <hr class="my-4">
-                                                <?php endforeach; ?>
+                                                <?php endforeach;?>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 bg-body-tertiary">
@@ -143,6 +143,9 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                 <button  class="btn btn-primary1 btn-block btn-lg w-100 rounded" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed</button>
                                                 </div>
                                         </div>
+                                        <?php else: ?>
+                                                    <h1 class="">Cart is empty</h1>
+                                                    <?php endif; ?>
                                     </div>
                                 </div>
                             </div>

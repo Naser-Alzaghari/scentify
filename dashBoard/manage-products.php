@@ -12,7 +12,7 @@ $productManager = new Product($pdo);
 
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 4; // عدد المنتجات في كل صفحة
+$limit = 10; // عدد المنتجات في كل صفحة
 $offset = ($page - 1) * $limit;
 
 $totalProducts = $productManager->getProductsCount();
@@ -179,7 +179,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                     <tr>
                                         <td><?php echo $index + 1; ?></td>
                                         <td><?php echo $product['product_name']; ?></td>
-                                        <td><?php echo $product['product_description']; ?></td>
+                                        <td style="text-decoration: none;"><?php echo $product['product_description']; ?></td>
                                         <td><?php echo $product['price']; ?></td>
                                         <td><?php echo $product['stock_quantity']; ?></td>
                                         <td><?php echo isset($categoryNames[$product['category_id']]) ? $categoryNames[$product['category_id']] : 'N/A'; ?>
