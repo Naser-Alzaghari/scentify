@@ -11,7 +11,7 @@ $new_quantity = $input['quantity'];
 try {
     $conn->beginTransaction();
 
-    // Update quantity in order_items
+    // Update quantity in `order_items`
     $updateQuery = "UPDATE order_items SET quantity = :quantity WHERE order_item_id = :order_item_id";
     $stmt = $conn->prepare($updateQuery);
     $stmt->execute(['quantity' => $new_quantity, 'order_item_id' => $order_item_id]);

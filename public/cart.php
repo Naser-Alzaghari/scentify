@@ -93,7 +93,7 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                                                             <h6 class="mb-0"><?php echo $item['product_description'] ?></h6>
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                            <input style ="color : black ;" min="1" name="quantity" value="<?php echo $item['total_quantity'] ?>" type="number"
+                                                            <input min="1" name="quantity" value="<?php echo $item['total_quantity'] ?>" type="number"
                                                                    class="form-control form-control-sm quantity" 
                                                                    data-unit-price="<?php echo $item['total_price'] / $item['total_quantity']; ?>"
                                                                    data-order-item-id="<?php echo $item['order_item_id']; ?>"
@@ -143,20 +143,19 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
         <script src="vendors/feather-icons/feather.min.js"></script>
         <script src="assets/js/theme.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
-        
+        <script src="/scentify/public/cart.js"></script>
         <script>
             function updateQuantity(input) {
                 const newQuantity = input.value;
                 const unitPrice = parseFloat(input.dataset.unitPrice);
                 const orderItemId = input.dataset.orderItemId;
-                
-                 
 
+                // Calculate new total price for this item
                 const totalPriceElement = input.closest('.row').querySelector('.total-price');
-                
                 const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
                 totalPriceElement.textContent = `$${newTotalPrice}`;
-                console.log(newTotalPrice);
+
+                // Send AJAX request to update quantity in the database
                 fetch('update_quantity.php', {
                     method: 'POST',
                     headers: {
@@ -167,9 +166,8 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        // Update the cart summary total
                         document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
-                        console.log(data.newTotalCartAmount);
-                        
                     } else {
                         alert('Failed to update quantity');
                     }
