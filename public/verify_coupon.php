@@ -25,8 +25,8 @@ if ( $stmt->rowCount() > 0 ) {
         $response_array['status'] = "success";
         $response_array['is_valid'] = 0;
     }
-    
-
+    // verify page
+    $lorem="dump";
 } else {
     // It does not exist.
     $response_array['status'] = "success";
