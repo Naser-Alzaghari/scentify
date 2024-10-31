@@ -3,6 +3,7 @@ include "./includes/include.php";
 include "conn.php";
 // Start the session to use session variables
 
+
 class HTMLDocument {
     private $title;
     private $stylesheets = [];
@@ -44,6 +45,11 @@ class HTMLDocument {
     <meta name="msapplication-TileImage" content="assets/img/gallery/title_logo.png">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="./assets/css/style.css">
+
+    <style>
+
+        
+    </style>
 </head>
 <body>
     <?php
@@ -57,7 +63,7 @@ class HTMLDocument {
     $alert = new Alert();
     $alert->showAlert();
     ?>
-    <main class="main" id="top">
+    <main class="main mb-6" id="top">
     <section class='py-11 bg-light-gradient border-bottom border-white border-5'>
         <div class='bg-holder overlay overlay-light'
             style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
@@ -67,7 +73,7 @@ class HTMLDocument {
             <div class='row flex-center'>
                 <div class='col-12 mb-10'>
                     <div class='d-flex align-items-center flex-column'>
-                        <h1 class='fw-normal'>Elevate Your Aura with Premium Perfumes</h1>
+                        <h1 class='fw-normal text-center'>Elevate Your Aura with Premium Perfumes</h1>
                         <h1 class='fs-4 fs-lg-8 fs-md-6 fw-bold'>Fragrances That Define You</h1>
                     </div>
                 </div>
@@ -79,20 +85,20 @@ class HTMLDocument {
         <div class="container mb-6">
             <div class="row g-4">
                 <div class="col-md-6">
-                    <div class="card card-span h-100 text-white rounded category"> 
+                    <a class="card card-span h-100 text-white rounded category border-primary1" href="productDisplay_page.php?category_name=Women"> 
                         <img class="img-fluid rounded" src="assets/img/gallery/women.png" width="590" alt="..." style="aspect-ratio: 1 / 1;" />
                         <div class="card-img-overlay d-flex flex-center"> 
-                            <a class="btn btn-lg btn-light" href="productDisplay_page.php?category_name=Women">For Her</a>
+                            <span class="btn btn-lg btn-light">For Her</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-6">
-                    <div class="card card-span h-100 text-white rounded category"> 
+                    <a class="card card-span h-100 text-white rounded category border-primary1" href="productDisplay_page.php?category_name=Men"> 
                         <img class="img-fluid rounded" src="assets/img/gallery/men.png" width="590" alt="..." />
                         <div class="card-img-overlay d-flex flex-center"> 
-                            <a class="btn btn-lg btn-light" href="productDisplay_page.php?category_name=Men">For Him</a>
+                            <span class="btn btn-lg btn-light">For Him</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -113,7 +119,7 @@ $products = $conn->query("SELECT * FROM products LIMIT 6" )->fetchAll();
     <?php
     // Display the top selling products
     $productDisplay = new ProductDisplay();
-    $productDisplay->render("SELECT * FROM products LIMIT 6");
+    $productDisplay->render("SELECT * FROM products LIMIT 8");
 
     // Display the categories
     $categoryDisplay = new CategoryDisplay();

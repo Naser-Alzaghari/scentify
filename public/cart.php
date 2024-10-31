@@ -8,7 +8,8 @@ $query = "SELECT
     oi.quantity AS total_quantity,
     (oi.quantity * p.price) AS total_price,
     oi.product_id,
-    oi.order_item_id
+    oi.order_item_id,
+    o.order_id
 FROM 
     orders o
 JOIN 
@@ -31,7 +32,20 @@ $stmt->execute(['user_id' => $user_id]);
 
 // Fetch the results if needed
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
 $totalAmount = array_sum(array_column($results, 'total_price'));
+
+
+// model update
+$query_user = "SELECT   `first_name`,`last_name`,`email`,`phone_number`,`address`  FROM `users` WHERE `user_id`=:user_id ;";
+$stmt_user = $conn->prepare($query_user);
+$stmt_user->bindParam('user_id', $user_id);
+$stmt_user->execute();
+$user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
+
+
 
 ?>
 
@@ -43,6 +57,7 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cart</title>
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -68,7 +83,7 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
     <main class="main" id="top">
         <section class="pt-9 pb-4 bg-light-gradient border-bottom border-white border-5">
         <div class='bg-holder overlay overlay-light'
-            style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
+        style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
         </div>
             <div class="container">
                     <div class="row d-flex justify-content-center align-items-center">
@@ -86,16 +101,17 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                                                 <?php foreach ($results as $item): ?>
                                                     <div class="row mb-4 d-flex justify-content-between align-items-center" data-order-item-id="<?php echo $item['order_item_id']; ?>">
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
-                                                            <img src="/scentify/public/assets/img/gallery/<?php echo ($item['product_image']); ?>" class="img-fluid rounded-3" alt="<?php echo ($item['product_description']) ?>" > 
+                                                            <img src="./assets/img/gallery/<?php echo ($item['product_image']); ?>" class="img-fluid rounded-3" alt="<?php echo ($item['product_description']) ?>" > 
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-3">
                                                             <h6 class="mb-0"><?php echo $item['product_description'] ?></h6>
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                            <input style ="color : black ;" min="1" name="quantity" value="<?php echo $item['total_quantity'] ?>" type="number"
+                                                            <input min="1" name="quantity" value="<?php echo $item['total_quantity'] ?>" type="number"
                                                                    class="form-control form-control-sm quantity" 
                                                                    data-unit-price="<?php echo $item['total_price'] / $item['total_quantity']; ?>"
                                                                    data-order-item-id="<?php echo $item['order_item_id']; ?>"
+                                                                   data-order-id="<?=$item['order_id']?>"
                                                                    onchange="updateQuantity(this)" />
                                                         </div>
                                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
@@ -121,10 +137,11 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                                                 <hr class="my-4">
                                                 <div class="d-flex justify-content-between mb-4">
                                                     <h5 class="text-uppercase">Items <?php echo count($results); ?></h5>
-                                                    <h5 id="cart-total">$<?php echo $totalAmount; ?></h5>
+                                                    <h5 id="cart-total"><?php echo  "$" .$totalAmount; ?></h5>
                                                 </div>
-                                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark">Checkout</button>
-                                            </div>
+                                                <!-- button procced -->
+                                                <button  class="btn btn-primary1 btn-block btn-lg w-100 rounded" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed</button>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -133,8 +150,62 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                     </div>
                 </div>
             <section class="py-5"></section>
+
         </main>
         
+                <!-- Checkout Modal -->
+        <!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- modal part -->
+            </div>
+            <form action="checkout.php" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="order_id" value="<?=$results [0]['order_id']?>" >
+                    
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo $user_checkout['first_name'] ." ".$user_checkout['last_name'] ; ?>" required readonly>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo $user_checkout['email']  ?>" required readonly>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="address" placeholder="Address" value="<?php echo $user_checkout['address']  ?>" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="phone" placeholder="Phone number" value="<?php echo $user_checkout['phone_number']  ?>"readonly required>
+                    </div>
+
+                    <div class="mb-4">
+                        <textarea class="form-control" name="comments" placeholder="Order comments" rows="4"></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <p id="coupon_error"></p>
+                        <input type="text" class="form-control mb-2" id="coupon" name="coupon" placeholder="Coupon" style="border-bottom-left-radius:0; border-bottom-right-radius: 0;">
+                        <button type="button" class="btn btn-primary1 rounded" style="" onclick="checkCoupon();">Add coupon</button>
+                    </div>
+                    <input type="hidden" name="up_to_date_total_amount" value="<?= $totalAmount; ?>">
+
+                    <hr class="mb-4">
+                    <p>Total Amount: <span id="checkout-total">$<?php echo $totalAmount; ?></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="background-color: darkgrey; color: white;" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary1">Checkout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
         <script src="vendors/@popperjs/popper.min.js"></script>
         <script src="vendors/bootstrap/bootstrap.min.js"></script>
         <script src="vendors/is/is.min.js"></script>
@@ -142,38 +213,85 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
         <script src="vendors/feather-icons/feather.min.js"></script>
         <script src="assets/js/theme.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         
         <script>
+            // script name
+            var total_amount_global = <?= $totalAmount ?>;
             function updateQuantity(input) {
                 const newQuantity = input.value;
                 const unitPrice = parseFloat(input.dataset.unitPrice);
                 const orderItemId = input.dataset.orderItemId;
-                
-                 
+                const order_id = input.dataset.orderId;   //order id             
 
+                // Calculate new total price for this item
                 const totalPriceElement = input.closest('.row').querySelector('.total-price');
-                
                 const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
                 totalPriceElement.textContent = `$${newTotalPrice}`;
-                console.log(newTotalPrice);
+
+                // Send AJAX request to update quantity in the database
                 fetch('update_quantity.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ order_item_id: orderItemId, quantity: newQuantity })
+                    body: JSON.stringify({ order_item_id: orderItemId, quantity: newQuantity, order_id: order_id })
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
+                        document.getElementById('cart-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
+                        document.getElementById('checkout-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         console.log(data.newTotalCartAmount);
+                        total_amount_global = data.newTotalCartAmount
                         
                     } else {
                         alert('Failed to update quantity');
                     }
                 })
                 .catch(error => console.error('Error:', error));
+            }
+
+            function checkCoupon() {
+                // check coupon
+                const lorem="dump";
+                // 1. Check the format of the coupon
+                const coupon_string = $("input[name=coupon]").val();
+                const regex = /^\d{2}[A-Z]{4}$/;
+                if (!regex.test(coupon_string)) {
+                    $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-danger');
+                    $('p#coupon_error').html('Invalid coupon format');
+                    return;
+                } else {
+                    $('p#coupon_error').html('');
+                }
+                
+                // 2. Check if the coupon is valid or not (Maybe expired, or simple it does not exist).
+                $.ajax({
+                    type: "GET",
+                    url: "verify_coupon.php",
+                    data: {
+                        coupon: coupon_string
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == "success") {
+                            if (response.is_valid) {
+                                $('p#coupon_error').html('Coupon is valid');
+                                $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-success');
+                                var discount_percentage = parseFloat(response.discount_percentage);
+                                let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
+                                $('#checkout-total').html(final_value);
+                                $('input[name=up_to_date_total_amount]').val(final_value);
+                            } else {
+                                // Its not valid.
+                                $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-danger');
+                                $('p#coupon_error').html('Coupon is not valid');
+                            }
+                        }
+                    }
+                });
             }
         </script>
 

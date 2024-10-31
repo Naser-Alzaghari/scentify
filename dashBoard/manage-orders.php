@@ -1,5 +1,6 @@
 <?php
-
+session_start();
+// تضمين الملفات الضرورية
 require_once 'config.php';
 require_once 'OrderManager.php';
 
