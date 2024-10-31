@@ -1,24 +1,24 @@
 <?php
-// تضمين ملفات الاتصال بقاعدة البيانات والفئات الضرورية
+
 require_once 'config.php';
 require_once 'Product.php';
 
-// إنشاء كائن الاتصال بقاعدة البيانات باستخدام الفئة الموجودة في config.php
+
 $database = new Database();
 $pdo = $database->getConnection();
 
-// إنشاء كائن Product وتمرير الاتصال بقاعدة البيانات
+
 $productManager = new Product($pdo);
 
-// إعداد pagination
+
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 4; // عدد المنتجات في كل صفحة
 $offset = ($page - 1) * $limit;
 
-$totalProducts = $productManager->getProductsCount(); // إجمالي عدد المنتجات
-$totalPages = ceil($totalProducts / $limit); // إجمالي الصفحات
+$totalProducts = $productManager->getProductsCount();
+$totalPages = ceil($totalProducts / $limit); 
 
-$products = $productManager->getProducts($limit, $offset); // جلب المنتجات حسب الصفحة
+$products = $productManager->getProducts($limit, $offset); 
 $categories = $productManager->getCategories();
 
 // Create a mapping of category IDs to names
@@ -39,69 +39,55 @@ foreach ($categories as $category) {
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="Css.css">
     <style>
-    .search-bar-wrapper {
-        max-width: 400px;
-        /* أقصى عرض لشريط البحث */
-    }
+    /* Sidebar CSS */
+.sidebar-offcanvas {
+    position: fixed !important; 
+    top: 60px;!important;
+    left: 0 !important;
+    width: 250px !important; 
+    height: 100vh !important; 
+    overflow-y: auto !important; 
+    background-color: #f8f9fa; 
+    z-index: 1000;
+}
 
-    .search-bar {
-        background-color: white;
-        width: 250px;
-        /* عرض كامل للعنصر */
-        padding: 10px 20px;
-        /* حشوة داخلية */
-        border: none;
-        /* إزالة الحدود */
-        border-radius: 50px;
-        /* زوايا دائرية */
-        outline: none;
-        /* إزالة الخط الخارجي عند التركيز */
-        font-size: 16px;
-        /* حجم الخط */
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-        /* ظل خفيف */
-        transition: all 0.3s ease;
-        /* تأثيرات انتقالية */
-    }
+/* Main content CSS */
+.content-wrapper {
+    margin-left: 250px;
+    padding: 20px; 
+    transition: margin-left 0.3s ease-in-out; 
+}
 
-    .search-bar:focus {
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-        /* ظل خفيف */
-    }
+/* Styling for pagination */
+.pagination {
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    justify-content: center;
+}
 
-    .pagination {
-        margin-top: 20px;
-        /* إضافة مساحة بين الجدول والـ pagination */
-        margin-bottom: 20px;
-        /* إضافة مساحة في الأسفل إذا لزم الأمر */
-        justify-content: center;
-        /* لتوسيط العناصر داخل الـ pagination */
-    }
+.pagination .page-item .page-link {
+    border: 1px solid #007bff; 
+}
 
-    .pagination .page-item .page-link {
-        border: 1px solid #007bff;
-        /* إضافة حدود للروابط */
-    }
+.pagination .active .page-link {
+    background-color: #007bff; 
+    color: white; 
+}
 
-    .pagination .active .page-link {
-        background-color: #007bff;
-        /* لون خلفية للصفحة النشطة */
-        color: white;
-        /* لون النص للصفحة النشطة */
-    }
+.pagination .disabled .page-link {
+    color: #6c757d;
+}
 
-    .pagination .disabled .page-link {
-        color: #6c757d;
-        /* لون النص للصفحات المعطلة */
-    }
-    .nav .nav-link.active {
-    background-color: #007bff !important; /* لون الخلفية عند التفعيل */
-    color: #ffffff !important; /* لون النص الأبيض */
+/* Navbar active link */
+.nav .nav-link.active {
+    background-color: #007bff !important; 
+    color: #ffffff !important; 
 }
 
 .nav .nav-link.active .menu-title {
-    color: #ffffff !important; /* تأكد من أن النص داخل العنصر يكون لونه أبيض أيضًا */
+    color: #ffffff !important; 
 }
+
     </style>
 </head>
 
@@ -114,46 +100,51 @@ foreach ($categories as $category) {
 // Get the current page name
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-users.php') ? 'active' : ''; ?>" href="manage-users.php">
-                <i class="icon-head menu-icon"></i>
-                <span class="menu-title">Manage Users</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-orders.php') ? 'active' : ''; ?>" href="manage-orders.php">
-                <i class="icon-cart menu-icon"></i>
-                <span class="menu-title">Orders</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-products.php') ? 'active' : ''; ?>" href="manage-products.php">
-                <i class="icon-box menu-icon"></i>
-                <span class="menu-title">Products</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-category.php') ? 'active' : ''; ?>" href="manage-category.php">
-                <i class="icon-tag menu-icon"></i>
-                <span class="menu-title">Category</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-coupons.php') ? 'active' : ''; ?>" href="manage-coupons.php">
-                <i class="icon-tag menu-icon"></i>
-                <span class="menu-title">Coupons</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+ <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
+                        <i class="icon-grid menu-icon"></i>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-users.php') ? 'active' : ''; ?>"
+                        href="manage-users.php">
+                        <i class="icon-head menu-icon"></i>
+                        <span class="menu-title">Manage Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-orders.php') ? 'active' : ''; ?>"
+                        href="manage-orders.php">
+                        <i class="icon-cart menu-icon"></i>
+                        <span class="menu-title">Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-products.php') ? 'active' : ''; ?>"
+                        href="manage-products.php">
+                        <i class="icon-box menu-icon"></i>
+                        <span class="menu-title">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-category.php') ? 'active' : ''; ?>"
+                        href="manage-category.php">
+                        <i class="icon-tag menu-icon"></i>
+                        <span class="menu-title">Category</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-coupons.php') ? 'active' : ''; ?>"
+                        href="manage-coupons.php">
+                        <i class="icon-tag menu-icon"></i>
+                        <span class="menu-title">Coupons</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
         <div class="main-panel">
             <div class="content-wrapper">
@@ -446,7 +437,8 @@ for (let i = 0; i < tables.length; i++) {
             }
         }
     });
-}</script>
+}
+</script>
 
 
 </body>

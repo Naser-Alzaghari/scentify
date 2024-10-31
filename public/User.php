@@ -60,7 +60,7 @@ class User {
 
         // تنفيذ الاستعلام
         if ($stmt->execute()) {
-            return "Your account has been successfully registered. Please log in to continue.";
+            return "<span style='color: green;'>Your account has been successfully registered. Please log in to continue.</span>";
         } else {
             return "Account registration failed.";
         }

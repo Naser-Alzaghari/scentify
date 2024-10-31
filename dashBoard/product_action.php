@@ -1,7 +1,7 @@
 <?php
 require 'Product.php';
 
-// إنشاء كائن الاتصال بقاعدة البيانات
+
 $db = new Database();
 $pdo = $db->getConnection();
 
@@ -11,14 +11,14 @@ $response = ['status' => 'error', 'message' => ''];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $action = isset($_POST['action']) ? $_POST['action'] : '';
 
-    // تحقق من أن المعرف صحيح في حالة الحذف أو التعديل
+
     if (($action == 'delete' || $action == 'edit') && (!isset($_POST['productId']) || !is_numeric($_POST['productId']))) {
         $response['message'] = 'Invalid product ID.';
         echo json_encode($response);
         exit;
     }
 
-    // معالجة الحذف
+
     if ($action == 'delete') {
         $productId = (int)$_POST['productId'];
         $productManager->deleteProduct($productId);
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    // التحقق من وجود القيم الضرورية للإضافة أو التعديل
+  
     $name = isset($_POST['productName']) ? trim($_POST['productName']) : '';
     $description = isset($_POST['productDescription']) ? trim($_POST['productDescription']) : '';
     $price = isset($_POST['productPrice']) ? (float)$_POST['productPrice'] : 0;
@@ -35,14 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category = isset($_POST['productCategory']) ? (int)$_POST['productCategory'] : 0;
     $image = isset($_FILES['productImage']) ? $_FILES['productImage'] : null;
 
-    // التحقق من المدخلات الأساسية
     if (empty($name) || $price <= 0 || $stock < 0 || $category <= 0) {
         $response['message'] = 'Please fill in all required fields correctly.';
         echo json_encode($response);
         exit;
     }
 
-    // تحقق من صحة الصورة إذا تم رفع صورة
     $imagePath = '';
     if ($image && $image['error'] === UPLOAD_ERR_OK) {
         $validationResult = $productManager->validateImage($image);
@@ -66,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // معالجة الإضافة أو التعديل
     if ($action == 'add') {
         $productManager->addProduct($name, $description, $price, $stock, $category, $uniqueImageName);
         $response = ['status' => 'success', 'message' => 'Product added successfully!'];

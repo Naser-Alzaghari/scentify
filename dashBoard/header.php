@@ -1,3 +1,11 @@
+<?php
+require_once 'config.php';
+require_once 'ContactMessage.php';
+
+$dbConnection = (new Database())->getConnection();
+$contactMessage = new ContactMessage($dbConnection);
+$contactMessages = $contactMessage->getAllMessages();
+?>
 <div class="container-scroller">
     <!-- Navbar -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -80,6 +88,8 @@
                 </svg>
                 <!-- SVG content here -->
             </a>
+            </svg>
+            </a>
             <a class="navbar-brand brand-logo-mini" href="index.php">
                 <img src="images/logo-mini.svg" alt="logo" />
             </a>
@@ -87,46 +97,31 @@
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
             <ul class="navbar-nav navbar-nav-right">
                 <li class="nav-item dropdown">
-
+                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
+                        data-toggle="dropdown">
+                        <i class="fas fa-bell mx-0"></i>
+                        <span class="count"><?= count($contactMessages); ?></span>
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
                         aria-labelledby="notificationDropdown">
-                        <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                        <p class="mb-0 font-weight-normal float-left dropdown-header">Contact Messages</p>
+                        <?php foreach ($contactMessages as $message): ?>
                         <a class="dropdown-item preview-item">
                             <div class="preview-thumbnail">
                                 <div class="preview-icon bg-success">
-                                    <i class="ti-info-alt mx-0"></i>
+                                    <i class="fas fa-envelope mx-0"></i>
                                 </div>
                             </div>
                             <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">Just now</p>
+                                <h6 class="preview-subject font-weight-normal">
+                                    <?= htmlspecialchars($message['full_name']); ?></h6>
+                                <p class="font-weight-light small-text mb-0 text-muted">
+                                    <?= htmlspecialchars($message['message']); ?></p>
+                                <p class="font-weight-light small-text mb-0 text-muted"><?= $message['created_at']; ?>
+                                </p>
                             </div>
                         </a>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <a href="./profile.php">
-                                    <div class="preview-icon bg-warning">
-                                        <i class="ti-settings mx-0"></i>
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">Settings</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">Private message</p>
-                            </div>
-                        </a>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon bg-info">
-                                    <i class="ti-user mx-0"></i>
-                                </div>
-                            </div>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">2 days ago</p>
-                            </div>
-                        </a>
+                        <?php endforeach; ?>
                     </div>
                 </li>
                 <li class="nav-item nav-profile dropdown">
@@ -141,7 +136,6 @@
                             <i class="ti-power-off text-primary"></i> Logout
                         </a>
                     </div>
-
                 </li>
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"

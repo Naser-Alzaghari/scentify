@@ -21,7 +21,7 @@ class Product {
     }
 
     public function updateProduct($id, $name, $description, $price, $stock, $category, $image) {
-        // التحقق من وجود المنتج قبل التحديث
+       
         if (!$this->productExists($id)) {
             throw new Exception("Product not found.");
         }
@@ -40,7 +40,7 @@ class Product {
     }
 
     public function deleteProduct($id) {
-        // التحقق من وجود المنتج قبل الحذف
+
         if (!$this->productExists($id)) {
             throw new Exception("Product not found.");
         }
