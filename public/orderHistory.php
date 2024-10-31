@@ -8,5 +8,4 @@ $orders = [
     ['id' => '003', 'name' => 'Perfume DEF', 'quantity' => 4, 'cost' => '523.13', 'date' => '06/20/2021', 'status' => 'Approved', 'image' => 'https://bootdey.com/img/Content/user_2.jpg']
 ];
 ?>
-</body>
-</html>
+
