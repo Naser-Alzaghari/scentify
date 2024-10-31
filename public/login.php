@@ -23,16 +23,21 @@ if (isset($_POST['login'])) {
         
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+            if ($row['role'] !== 'user') {
+                $_SESSION['error'] = "User not found.";
+                header("Location: LoginPage.php");
+                exit();
+            }
             // هون كانت  عندي المشكله
-            $_SESSION['user_id'] = $row["user_id"]; 
+            $_SESSION['user_id'] = $row["user_id"];
+             
             if(isset($_SESSION['product_id'])){
                 $product_id = $_SESSION['product_id'];
                 unset($_SESSION['product_id']);
                 header("Location: product_page.php?product_id=$product_id");
                 exit();
             }
-
+            
             header("Location: index.php");
             exit();
         } else {
