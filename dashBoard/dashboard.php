@@ -1,7 +1,10 @@
 <?php
 // dashboard.php
 
-require_once 'config.php'; // Include your PDO connection settings
+require_once 'config.php'; 
+
+$database = new Database();
+$pdo = $database->getConnection();
 
 class Dashboard
 {

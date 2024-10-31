@@ -1,10 +1,26 @@
 <?php
-require 'config.php';
-require 'OrderManager.php';
+
+require_once 'config.php';
+require_once 'OrderManager.php';
+
+
+$database = new Database();
+$pdo = $database->getConnection();
+
 
 $orderManager = new OrderManager($pdo);
-$orders = $orderManager->getOrders();
+
+// Get the current page from the URL, default is the first page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 4; 
+$offset = ($page - 1) * $limit;
+
+$totalOrders = $orderManager->getOrderCount(); 
+$totalPages = ceil($totalOrders / $limit); 
+
+$orders = $orderManager->getOrders($limit, $offset); 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,66 +53,107 @@ $orders = $orderManager->getOrders();
         background-color: orange;
         color: white;
     }
-    .search-bar-wrapper {
-    max-width: 400px; /* أقصى عرض لشريط البحث */
+
+    /* Sidebar CSS */
+.sidebar-offcanvas {
+    position: fixed !important; 
+    top: 60px;!important;
+    left: 0 !important;
+    width: 250px !important; 
+    height: 100vh !important; 
+    overflow-y: auto !important;
+    background-color: #f8f9fa;
+    z-index: 1000; 
 }
 
-.search-bar {
-    background-color: white;
-    width: 250px; /* عرض كامل للعنصر */
-    padding: 10px 20px; /* حشوة داخلية */
-    border: none; /* إزالة الحدود */
-    border-radius: 50px; /* زوايا دائرية */
-    outline: none; /* إزالة الخط الخارجي عند التركيز */
-    font-size: 16px; /* حجم الخط */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* ظل خفيف */
-    transition: all 0.3s ease; /* تأثيرات انتقالية */
+/* Main content CSS */
+.content-wrapper {
+    margin-left: 250px; 
+    padding: 20px; 
+    transition: margin-left 0.3s ease-in-out; 
 }
 
-.search-bar:focus {
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* ظل خفيف */
+/* Styling for pagination */
+.pagination {
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    justify-content: center; 
 }
+
+.pagination .page-item .page-link {
+    border: 1px solid #007bff; 
+}
+
+.pagination .active .page-link {
+    background-color: #007bff; 
+    color: white; 
+}
+
+.pagination .disabled .page-link {
+    color: #6c757d;
+}
+
+/* Navbar active link */
+.nav .nav-link.active {
+    background-color: #007bff !important; 
+    color: #ffffff !important; 
+}
+
+.nav .nav-link.active .menu-title {
+    color: #ffffff !important; 
+}
+
     </style>
 </head>
 
 <body>
-<?php include "header.php" ?>
+
     <div class="container-fluid page-body-wrapper">
+        <?php include "header.php" ?>
         <!-- Sidebar -->
+        <?php
+// Get the current page name
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php">
+                    <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
                         <i class="icon-grid menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-users.php">
+                    <a class="nav-link <?php echo ($current_page == 'manage-users.php') ? 'active' : ''; ?>"
+                        href="manage-users.php">
                         <i class="icon-head menu-icon"></i>
                         <span class="menu-title">Manage Users</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-orders.php">
+                    <a class="nav-link <?php echo ($current_page == 'manage-orders.php') ? 'active' : ''; ?>"
+                        href="manage-orders.php">
                         <i class="icon-cart menu-icon"></i>
                         <span class="menu-title">Orders</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-products.php">
+                    <a class="nav-link <?php echo ($current_page == 'manage-products.php') ? 'active' : ''; ?>"
+                        href="manage-products.php">
                         <i class="icon-box menu-icon"></i>
                         <span class="menu-title">Products</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-category.php">
+                    <a class="nav-link <?php echo ($current_page == 'manage-category.php') ? 'active' : ''; ?>"
+                        href="manage-category.php">
                         <i class="icon-tag menu-icon"></i>
                         <span class="menu-title">Category</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage-coupons.php">
+                    <a class="nav-link <?php echo ($current_page == 'manage-coupons.php') ? 'active' : ''; ?>"
+                        href="manage-coupons.php">
                         <i class="icon-tag menu-icon"></i>
                         <span class="menu-title">Coupons</span>
                     </a>
@@ -104,53 +161,81 @@ $orders = $orderManager->getOrders();
             </ul>
         </nav>
 
+
         <div class="main-panel">
             <div class="content-wrapper">
                 <h2 class="mt-4">Manage Orders</h2>
                 <div class="card">
-    <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="search-bar-wrapper ml-auto">
-                <input type="text" class="search-bar form-control" placeholder="Search Orders..." onkeyup="searchOrders(this.value)">
-            </div>
-        </div>
-        <div class="table-container">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>User ID</th>
-                        <th>Total Amount</th>
-                        <th>Order Status</th>
-                        <th>Payment Status</th>
-                        <th>Shipping Address</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="orders-table-body">
-                    <?php foreach ($orders as $order): ?>
-                    <tr>
-                        <td><?php echo $order['order_id']; ?></td>
-                        <td><?php echo $order['user_id']; ?></td>
-                        <td><?php echo $order['total_amount']; ?></td>
-                        <td class="<?php echo 'order-status-' . strtolower($order['order_status']); ?>">
-                            <?php echo $order['order_status']; ?>
-                        </td>
-                        <td><?php echo $order['payment_status']; ?></td>
-                        <td><?php echo $order['shipping_address']; ?></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary" onclick="viewOrderProducts(<?php echo $order['order_id']; ?>)">View</button>
-                            <?php if (strtolower($order['order_status']) !== 'cancelled' && strtolower($order['order_status']) !== 'completed'): ?>
-                                <button class="btn btn-sm btn-danger" onclick="cancelOrder(<?php echo $order['order_id']; ?>)">Cancel</button>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="search-bar-wrapper ml-auto">
+                                <input id="searchQuery" type="text" class="search-bar form-control"
+                                    placeholder="Search Users..." onkeyup="searchOrders(this.value)">
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>User ID</th>
+                                        <th>Total Amount</th>
+                                        <th>Order Status</th>
+                                        <th>Payment Status</th>
+                                        <th>Shipping Address</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders-table-body">
+                                    <?php foreach ($orders as $order): ?>
+                                    <tr>
+                                        <td><?php echo $order['order_id']; ?></td>
+                                        <td><?php echo $order['user_id']; ?></td>
+                                        <td><?php echo $order['total_amount']; ?></td>
+                                        <td class="<?php echo 'order-status-' . strtolower($order['order_status']); ?>">
+                                            <?php echo $order['order_status']; ?>
+                                        </td>
+                                        <td><?php echo $order['payment_status']; ?></td>
+                                        <td><?php echo $order['shipping_address']; ?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary"
+                                                onclick="viewOrderProducts(<?php echo $order['order_id']; ?>)">View</button>
+                                            <?php if (strtolower($order['order_status']) !== 'cancelled' && strtolower($order['order_status']) !== 'completed'): ?>
+                                            <button class="btn btn-sm btn-danger"
+                                                onclick="cancelOrder(<?php echo $order['order_id']; ?>)">Cancel</button>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            <!-- إضافة كود pagination -->
+                            <nav aria-label="Orders Pagination">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                                        <a class="page-link" href="?page=<?php echo $page - 1; ?>"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+                                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                    <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
+                                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                    </li>
+                                    <?php endfor; ?>
+
+                                    <li class="page-item <?php if ($page >= $totalPages) echo 'disabled'; ?>">
+                                        <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
@@ -173,24 +258,14 @@ $orders = $orderManager->getOrders();
             </div>
 
             <!-- Footer -->
-            <footer class="footer">
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2024.
-                        Scentify. All rights reserved.</span>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
-                        with 🤍<i class="ti-heart text-danger ml-1"></i></span>
-                </div>
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a
-                            href="https://www.scentify.com/" target="_blank">Scentify</a></span>
-                </div>
-            </footer>
+
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./Search.js"></script>
 
     <script>
     // Function to view products in an order
@@ -225,7 +300,8 @@ $orders = $orderManager->getOrders();
                         order_id: orderId
                     },
                     success: function(response) {
-                        if (response == 'success') {
+                        var result = JSON.parse(response);
+                        if (result.status === 'success') {
                             Swal.fire(
                                 'Cancelled!',
                                 'The order has been cancelled.',
@@ -241,6 +317,7 @@ $orders = $orderManager->getOrders();
                             );
                         }
                     }
+
                 });
             }
         });

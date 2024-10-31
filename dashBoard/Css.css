@@ -1,16 +1,16 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f4f8; /* لون الخلفية العام */
+    background-color: #f0f4f8;
 }
 
 .container {
-    background-image: url('path/to/your/background-image.jpg'); /* استبدل بالمسار الصحيح للصورة */
-    background-size: cover; /* تغطية كاملة */
-    background-position: center; /* محاذاة في المنتصف */
-    border-radius: 15px; /* زوايا دائرية */
-    padding: 20px; /* حشو */
-    margin-top: 20px; /* مسافة أعلى */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ظل خفيف */
+    background-image: url('path/to/your/background-image.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px; 
+    padding: 20px; 
+    margin-top: 20px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .card {
@@ -33,7 +33,7 @@ body {
 }
 
 .table {
-    background-color: #ffffff; /* لون خلفية الجدول */
+    background-color: #ffffff;
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 15px;
@@ -42,8 +42,8 @@ body {
 
 .table th {
     text-align: center;
-    background-color: #007bff; /* لون خلفية رؤوس الجدول */
-    color: white; /* لون النص لرؤوس الجدول */
+    background-color: #007bff; 
+    color: white; 
 }
 
 .table td,

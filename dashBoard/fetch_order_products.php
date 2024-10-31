@@ -1,22 +1,26 @@
 <?php
 require 'config.php';
 
-if (isset($_POST['order_id'])) {
-    // تأكد من أن قيمة order_id هي عدد صحيح
+if (isset($_POST['order_id']) && is_numeric($_POST['order_id'])) {
+    // Make sure order_id is an integer
     $orderId = intval($_POST['order_id']); 
 
-    // إعداد الاستعلام مع الربط بين الجداول
+
+    $db = new Database();
+    $pdo = $db->getConnection();
+
+  
     $stmt = $pdo->prepare("SELECT p.product_name, oi.quantity, oi.price 
                            FROM order_items oi 
                            JOIN products p ON oi.product_id = p.product_id 
                            WHERE oi.order_id = ?;");
 
-    // التحقق من التنفيذ وتمرير معلمة واحدة فقط
+   // Check implementation and pass only one parameter
     if ($stmt->execute([$orderId])) {
-        $products = $stmt->fetchAll(PDO::FETCH_ASSOC); // الحصول على النتائج كمصفوفة مرتبطة
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 
         if (!empty($products)) {
-            $totalPrice = 0; // متغير لحفظ مجموع الأسعار
+            $totalPrice = 0; 
             echo '<table class="table table-bordered">
                     <thead>
                         <tr>
@@ -27,9 +31,9 @@ if (isset($_POST['order_id'])) {
                     </thead>
                     <tbody>';
             foreach ($products as $product) {
-                // حساب السعر الإجمالي للمنتج (الكمية * السعر)
+               
                 $productTotal = $product['quantity'] * $product['price'];
-                $totalPrice += $productTotal; // إضافة السعر الإجمالي للمنتج إلى مجموع الأسعار
+                $totalPrice += $productTotal; 
 
                 echo '<tr>
                         <td>' . htmlspecialchars($product['product_name']) . '</td>
@@ -37,7 +41,7 @@ if (isset($_POST['order_id'])) {
                         <td>' . htmlspecialchars(number_format($productTotal, 2)) . '</td>
                       </tr>';
             }
-            // إظهار مجموع الأسعار في نهاية الجدول
+           
             echo '<tr>
                     <td colspan="2"><strong>Total Price</strong></td>
                     <td><strong>' . htmlspecialchars(number_format($totalPrice, 2)) . '</strong></td>
@@ -48,7 +52,9 @@ if (isset($_POST['order_id'])) {
         }
     } else {
         // عرض خطأ في تنفيذ الاستعلام
-        echo "Query execution failed: " . implode(", ", $stmt->errorInfo());
+        echo "Query execution failed: " . htmlspecialchars(implode(", ", $stmt->errorInfo()));
     }
+} else {
+    echo "Invalid order ID.";
 }
 ?>

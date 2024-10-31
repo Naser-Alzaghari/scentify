@@ -10,40 +10,35 @@ class Category {
     // التحقق مما إذا كانت الفئة موجودة بناءً على الاسم
     public function existsByName($name, $id = 0) {
         // الاستعلام للتحقق من الاسم مع استبعاد المعرف الحالي في حالة التعديل
-        $query = "SELECT COUNT(*) FROM categories WHERE category_name = :name";
+        $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE category_name = :name";
         if ($id > 0) {
             $query .= " AND category_id != :id";
         }
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         if ($id > 0) {
-            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         }
         $stmt->execute();
 
-        // إذا كانت النتيجة أكبر من صفر، فهذا يعني أن الاسم موجود
         return $stmt->fetchColumn() > 0;
     }
 
-    // التحقق من صحة الصورة
     public function validateImage($file) {
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
         $maxFileSize = 2 * 1024 * 1024; // 2 ميجابايت
 
         $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-        // التحقق من أن الامتداد مسموح به
         if (!in_array($fileExtension, $allowedExtensions)) {
             return "Invalid image format. Allowed formats are: " . implode(', ', $allowedExtensions);
         }
 
-        // التحقق من حجم الملف
         if ($file['size'] > $maxFileSize) {
             return "Image size exceeds the maximum allowed size of 2MB.";
         }
 
-        // التحقق من كون الملف صورة
         $check = getimagesize($file['tmp_name']);
         if ($check === false) {
             return "File is not an image.";
@@ -52,7 +47,6 @@ class Category {
         return true;
     }
 
-    // إحضار جميع الفئات التي لم يتم حذفها
     public function getAll() {
         $query = "SELECT * FROM " . $this->table . " WHERE is_deleted = 0";
         $stmt = $this->conn->prepare($query);
@@ -60,7 +54,12 @@ class Category {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // إنشاء فئة جديدة
+    public function getCategoriesCount() {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM " . $this->table . " WHERE is_deleted = 0");
+        $stmt->execute();
+        return $stmt->fetch()['total'];
+    }
+
     public function create($name, $image) {
         if ($this->existsByName($name)) {
             return "Category with this name already exists.";
@@ -72,24 +71,21 @@ class Category {
         $created_at = date('Y-m-d H:i:s');
         $updated_at = $created_at;
 
-        $stmt->bindParam(':category_name', $name);
-        $stmt->bindParam(':image', $image);
-        $stmt->bindParam(':created_at', $created_at);
-        $stmt->bindParam(':updated_at', $updated_at);
+        $stmt->bindParam(':category_name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':image', $image, PDO::PARAM_STR);
+        $stmt->bindParam(':created_at', $created_at, PDO::PARAM_STR);
+        $stmt->bindParam(':updated_at', $updated_at, PDO::PARAM_STR);
 
         return $stmt->execute();
     }
 
-    // تحديث فئة
     public function update($id, $name, $image = null) {
         if ($this->existsByName($name, $id)) {
             return "Category with this name already exists.";
         }
-    
-        // إعداد الاستعلام لتحديث الفئة
+
         $query = "UPDATE " . $this->table . " SET category_name = :category_name, updated_at = :updated_at";
         
-        // إضافة تحديث الصورة إذا تم تمرير صورة جديدة
         if ($image) {
             $query .= ", image = :image";
         }
@@ -99,29 +95,30 @@ class Category {
         $stmt = $this->conn->prepare($query);
         $updated_at = date('Y-m-d H:i:s');
         
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':category_name', $name);
-        $stmt->bindParam(':updated_at', $updated_at);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':category_name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':updated_at', $updated_at, PDO::PARAM_STR);
         
         if ($image) {
-            $stmt->bindParam(':image', $image);
+            $stmt->bindParam(':image', $image, PDO::PARAM_STR);
         }
-    
+
         return $stmt->execute();
     }
 
-    // حذف فئة بشكل ناعم (soft delete)
     public function softDelete($id) {
         $query = "UPDATE " . $this->table . " SET is_deleted = 1 WHERE category_id = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
     public function getById($id) {
         $query = "SELECT * FROM " . $this->table . " WHERE category_id = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
+?>
