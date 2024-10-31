@@ -15,7 +15,7 @@ class HTMLDocument {
     public function addStylesheet($href) {
         $this->stylesheets[] = $href;
     }
-
+// 
     public function addScript($src) {
         $this->scripts[] = $src;
     }
