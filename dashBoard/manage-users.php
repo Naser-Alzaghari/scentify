@@ -23,7 +23,7 @@ $page = isset($_GET['page']) ? (int) $_GET['page'] : 1; // الصفحة الحا
 $offset = ($page - 1) * $limit; // حساب الإزاحة
 
 // الحصول على العدد الكلي للمستخدمين بناءً على دور المستخدم
-$totalUsers = $userManager->getUserCount(currentUserRole: $currentUserRole); // العدد الكلي للمستخدمين
+$totalUsers = $userManager->getUserCount($currentUserRole); // العدد الكلي للمستخدمين
 $totalPages = ceil($totalUsers / $limit); // حساب عدد الصفحات الكلي
 
 // جلب المستخدمين للصفحة الحالية

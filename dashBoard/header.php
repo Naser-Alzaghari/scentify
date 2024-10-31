@@ -1,3 +1,6 @@
+<?php if(!isset($_SESSION["user_id"])){
+        header('location:../public/AdminLoginPage.php');
+    } ?>
 <div class="container-scroller">
     <!-- Navbar -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">

@@ -11,7 +11,8 @@
     color: red;
 }
 body{
- background-image:url("https://lush.co.za/cdn/shop/files/vanillary_perfume_02.jpg");
+ background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), 
+                url('https://lush.co.za/cdn/shop/files/vanillary_perfume_02.jpg') center/cover no-repeat;
 }
 
 .form-container{

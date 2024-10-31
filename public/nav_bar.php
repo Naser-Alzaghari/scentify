@@ -19,25 +19,21 @@ if(isset($_SESSION['user_id'])){
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="#categoryWomen">Women</a></li>
-                <li class="nav-item px-2"><a class="nav-link fw-medium" href="#header">Men</a></li>
-                <li class="nav-item px-2"><a class="nav-link fw-medium" href="#collection">Collection</a></li>
-                <li class="nav-item px-2"><a class="nav-link fw-medium" href="#outlet">Outlet</a></li>
+                <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="productDisplay_page.php?category_name=Women">Women</a></li>
+                <li class="nav-item px-2"><a class="nav-link fw-medium" href="productDisplay_page.php?category_name=Men">Men</a></li>
+                <li class="nav-item px-2"><a class="nav-link fw-medium" href="#Categoreys">Categoreys</a></li>
             </ul>
             <form class="d-flex align-items-center" action="search.php" method="post">
           <?php
 
           ?>
-          <input class="p-3" id ="search" type="text" name ="usersearch" placeholder="Search a product">
+          <input class="px-3" id ="search" type="text" name ="usersearch" placeholder="Search a product">
             <form class="d-flex align-items-center"> <?php
             if(isset($_SESSION['user_name'])){
               echo "<p class='mb-0 me-3'>Hello {$_SESSION['user_name']}</p>";
             }
-          ?> <a type="button" href="LoginPage.php" class="btn btn-dark me-3 d-none" id="login_button">login</a>
+          ?> <a type="button" href="LoginPage.php" class="btn btn-primary1 me-3 d-none" id="login_button">login</a>
                 <a class="text-1000" href="#!">
-                    <svg class="feather feather-phone me-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    </svg></a><a class="text-1000" href="#!">
                     <div style="position: relative;">
                         <a class="text-1000" href="cart.php">
                             <svg class="feather feather-shopping-cart me-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -49,10 +45,7 @@ if(isset($_SESSION['user_id'])){
                 </a><a class="text-1000" href="#!">
                     <a class="d-flex justify-content-center align-items-center" href="cart.php" id="cart_number" style="position: absolute; bottom:0; left:0; background-color: red; border-radius:50%; color: white; font-size:6px; width: 10px; aspect-ratio: 1 / 1;"><b><?=$cart_count['count']?></b></a>
         </div>
-        <svg class="feather feather-search me-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg></a>
+        </a>
         <div class="dropdown d-none" id="profile_icon">
             <a href="#" class="pe-auto" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg class="feather feather-user me-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -61,7 +54,7 @@ if(isset($_SESSION['user_id'])){
                 </svg>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="profile.php">profile</a></li>
+                <li><a class="dropdown-item" href="userProfile.php">profile</a></li>
                 <li><a class="dropdown-item" href="logout.php">logout</a></li>
             </ul>
         </div>

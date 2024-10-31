@@ -1,18 +1,21 @@
 
+
 .category{
     transition-duration: .3s;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     opacity: 1;
-    
+    background-color: #B7B7B7;
 }
 
 .category:hover{
     opacity: 0.7;
-    color: red;
     scale: 1.01;
 }
 
+main {
+  background-color: #F5F5F7;
+}
 
 .alert-position {
     position: fixed;
@@ -26,8 +29,20 @@
   }
 
 
-  .btn-primary{
-    background-color: blue;
+  .btn-primary1 ,.btn-primary1:hover{
+    background-color: #705C53;
+    color: #F5F5F7;
+  }
+  .btn-primary1:active{
+    color: #B7B7B7;
+  }
+
+  .bg-primary1{
+    background-color: #EDDFE0;
+  }
+  .border-primary1 {
+    border: 5px solid #B7B7B7;
+    border-radius: 5px;
   }
 
   .quantity {

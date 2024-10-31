@@ -57,6 +57,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cart</title>
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -82,7 +83,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
     <main class="main" id="top">
         <section class="pt-9 pb-4 bg-light-gradient border-bottom border-white border-5">
         <div class='bg-holder overlay overlay-light'
-            style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
+        style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
         </div>
             <div class="container">
                     <div class="row d-flex justify-content-center align-items-center">
@@ -100,7 +101,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                 <?php foreach ($results as $item): ?>
                                                     <div class="row mb-4 d-flex justify-content-between align-items-center" data-order-item-id="<?php echo $item['order_item_id']; ?>">
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
-                                                            <img src="/scentify/public/assets/img/gallery/<?php echo ($item['product_image']); ?>" class="img-fluid rounded-3" alt="<?php echo ($item['product_description']) ?>" > 
+                                                            <img src="./assets/img/gallery/<?php echo ($item['product_image']); ?>" class="img-fluid rounded-3" alt="<?php echo ($item['product_description']) ?>" > 
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-3">
                                                             <h6 class="mb-0"><?php echo $item['product_description'] ?></h6>

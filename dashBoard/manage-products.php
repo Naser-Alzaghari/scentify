@@ -1,4 +1,5 @@
 <?php
+session_start();
 // تضمين ملفات الاتصال بقاعدة البيانات والفئات الضرورية
 require_once 'config.php';
 require_once 'Product.php';

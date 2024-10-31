@@ -1,5 +1,5 @@
 <?php
-include ('Database.php');
+include "./includes/include.php";
 include ('User.php');
 
 session_start();
@@ -41,7 +41,7 @@ if (isset($_SESSION['user_id'])) {
 
         if ($stmt->execute()) {
             $_SESSION['message'] = "User information has been updated successfully.";
-            header("Location: edit.php"); 
+            header("Location: userProfile.php"); 
             exit();
         } else {
             $_SESSION['error'] = "Failed to update user information.";
