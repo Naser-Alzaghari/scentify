@@ -8,16 +8,42 @@
 //     ['id' => '003', 'name' => 'Perfume DEF', 'quantity' => 4, 'cost' => '523.13', 'date' => '06/20/2021', 'status' => 'Approved', 'image' => 'https://bootdey.com/img/Content/user_2.jpg']
 // ];
 
-function getOrderHistory($db, $user_id) {
-    $query = "SELECT order_id, total_amount, order_status, payment_status, shipping_address, created_at 
-              FROM orders 
-              WHERE user_id = :user_id AND is_deleted = 0 
-              ORDER BY created_at DESC";
-    $stmt = $db->prepare($query);
-    $stmt->bindParam(':user_id', $user_id);
+
+?>
+
+<?php
+include "conn.php";
+
+function getOrderHistory($conn, $user_id) {
+    $query = "
+    SELECT 
+        o.order_id, 
+        o.user_id, 
+        o.total_amount, 
+        o.order_status, 
+        o.payment_status, 
+        o.shipping_address, 
+        o.created_at, 
+        oi.order_item_id, 
+        oi.product_id, 
+        oi.quantity, 
+        oi.price, 
+        oi.on_cart
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    WHERE o.user_id = :user_id
+";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+   // print_r($orders);
+
+    return $orders;
 }
+
+
+
 ?>
 
 
