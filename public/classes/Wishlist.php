@@ -37,11 +37,12 @@ class Wishlist extends Database {
 
     public function createWishList(){
         $user_id = $this->wishlist_owner_user_id;
-        $query = "INSERT INTO wishlists (user_id, created_at, updated_at) VALUES (:user_id, NOW(), NOW()); SELECT LAST_INSERT_ID();";
+        $query = "INSERT INTO wishlists (user_id, created_at, updated_at) VALUES (:user_id, NOW(), NOW());";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $user_id);
         $stmt->execute();
-        $this->wishlist_id = $stmt->fetch(PDO::FETCH_ASSOC)['wishlist_id'];
+        error_log( print_r(  $this->conn->lastInsertId(), true ) );
+        $this->wishlist_id = $this->conn->lastInsertId();
     }
 
     public function getUserWishlistItems() {
