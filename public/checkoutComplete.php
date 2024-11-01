@@ -106,9 +106,9 @@ if (!empty($orderDetails)) {
                             </span>!</h5>
                         </div>
                         <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
-                            </div>
+                            <p class="lead fw-normal mb-0" style="color: #a8729a;">Order Status: 
+    <span class="fw-bold"><?php echo htmlspecialchars($orderDetails[0]['order_status']); ?></span>
+</p>
 
                             <?php if (!empty($itemsDetails)) : ?>
                                 <?php foreach ($itemsDetails as $item) : ?>

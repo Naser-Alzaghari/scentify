@@ -137,7 +137,7 @@ $related_products = $related_query->fetchAll(PDO::FETCH_ASSOC);
     <script src="./assets/js/script.js"></script>
     <script>
                             document.getElementById('add_item_<?php echo htmlspecialchars($product['product_id']); ?>').addEventListener('click', () => {
-                                quantity_num.value = 1;
+                                
                                 add_item_id.value = <?php echo htmlspecialchars($product['product_id']); ?>;
                                 // cart_image.setAttribute('src', 'assets/img/gallery/{$this->product['product_image']}');
                                 // add_item_title.innerHTML = '{$this->product['product_name']}';
