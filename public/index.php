@@ -160,6 +160,13 @@ class HTMLDocument {
     $productDisplay = new ProductDisplay();
     $productDisplay->render("SELECT order_items.product_id, `product_name`, `product_description`, `product_image`, products.price, `stock_quantity`, `category_id`, `updated_at`, products.is_deleted , sum(order_items.quantity) as q FROM `order_items` JOIN `products` on order_items.product_id = products.product_id JOIN `orders` on orders.order_id = order_items.order_id WHERE order_status = 'processing' GROUP By product_id ORDER by q DESC; LIMIT 8");
 
+    ?>
+
+    <div class="container mb-6">
+        <img src=".\assets\img\gallery\offers.jpg" alt="offers">
+    </div>
+
+    <?php
     // Display the categories
     $categoryDisplay = new CategoryDisplay();
     $categoryDisplay->render();

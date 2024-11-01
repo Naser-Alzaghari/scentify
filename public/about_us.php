@@ -126,42 +126,14 @@
                 <h5 class="card-title">Mohammed Alqadome</h5>
                 <p class="card-text">Computer Science<br><span>Full Stack</span></p>
                 <div class="social-icons">
-                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
-                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
+                  <a href="https://github.com/mohammed-n-jumaa" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="https://www.linkedin.com/in/mohammed-nedal-b8572b294/" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
                 </div>
               </div>
             </div>
           </div>
     
           <!-- Second Card -->
-          <div class="col-md-4 mb-4">
-            <div class="bg-primary1 card h-100">
-              <div class="card-body">
-                <h5 class="card-title">Anas Esbitan</h5>
-                <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
-                <div class="social-icons">
-                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
-                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          <!-- Third Card -->
-          <div class="col-md-4 mb-4">
-            <div class="bg-primary1 card h-100">
-              <div class="card-body">
-                <h5 class="card-title">Rand</h5>
-                <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
-                <div class="social-icons">
-                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
-                  <a href="#" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          <!-- Additional Cards -->
           <div class="col-md-4 mb-4">
             <div class="bg-primary1 card h-100">
               <div class="card-body">
@@ -175,14 +147,42 @@
             </div>
           </div>
     
+          <!-- Third Card -->
           <div class="col-md-4 mb-4">
             <div class="bg-primary1 card h-100">
               <div class="card-body">
                 <h5 class="card-title">Razan Alhroub</h5>
                 <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
                 <div class="social-icons">
-                  <a href="#" class="card-link"><i class="fa-brands fa-square-github fs-3"></i></a>
-                  <a href="#" class="card-link"><i class="fa-brands fa-linkedin fs-3"></i></a>
+                  <a href="https://github.com/Razanhroub" class="card-link"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="https://www.linkedin.com/in/razan-alhroub-67857a2a7/" class="card-link"><i class="fa-brands fa-linkedin fs-3"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Additional Cards -->
+          <div class="col-md-4 mb-4">
+            <div class="bg-primary1 card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Rand Dabbour</h5>
+                <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
+                <div class="social-icons">
+                  <a href="https://github.com/RandDabbour" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="https://www.linkedin.com/in/rand-dabbour-15429427a/" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-md-4 mb-4">
+            <div class="bg-primary1 card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Anas Esbitan</h5>
+                <p class="card-text">Software Engineer<br><span>Full Stack</span></p>
+                <div class="social-icons">
+                  <a href="https://github.com/Anas-Esbitan" class="card-link" target="_blank"><i class="fa-brands fa-square-github fs-3"></i></a>
+                  <a href="https://www.linkedin.com/in/anas-esbitan-467774204/" class="card-link" target="_blank"><i class="fa-brands fa-linkedin fs-3"></i></a>
                 </div>
               </div>
             </div>
