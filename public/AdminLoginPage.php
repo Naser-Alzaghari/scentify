@@ -21,7 +21,7 @@ session_start();
 
 <body>
     <?php 
-    include('Nav.php');
+    include('NavAdmin.php');
     ?>
     
     

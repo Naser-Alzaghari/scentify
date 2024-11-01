@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class User {
     private $conn;
     private $table_name = "users";
@@ -60,6 +60,7 @@ class User {
 
         // تنفيذ الاستعلام
         if ($stmt->execute()) {
+            $_SESSION["success"]='success';
             return "Your account has been successfully registered. Please log in to continue.";
         } else {
             return "Account registration failed.";

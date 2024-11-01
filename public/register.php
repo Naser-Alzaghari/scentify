@@ -25,8 +25,9 @@ if (isset($_POST['registration'])) {
 
     // حاول تسجيل المستخدم
     $registrationResult = $user->register();
-    if (strpos($registrationResult, 'account has been registered successfully') !== false) {
-        header("Location: index.php"); 
+    if (strpos($registrationResult, 'Your account has been successfully registered. Please log in to continue.') !== false) {
+        $_SESSION['success'] = $registrationResult;
+        header("Location: LoginPage.php"); 
         exit();
     } else {
         $_SESSION['error'] = $registrationResult;

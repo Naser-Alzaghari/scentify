@@ -126,8 +126,12 @@ session_start();
                                     </div>
                                     <!-- Message Error Here -->
                                     <?php if (isset($_SESSION['error'])): ?>
-                                    <div class="valid col-md-6"><?php echo $_SESSION['error']; ?></div>
+                                    <div class="invalid col-md-6"><?php echo $_SESSION['error']; ?></div>
                                     <?php unset($_SESSION['error']); ?>
+                                    <?php endif; ?>
+                                    <?php if (isset($_SESSION["success"])): ?>
+                                    <div class="valid col-md-6"><?php echo $_SESSION['success']; ?></div>
+                                    <?php unset($_SESSION['success']); ?>
                                     <?php endif; ?>
                                     </form>
                                 </div>

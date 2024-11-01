@@ -36,7 +36,9 @@ class HTMLDocument {
 include "./includes/include.php";
 include('User.php');
 
-session_start();
+if(!isset($_SESSION)){
+    session_start();
+}
 
 if (!isset($_SESSION['user_id'])) {
     echo "User not logged in.";
@@ -208,9 +210,9 @@ $userInfo = $user->getUserInfo($user_id);
                                         <input type="text" name="address" class="form-control" value="<?php echo htmlspecialchars($userInfo['address']); ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password</label>
+                                        <label for="password">Password (leave if you don't want to change)</label>
                                         <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Password *" required oninput="checkPasswordRequirements()" onfocus="showPasswordMessage()" onblur="hidePasswordMessage()" />
+                                        placeholder="Password" oninput="checkPasswordRequirements()" onfocus="showPasswordMessage()" onblur="hidePasswordMessage()" />
                                     </div>
                                     <div id="password-message">
                                         <p>Password must contain:</p>
@@ -294,8 +296,9 @@ function checkPasswordRequirements() {
     const lowercase = /[a-z]/.test(password);
     const number = /[0-9]/.test(password);
     const specialChar = /[!@#$%^&*]/.test(password);
-    const minLength = password.length >= 6;
-
+    const minLength = password.length >= 10;
+    console.log(password.length);
+    
     document.getElementById("length").className = minLength ? "valid" : "invalid";
     document.getElementById("uppercase").className = uppercase ? "valid" : "invalid";
     document.getElementById("lowercase").className = lowercase ? "valid" : "invalid";
@@ -324,13 +327,14 @@ document.getElementById('updateBtn').addEventListener('click', function() {
 const updateForm = document.querySelector('form[action="update.php"]');
 updateForm.addEventListener('submit', function(e) {
     const password = document.getElementById("password").value;
-    const minLength = password.length >= 6;
+    const minLength = password.length >= 10;
+    
     const uppercase = /[A-Z]/.test(password);
     const lowercase = /[a-z]/.test(password);
     const number = /[0-9]/.test(password);
     const specialChar = /[!@#$%^&*]/.test(password);
 
-    if (!minLength || !uppercase || !lowercase || !number || !specialChar) {
+    if ((!minLength || !uppercase || !lowercase || !number || !specialChar) && password.length != 0) {
         e.preventDefault(); // Prevent form submission
         swal("Error!", "Please make sure your password meets all requirements.", "error");
     } else {
