@@ -42,7 +42,12 @@ if (!$product) {
 </head>
 
 <body>
+
     <main class="main" id="top">
+    <section class='py-4 bg-light-gradient border-bottom border-white border-5'>
+    <div class='bg-holder overlay overlay-light'
+         style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
+    </div>
         <?php include "nav_bar.php"; ?>
         
         <!-- Product Section -->
@@ -96,7 +101,7 @@ $related_products = $related_query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Related items section -->
-
+</section>
     <div class="container mt-5">
         <h2 class="fw-bolder mb-4">Related products</h2>
         <div class="row justify-content-center">

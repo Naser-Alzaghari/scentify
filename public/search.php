@@ -85,7 +85,7 @@ class HTMLDocument {
 
     <section class="py-5">
         <div class="container mt-5">
-        <h2 class="mb-4">Search Result</h2>
+        <h2 class="mb-4">Search Result for "<?=$usersearch?>"</h2>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
                 <?php
                 if (empty($results)) {
