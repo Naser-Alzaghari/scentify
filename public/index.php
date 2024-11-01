@@ -164,10 +164,10 @@ class HTMLDocument {
     ?>
 
     <div class="container mb-4">
-        <div class="d-flex flex-column justify-content-between flex-lg-row gap-4">
-            <div><img src=".\assets\img\gallery\free_delivery.png" alt="offers"></div>
-            <div><img src=".\assets\img\gallery\original.png" alt="offers"></div>
-            <div><img src=".\assets\img\gallery\best_offers.png" alt="offers"></div>
+        <div class="d-flex flex-column justify-content-between align-items-center flex-lg-row gap-3">
+            <div><img src=".\assets\img\gallery\free_delivery.png" alt="offers" style="height: 70px"></div>
+            <div><img src=".\assets\img\gallery\original.png" alt="offers" style="height: 70px"></div>
+            <div><img src=".\assets\img\gallery\best_offers.png" alt="offers" style="height: 70px"></div>
         </div>
     </div>
 
