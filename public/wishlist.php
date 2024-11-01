@@ -13,25 +13,25 @@ $current_user_wishlist_product_ids = array_map(function ($ar) {return $ar['produ
 $database = new Database();
 $conn = $database->getConnection();
 
-$sql = "SELECT product_id, product_name, product_description, product_image, price FROM products WHERE product_id IN (" . implode(",", $current_user_wishlist_product_ids) . ");";
+$sql = "SELECT stock_quantity, product_id, product_name, product_description, product_image, price FROM products WHERE product_id IN (" . implode(",", $current_user_wishlist_product_ids) . ");";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $all_products_in_wishlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
-<!DOCTYPE html>
-<html lang="en-US" dir="ltr">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cart</title>
-    <link href="assets/css/theme.css" rel="stylesheet" />
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/gallery/title_logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/gallery/title_logo.png">
+    <meta name="msapplication-TileImage" content="assets/img/gallery/title_logo.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="assets/css/theme.css" rel="stylesheet" />
     <style>
         @media (min-width: 1025px) {
             .h-custom {
@@ -50,28 +50,49 @@ $all_products_in_wishlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-    <br>
-    <br>
-    <br>
- <h1  class =" text-center container">Wishlist</h1>
+<section class='py-4 bg-light-gradient border-bottom border-white border-5'>
+    <div class='bg-holder overlay overlay-light'
+         style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
+    </div>
+    <?php
+    $document = new HTMLDocument("Scentify");
+    $document->renderHead();
+
+    $navbar = new Navbar();
+    $navbar->render();
+
+    $alert = new Alert();
+    $alert->showAlert();
+    ?>
+
     
-<?php
 
+    <section class="py-5">
+        <div class="container mt-5">
+        <h2 class="mb-4 text-center">Wichlist</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+                <?php
+                if (empty($all_products_in_wishlist)) {
+                    $image_path = "assets/img/gallery/search-not-found.svg";
+                    echo "<div class='no-result container'>";
+                    echo '<img src="' . $image_path . '" alt="No results found">';
+                    echo "<p>No result found</p>";
+                    echo "</div>";
+                } else {
+                    // Display wichlist results
+                    foreach ($all_products_in_wishlist as $row){
+                        $obj = new product_card($row);
+                        $obj->render();
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </section>
+    </section>
+    <?php include "footer.html"; ?>
 
-echo "<br>";
-echo "<br>";
-echo "<br>";
-$productDisplay = new ProductDisplay();
-$productDisplay->render("SELECT product_id, product_name, product_description, product_image, price, stock_quantity FROM products WHERE product_id IN (" . implode(",", $current_user_wishlist_product_ids) . ");");
-
-
-?>
-
-
-
-
-    <?php include 'nav_bar.php'; ?>
-
+    <!-- Scripts -->
     <script src="vendors/@popperjs/popper.min.js"></script>
     <script src="vendors/bootstrap/bootstrap.min.js"></script>
     <script src="vendors/is/is.min.js"></script>
@@ -84,7 +105,5 @@ $productDisplay->render("SELECT product_id, product_name, product_description, p
         
    
         
-    <?php include 'footer.html'; ?>
 </body>
 </html>
-
