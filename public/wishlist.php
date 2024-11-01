@@ -15,8 +15,14 @@ $conn = $database->getConnection();
 
 $sql = "SELECT stock_quantity, product_id, product_name, product_description, product_image, price FROM products WHERE product_id IN (" . implode(",", $current_user_wishlist_product_ids) . ");";
 $stmt = $conn->prepare($sql);
-$stmt->execute();
-$all_products_in_wishlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $stmt->execute();
+    $all_products_in_wishlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    
+}
+
+
 ?>
 
 
@@ -76,7 +82,7 @@ $all_products_in_wishlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $image_path = "assets/img/gallery/search-not-found.svg";
                     echo "<div class='no-result container'>";
                     echo '<img src="' . $image_path . '" alt="No results found">';
-                    echo "<p>No result found</p>";
+                    echo "<p>Wichlist is empty</p>";
                     echo "</div>";
                 } else {
                     // Display wichlist results

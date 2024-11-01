@@ -100,21 +100,19 @@ if (!$product) {
 
         <!-- Related items section (Optional) -->
         <?php
-// Fetch related products from the same category, excluding the current product
-$related_query = $conn->prepare("SELECT * FROM products ORDER BY RAND() LIMIT 4");
 
-$related_query->execute();
-$related_products = $related_query->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!-- Related items section -->
 </section>
     <div class="container mt-5">
         <h2 class="fw-bolder mb-4">Related products</h2>
+        
         <div class="row justify-content-center">
         <?php
         $productDisplay = new ProductDisplay();
-        $productDisplay->render("SELECT * FROM `products` WHERE stock_quantity > 0 ORDER BY RAND() LIMIT 4");
+        $productDisplay->render("SELECT * FROM products Where category_id = {$product['category_id']} and stock_quantity > 0 and product_id != {$product['product_id']} ORDER BY RAND() LIMIT 4");
         ?>
             
         </div>
