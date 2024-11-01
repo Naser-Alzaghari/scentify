@@ -23,6 +23,7 @@ if (isset($_POST['login'])) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             print_r($row);
             $_SESSION['admin_user_id'] = $row["user_id"];
+            $_SESSION['user_name'] = $row['first_name'];
             $_SESSION['user_role'] = $row["role"];
             
 
