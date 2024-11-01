@@ -8,14 +8,17 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Scentify</title>
     <link rel="stylesheet" href="./assets/css/login.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
         id="bootstrap-css">
-    <style>
-        
-
-    </style>
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/gallery/title_logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/gallery/title_logo.png">
+    <meta name="msapplication-TileImage" content="assets/img/gallery/title_logo.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="./assets/css/style.css">
     
 </head>
 
@@ -123,7 +126,7 @@ session_start();
                                     </div>
                                     <!-- Message Error Here -->
                                     <?php if (isset($_SESSION['error'])): ?>
-                                    <div class="error-message col-md-6"><?php echo $_SESSION['error']; ?></div>
+                                    <div class="valid col-md-6"><?php echo $_SESSION['error']; ?></div>
                                     <?php unset($_SESSION['error']); ?>
                                     <?php endif; ?>
                                     </form>

@@ -30,7 +30,7 @@ $stmt->execute();
 
 
 
-header('Location: index.php?success=1');
+header('Location: checkoutComplete.php?success=1');
 
 }
 
