@@ -1,6 +1,5 @@
 <?php
 
-
 class HTMLDocument {
     private $title;
     private $stylesheets = [];
@@ -15,7 +14,7 @@ class HTMLDocument {
     public function addStylesheet($href) {
         $this->stylesheets[] = $href;
     }
-// 
+
     public function addScript($src) {
         $this->scripts[] = $src;
     }
@@ -65,13 +64,9 @@ $userInfo = $user->getUserInfo($user_id);
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/gallery/title_logo.png">
     <meta name="msapplication-TileImage" content="assets/img/gallery/title_logo.png">
 
-    <!-- Google icon -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=radio_button_checked" />
-
     <meta name="theme-color" content="#ffffff">
 
     <style type="text/css">
-        /* Include any extra styling you need */
         body {
             margin-top: 20px;
             background-color: #e2e8f0;
@@ -91,17 +86,17 @@ $userInfo = $user->getUserInfo($user_id);
         .invalid {
             color: red;
         }
-        .label
-        {
+        .label {
             background-color: green;
             color: white;
         }
-        .radio_button
-
-        {
-
+        .radio_button {
             height: 35px;
             width: 35px;
+        }
+        .order-detail {
+            display: none;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -157,33 +152,16 @@ $userInfo = $user->getUserInfo($user_id);
                         <div class="tab-pane active" id="profile">
                             <h6>YOUR PROFILE INFORMATION</h6>
                             <hr>
-                            <table class="table">
-                                <tr>
-                                    <th>First Name</th>
-                                    <td><?php echo htmlspecialchars($userInfo['first_name']); ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Last Name</th>
-                                    <td><?php echo htmlspecialchars($userInfo['last_name']); ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Email</th>
-                                    <td><?php echo htmlspecialchars($userInfo['email']); ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Phone</th>
-                                    <td><?php echo htmlspecialchars($userInfo['phone_number']); ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Address</th>
-                                    <td><?php echo htmlspecialchars($userInfo['address']); ?></td>
-                                </tr>
-                            </table>
-
-                            <!-- Button to show update form -->
+                            <div>
+                                <strong>First Name:</strong> <?php echo htmlspecialchars($userInfo['first_name']); ?><br>
+                                <strong>Last Name:</strong> <?php echo htmlspecialchars($userInfo['last_name']); ?><br>
+                                <strong>Email:</strong> <?php echo htmlspecialchars($userInfo['email']); ?><br>
+                                <strong>Phone:</strong> <?php echo htmlspecialchars($userInfo['phone_number']); ?><br>
+                                <strong>Address:</strong> <?php echo htmlspecialchars($userInfo['address']); ?><br>
+                            </div>
+                            <p class="text-success d-none" id="profile_update">Your changes have been saved!</p>
                             <button id="updateBtn" class="btn btn-primary text-light">Update Profile</button>
 
-                            <!-- Update Form Section (Initially Hidden) -->
                             <div id="updateFormSection" style="display:none; margin-top: 20px;">
                                 <h5>Update Your Profile</h5>
                                 <form method="POST" action="update.php">
@@ -208,9 +186,8 @@ $userInfo = $user->getUserInfo($user_id);
                                         <input type="text" name="address" class="form-control" value="<?php echo htmlspecialchars($userInfo['address']); ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password (Leave blank if not changing)</label>
-                                        <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Password *" required oninput="checkPasswordRequirements()" onfocus="showPasswordMessage()" onblur="hidePasswordMessage()" />
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password *" required oninput="checkPasswordRequirements()" onfocus="showPasswordMessage()" onblur="hidePasswordMessage()" />
                                     </div>
                                     <div id="password-message">
                                         <p>Password must contain:</p>
@@ -222,58 +199,52 @@ $userInfo = $user->getUserInfo($user_id);
                                             <li id="special" class="invalid">At least one special character</li>
                                         </ul>
                                     </div>
-                                    <button type="submit" name="update" class="btn btn-success">Save Changes</button>
+                                    <button type="submit" name="update" class="btn btn-primary mt-3">Save Changes</button>
                                 </form>
                             </div>
                         </div>
 
-                        <!-- Account Settings Section (For future extension) -->
+                        <!-- Order History Section -->
                         <div class="tab-pane" id="account">
-    <h6>ORDER HISTORY</h6>
-    <hr>
-    <div class="panel-body">
-        <?php include "orderHistory.php"; 
-        $orders = getOrderHistory($conn, $user_id);
-        // print_r($orders);
-        ?>
+                            <h6>ORDER HISTORY</h6>
+                            <hr>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Quantity</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        include "orderHistory.php"; 
+                                        $orders = getOrderHistory($db, $user_id);
 
-        
-<?php 
-       if ($orders == []) {
-        // print_r($orders);
-         echo "<p>No orders found.</p>";
-        } else {
-            foreach ($orders as $order): ?>
-                <div class="row">
-                    <div class="col-md-1">
-                    <img src="../public/assets/img/gallery/radio_button.png"  class="radio_button"/>
-
-                        
-                    </div>
-                    <div class="col-md-11">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="pull-right">
-                                    <label class="label <?php echo strtolower($order['order_status']); ?>">
-                                        <?php echo $order['order_status']; ?>
-                                    </label>
-                                </div>
-                                <span><strong>Order ID:</strong> <?php echo $order['order_id']; ?></span><br>
-                                <span><strong>Quantity:</strong> <?php echo $order['quantity']; ?></span><br>
-                                <span><strong>Date:</strong> <?php echo date("Y-m-d", strtotime($order['created_at'])); ?></span>
-                                <span><strong>Product:</strong> <?php echo htmlspecialchars($order['product_id']); ?></span><br>
+                                        if (empty($orders)) {
+                                            echo "<tr><td colspan='5'>No orders found.</td></tr>";
+                                        } else {
+                                            foreach ($orders as $order) {
+                                                echo "<tr>";
+                                                echo "<td>" . htmlspecialchars($order['order_id']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($order['quantity']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($order['created_at']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($order['order_status']) . "</td>";
+                                                echo "<td>
+                                                <a href='orderDetails.php?order_id=" . htmlspecialchars($order['order_id']) . "' class='btn btn-info'>View</a>
+                                              </td>";
+                                        
+                                                echo "</tr>";
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <hr>
-            <?php endforeach; 
-        } ?>
-
-        
-       
-    </div>
-</div>
                     </div>
                 </div>
             </div>
@@ -287,56 +258,35 @@ $userInfo = $user->getUserInfo($user_id);
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// JavaScript to Toggle Update Form
-function checkPasswordRequirements() {
-    const password = document.getElementById("password").value;
-    const uppercase = /[A-Z]/.test(password);
-    const lowercase = /[a-z]/.test(password);
-    const number = /[0-9]/.test(password);
-    const specialChar = /[!@#$%^&*]/.test(password);
-    const minLength = password.length >= 6;
+    $(document).ready(function() {
+        $("#updateBtn").click(function() {
+            $("#updateFormSection").toggle();
+        });
 
-    document.getElementById("length").className = minLength ? "valid" : "invalid";
-    document.getElementById("uppercase").className = uppercase ? "valid" : "invalid";
-    document.getElementById("lowercase").className = lowercase ? "valid" : "invalid";
-    document.getElementById("number").className = number ? "valid" : "invalid";
-    document.getElementById("special").className = specialChar ? "valid" : "invalid";
-}
+        $(".view-details").click(function() {
+            var orderId = $(this).data('order-id');
+            // Fetch and display order details using AJAX or any preferred method
+            // For example: $.get('getOrderDetails.php', { order_id: orderId }, function(data) { ... });
+            alert("Fetch details for Order ID: " + orderId);
+        });
+    });
 
-function showPasswordMessage() {
-    document.getElementById("password-message").style.display = "block";
-}
-
-function hidePasswordMessage() {
-    document.getElementById("password-message").style.display = "none";
-}
-
-document.getElementById('updateBtn').addEventListener('click', function() {
-    var formSection = document.getElementById('updateFormSection');
-    if (formSection.style.display === "none") {
-        formSection.style.display = "block";
-    } else {
-        formSection.style.display = "none";
+    function checkPasswordRequirements() {
+        var password = document.getElementById("password").value;
+        document.getElementById("length").classList.toggle("valid", password.length >= 6);
+        document.getElementById("uppercase").classList.toggle("valid", /[A-Z]/.test(password));
+        document.getElementById("lowercase").classList.toggle("valid", /[a-z]/.test(password));
+        document.getElementById("number").classList.toggle("valid", /\d/.test(password));
+        document.getElementById("special").classList.toggle("valid", /[!@#$%^&*(),.?":{}|<>]/.test(password));
     }
-});
 
-// Password validation before form submission
-const updateForm = document.querySelector('form[action="update.php"]');
-updateForm.addEventListener('submit', function(e) {
-    const password = document.getElementById("password").value;
-    const minLength = password.length >= 6;
-    const uppercase = /[A-Z]/.test(password);
-    const lowercase = /[a-z]/.test(password);
-    const number = /[0-9]/.test(password);
-    const specialChar = /[!@#$%^&*]/.test(password);
-
-    if (!minLength || !uppercase || !lowercase || !number || !specialChar) {
-        e.preventDefault(); // Prevent form submission
-        swal("Error!", "Please make sure your password meets all requirements.", "error");
-    } else {
-        swal("Success!", "Your changes have been saved!", "success");
+    function showPasswordMessage() {
+        document.getElementById("password-message").style.display = "block";
     }
-});
+
+    function hidePasswordMessage() {
+        document.getElementById("password-message").style.display = "none";
+    }
 </script>
 </body>
 </html>
