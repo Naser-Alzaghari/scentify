@@ -5,7 +5,7 @@
             $sql = "SELECT * FROM categories WHERE is_deleted != 1";
             $categories = $this->getConnection()->query($sql);
             echo "<div class='container' id='Categoreys'><div class='row h-100 g-3'>
-            <h1>Catigorys</h1>";
+            <h1>Categories</h1>";
             foreach ($categories as $category) {
                 echo "<a class='col-md-4 col-sm-6 block' href='productDisplay_page.php?category_name={$category['category_name']}'>
                         <div class='card card-span h-100 text-white category border-primary1'><img class='card-img h-100' src='assets/img/gallery/{$category['image']}' alt='...'>

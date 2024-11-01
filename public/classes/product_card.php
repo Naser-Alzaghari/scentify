@@ -1,15 +1,25 @@
 <?php
     class product_card {
         private $product;
+        private $current_user_id;
     
         public function __construct($product) {
             $this->product = $product;
+            if (isset($_SESSION['user_id'])) {
+                $this->current_user_id = (int) $_SESSION['user_id'];
+            } else {
+                $this->current_user_id = 0;
+            }
         }
         
         public function render() {
+            $Wishlist = new Wishlist($this->current_user_id);
+            $current_user_wishlist_items = $Wishlist->getWishlistItems();
+            $current_user_wishlist_product_ids = array_map(function ($ar) {return $ar['product_id'];}, $current_user_wishlist_items);
+            $fill_or_not = in_array($this->product['product_id'], $current_user_wishlist_product_ids) ? "currentColor" : "none";
             echo "
-            <form action='newindex.php' method='get' class='col-lg-3 col-md-4 col-6 mb-3 mb-md-0 h-100' style='z-index: 0;'>
-                <input type='hidden' value='{$this->product['product_id']}' name='product_id'>
+            <form action='newindex.php' method='get' class='col-sm-6 col-md-4 col-lg-3 mb-3 mb-md-0 h-100'>
+            <input type='hidden' value='{$this->product['product_id']}' name='product_id'>
                 <div class='card card-span text-white p-2 mb-3 animate-card' style='background-color: #EDDFE0 !important;'>
                     <a href='product_page.php?product_id={$this->product['product_id']}' class='text-decoration-none'>
                         <img class='img-fluid rounded w-100 mb-2' src='assets/img/gallery/{$this->product['product_image']}' alt='...' style='height:250px;'>
@@ -17,14 +27,14 @@
                     <div class='ps-0'> </div>
                     <div class='card-body p-0 bg-transparent'>
                         <div class='card-description'>
-                            <div class='d-flex justify-content-between align-items-center mb-2'>
-                                <h5 class='fw-bold text-1000 text-truncate mb-0'>{$this->product['product_name']}</h5>
-                                <a class=''>
-                                    <svg class='feather feather-heart me-1 text-1000' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-                                        <path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'></path>
-                                    </svg>
-                                </a>
-                            </div>
+                           <div class='d-flex justify-content-between align-items-center mb-2'>
+                            <h5 class='fw-bold text-1000 text-truncate mb-0'>{$this->product['product_name']}</h5>
+                            <a class='' onclick='toggleHeart(this, {$this->product['product_id']})'>
+                                <svg class='feather feather-heart me-1 text-1000' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='$fill_or_not' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+                                    <path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'></path>
+                                </svg>
+                            </a>
+                        </div>
                             <p class='fw-bold mb-2'><span class='text-dark'>\${$this->product['price']}</span></p>
                         </div>
                         <button type='button' class='btn btn-primary1 w-100 add-to' data-bs-toggle='modal' data-bs-target='#exampleModal' id='add_item_{$this->product['product_id']}' product_id='{$this->product['product_id']}'>
@@ -53,6 +63,34 @@
                     </div>
                 </div>
             </form>
+            <script>
+                function toggleHeart(element, current_product_id) {
+                    debugger;
+                    const heartIcon = element.querySelector('svg');
+                    var currentFill = heartIcon.getAttribute('fill');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'wishlist_management.php',
+                        data: {
+                            product_id: current_product_id,
+                            user_id: $this->current_user_id,
+                            action: currentFill === 'none'? 'add' : 'remove'
+                        },
+                        datatype: 'json',
+                        success: function (response) {
+                            response = JSON.parse(response);
+                            console.log(response);
+                            debugger;
+                            // Handle whatever done from the backend...
+                            if (response.status == 'success') {
+                                // Toggle between filled and outline
+                                heartIcon.setAttribute('fill', currentFill === 'none' ? 'currentColor' : 'none');
+                            }
+                        }
+                    });
+                }
+            </script>
             <style>
                 .animate-card {
                     transition: transform 0.3s ease, box-shadow 0.3s ease;

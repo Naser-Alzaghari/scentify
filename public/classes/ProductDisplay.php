@@ -16,6 +16,7 @@
             } else {
                 echo "<p class='text-center'>No products found</p>";
             }
+            echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>';
         }
     }
 ?>
