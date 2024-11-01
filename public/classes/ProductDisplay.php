@@ -4,7 +4,7 @@
         public function render($sql) {
             $products = $this->getConnection()->query($sql);
             if ($products->rowCount() > 0) {
-                echo "<div class='container mb-6'>
+                echo "<div class='container mb-4'>
                     <div class='row'>";
                 foreach ($products as $product) {
                     $obj = new product_card($product);

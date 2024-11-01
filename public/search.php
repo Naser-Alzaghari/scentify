@@ -1,7 +1,14 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usersearch = $_POST["usersearch"];
+    if(!isset(($_SESSION))){
+        session_start();
+    }
+    if(isset($_POST["usersearch"])){
+        $usersearch = $_POST["usersearch"];
+        $_SESSION["usersearch"] = $usersearch;}
+    else if(isset($_SESSION["usersearch"]))
+        $usersearch = $_SESSION["usersearch"];
 
+    
     try {
         require_once "conn.php";
 
@@ -21,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
-}
+
 ?>
 
 <?php
@@ -85,7 +92,7 @@ class HTMLDocument {
 
     <section class="py-5">
         <div class="container mt-5">
-        <h2 class="mb-4">Search Result</h2>
+        <h2 class="mb-4">Search Result for "<?=$usersearch?>"</h2>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
                 <?php
                 if (empty($results)) {

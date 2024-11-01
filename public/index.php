@@ -84,14 +84,14 @@ class HTMLDocument {
       </div>
     </div>
     </div> -->
-    <section class='py-11 bg-light-gradient border-bottom border-white border-5'>
+    <section class='py-4 bg-light-gradient border-bottom border-white border-5' style="padding-bottom: 23rem !important;">
         <div class='bg-holder overlay overlay-light'
             style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
         </div>
         
         
-    </section>
-    <div id="carouselExampleControlsNoTouching" class="carousel slide container mt-8 rounded" style="margin-top: -23rem !important;" data-bs-touch="false">
+    
+    <div id="carouselExampleControlsNoTouching" class="carousel slide container mt-8 rounded" data-bs-touch="false">
   <div class="carousel-inner">
   <div class="carousel-item position-relative active">
     <div><img src="./assets/img/gallery/perfume.jpg" class="d-block w-100 rounded" style="object-fit: cover;" alt="..."></div>
@@ -122,7 +122,8 @@ class HTMLDocument {
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-    <section class="py-0 mt-6" id="header" >
+</section>
+    <section class="py-0 mt-6" id="header" style="margin-top: -22rem !important;">
         <div class="container mb-6">
             <div class="row g-4">
                 <div class="col-md-6">
@@ -162,8 +163,12 @@ class HTMLDocument {
 
     ?>
 
-    <div class="container mb-6">
-        <img src=".\assets\img\gallery\offers.jpg" alt="offers">
+    <div class="container mb-4">
+        <div class="d-flex flex-column justify-content-between flex-lg-row gap-4">
+            <div><img src=".\assets\img\gallery\free_delivery.png" alt="offers"></div>
+            <div><img src=".\assets\img\gallery\original.png" alt="offers"></div>
+            <div><img src=".\assets\img\gallery\best_offers.png" alt="offers"></div>
+        </div>
     </div>
 
     <?php

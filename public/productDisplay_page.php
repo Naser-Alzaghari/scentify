@@ -55,11 +55,18 @@ class HTMLDocument {
     
     <?php include "insert_data_form.php" ?>
     <main class="main min-vh-100" id="top">
-    <div class="mt-8"><h1 class='text-center mb-4'><?=$_GET['category_name']?></h1></div>
+    <section class='py-4 bg-light-gradient border-bottom border-white border-5'>
+    <div class='bg-holder overlay overlay-light'
+         style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
+    </div>
+    <div class="mt-8" style="position: relative; z-index: 1;">
+        <h1 class='text-center mb-4'><?= htmlspecialchars($_GET['category_name']) ?></h1>
+    </div>
     <?php
     $productDisplay = new ProductDisplay();
     $productDisplay->render("SELECT * FROM `products` JOIN `categories` on products.category_id = categories.category_id WHERE category_name = '{$_GET['category_name']}'");
     ?>
+    </section>
     </main>
     <?php
     include "footer.html";
