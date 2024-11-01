@@ -57,7 +57,7 @@ $orders = $orderManager->getOrders($limit, $offset);
     /* Sidebar CSS */
 .sidebar-offcanvas {
     position: fixed !important; 
-    top: 60px;!important;
+    top: 60px!important;
     left: 0 !important;
     width: 250px !important; 
     height: 100vh !important; 

@@ -291,6 +291,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 < script src = "./Search.js" >
                 </script>
                 </script>
+>>>>>>> c520d278fc1dc6a2ce8c2b1354f9c90458b86d99
                 <script>
                 function clearForm() {
                     document.getElementById('productForm').reset();

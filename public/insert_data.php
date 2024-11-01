@@ -1,5 +1,4 @@
 <?php
-  $lorem="dump";
     session_start();
     $product_id = $_POST['add_item_id'];
     $quantity = $_POST['quantity'];

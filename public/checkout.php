@@ -19,7 +19,6 @@ $stmt->bindParam(':shipping_address', $address);
 $stmt->bindParam(':total_amount', $final_amount);
 $stmt->bindParam(':comments', $comments);
 $stmt->bindParam(':order_id', $order_id);
-
 $stmt->execute();
 $stmt = null;
 

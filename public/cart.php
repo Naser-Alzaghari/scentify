@@ -259,7 +259,6 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
             function checkCoupon() {
                 // check coupon
-                const lorem="dump";
                 // 1. Check the format of the coupon
                 const coupon_string = $("input[name=coupon]").val();
                 const regex = /^\d{2}[A-Z]{4}$/;
