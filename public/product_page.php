@@ -21,6 +21,8 @@ if (!$product) {
     echo "Product not found.";
     exit;
 }
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -42,14 +44,19 @@ if (!$product) {
 </head>
 
 <body>
+<?php 
+        $navbar = new Navbar();
+        $navbar->render();
 
+        $alert = new Alert();
+        $alert->showAlert();
+    ?>
     <main class="main" id="top">
+    
     <section class='py-4 bg-light-gradient border-bottom border-white border-5'>
     <div class='bg-holder overlay overlay-light'
          style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
     </div>
-        <?php include "nav_bar.php"; ?>
-        
         <!-- Product Section -->
         <section class="py-5">
             <div class="container my-5">

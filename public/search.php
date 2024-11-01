@@ -1,7 +1,14 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usersearch = $_POST["usersearch"];
+    if(!isset(($_SESSION))){
+        session_start();
+    }
+    if(isset($_POST["usersearch"])){
+        $usersearch = $_POST["usersearch"];
+        $_SESSION["usersearch"] = $usersearch;}
+    else if(isset($_SESSION["usersearch"]))
+        $usersearch = $_SESSION["usersearch"];
 
+    
     try {
         require_once "conn.php";
 
@@ -21,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
-}
+
 ?>
 
 <?php

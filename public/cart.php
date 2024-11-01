@@ -126,8 +126,9 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                         </button>
 
                                                         </div>  
+                                                        <hr class="my-4">
                                                     </div>
-                                                    <hr class="my-4">
+                                                    
                                                 <?php endforeach;?>
                                             </div>
                                         </div>
@@ -341,12 +342,7 @@ function deleteItem(orderItemId) {
                     // Update the total amount in the cart
                     document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
 
-                    // Show success message
-                    swalWithBootstrapButtons.fire({
-                        title: "Removed!",
-                        text: "The item has been removed from your cart.",
-                        icon: "success"
-                    });
+                    
                 } else {
                     // Handle failure to delete
                     Swal.fire("Error", "Failed to remove the item. Please try again.", "error");
@@ -355,12 +351,6 @@ function deleteItem(orderItemId) {
             .catch(error => {
                 console.error("Error:", error);
                 Swal.fire("Error", "An error occurred. Check the console for details.", "error");
-            });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            swalWithBootstrapButtons.fire({
-                title: "Cancelled",
-                text: "The item was not removed from your cart.",
-                icon: "error"
             });
         }
     });

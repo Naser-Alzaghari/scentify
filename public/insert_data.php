@@ -95,5 +95,6 @@
     $statment->execute();
 
     $_SESSION['added_item'] = $product["product_name"];
-    header("location: index.php");
-?>
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit();
+    ?>
