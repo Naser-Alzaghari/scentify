@@ -1,5 +1,5 @@
 <?php
-include "orderHistory.php";
+
 
 class HTMLDocument {
     private $title;
@@ -15,7 +15,7 @@ class HTMLDocument {
     public function addStylesheet($href) {
         $this->stylesheets[] = $href;
     }
-
+// 
     public function addScript($src) {
         $this->scripts[] = $src;
     }
@@ -64,6 +64,10 @@ $userInfo = $user->getUserInfo($user_id);
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/gallery/title_logo.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/gallery/title_logo.png">
     <meta name="msapplication-TileImage" content="assets/img/gallery/title_logo.png">
+
+    <!-- Google icon -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=radio_button_checked" />
+
     <meta name="theme-color" content="#ffffff">
 
     <style type="text/css">
@@ -86,6 +90,18 @@ $userInfo = $user->getUserInfo($user_id);
         }
         .invalid {
             color: red;
+        }
+        .label
+        {
+            background-color: green;
+            color: white;
+        }
+        .radio_button
+
+        {
+
+            height: 35px;
+            width: 35px;
         }
     </style>
 </head>
@@ -163,9 +179,9 @@ $userInfo = $user->getUserInfo($user_id);
                                     <td><?php echo htmlspecialchars($userInfo['address']); ?></td>
                                 </tr>
                             </table>
-
+                            <p class="text-success d-none" id="profile_update">Your changes have been saved!</p>
                             <!-- Button to show update form -->
-                            <button id="updateBtn" class="btn btn-primary text-light">Update Profile</button>
+                            <button id="updateBtn" class="btn btn-primary1 text-light">Update Profile</button>
 
                             <!-- Update Form Section (Initially Hidden) -->
                             <div id="updateFormSection" style="display:none; margin-top: 20px;">
@@ -192,7 +208,7 @@ $userInfo = $user->getUserInfo($user_id);
                                         <input type="text" name="address" class="form-control" value="<?php echo htmlspecialchars($userInfo['address']); ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password (Leave blank if not changing)</label>
+                                        <label for="password">Password</label>
                                         <input type="password" class="form-control" id="password" name="password"
                                         placeholder="Password *" required oninput="checkPasswordRequirements()" onfocus="showPasswordMessage()" onblur="hidePasswordMessage()" />
                                     </div>
@@ -206,45 +222,58 @@ $userInfo = $user->getUserInfo($user_id);
                                             <li id="special" class="invalid">At least one special character</li>
                                         </ul>
                                     </div>
-                                    <button type="submit" name="update" class="btn btn-success">Save Changes</button>
+                                    <button type="submit" name="update" class="btn btn-primary1 mt-3">Save Changes</button>
                                 </form>
                             </div>
                         </div>
 
                         <!-- Account Settings Section (For future extension) -->
                         <div class="tab-pane" id="account">
-                            <h6>ORDER HISTORY</h6>
-                            <hr>
-                            <div class="panel-body">
-                                <?php foreach ($orders as $order): ?>
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <img src="<?php echo $order['image']; ?>" class="media-object img-thumbnail" />
-                                    </div>
-                                    <div class="col-md-11">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="pull-right">
-                                                    <label class="label <?php echo strtolower($order['status']); ?>">
-                                                        <?php echo $order['status']; ?>
-                                                    </label>
-                                                </div>
-                                                <span><strong>Order ID:</strong> <?php echo $order['id']; ?></span><br>
-                                                <span><strong>Product:</strong>
-                                                 <?php 
-                                                //  echo $order['product_name']; 
-                                                 ?>
-                                            </span><br>
-                                                <span><strong>Quantity:</strong> <?php echo $order['quantity']; ?></span><br>
-                                                <span><strong>Date:</strong> <?php echo date("Y-m-d", strtotime($order['date'])); ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
+    <h6>ORDER HISTORY</h6>
+    <hr>
+    <div class="panel-body">
+        <?php include "orderHistory.php"; 
+        $orders = getOrderHistory($conn, $user_id);
+        // print_r($orders);
+        ?>
+
+        
+<?php 
+       if ($orders == []) {
+        // print_r($orders);
+         echo "<p>No orders found.</p>";
+        } else {
+            foreach ($orders as $order): ?>
+                <div class="row">
+                    <div class="col-md-1">
+                    <img src="../public/assets/img/gallery/radio_button.png"  class="radio_button"/>
+
+                        
+                    </div>
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <label class="label <?php echo strtolower($order['order_status']); ?>">
+                                        <?php echo $order['order_status']; ?>
+                                    </label>
                                 </div>
-                                <hr>
-                                <?php endforeach; ?>
+                                <span><strong>Order ID:</strong> <?php echo $order['order_id']; ?></span><br>
+                                <span><strong>Quantity:</strong> <?php echo $order['quantity']; ?></span><br>
+                                <span><strong>Date:</strong> <?php echo date("Y-m-d", strtotime($order['created_at'])); ?></span>
+                                <span><strong>Product:</strong> <?php echo htmlspecialchars($order['product_id']); ?></span><br>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <hr>
+            <?php endforeach; 
+        } ?>
+
+        
+       
+    </div>
+</div>
                     </div>
                 </div>
             </div>
@@ -305,9 +334,14 @@ updateForm.addEventListener('submit', function(e) {
         e.preventDefault(); // Prevent form submission
         swal("Error!", "Please make sure your password meets all requirements.", "error");
     } else {
-        swal("Success!", "Your changes have been saved!", "success");
+        sessionStorage.setItem("profile_update","Your changes have been saved!");
     }
 });
+
+if(sessionStorage.getItem("profile_update") != null){
+    document.getElementById("profile_update").classList.remove("d-none");
+    sessionStorage.removeItem("profile_update");
+}
 </script>
 </body>
 </html>

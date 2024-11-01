@@ -48,8 +48,6 @@ main {
   .quantity {
     border: 1px solid black;
     border-radius: 10px;
-    color: red;
-  
   }
   
   #search {
@@ -140,5 +138,10 @@ main {
   .label.rejected {
     background-color: #d9534f;
     color: white;
+  }
+
+
+  .carousel-item img {
+    height: 500px !important;
   }
   

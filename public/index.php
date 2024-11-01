@@ -63,30 +63,71 @@ class HTMLDocument {
     $alert = new Alert();
     $alert->showAlert();
     ?>
+    
     <main class="main mb-6" id="top">
+    
+    <!-- <div class="mt-6 rounded w-80 container">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner rounded border-primary1">
+        <div class="carousel-item active">
+          <img src="./assets/img/gallery/slider.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="./assets/img/gallery/slider1.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="./assets/img/gallery/slider2.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="./assets/img/gallery/slider3.png" class="d-block w-100" alt="...">
+        </div>
+      </div>
+    </div>
+    </div> -->
     <section class='py-11 bg-light-gradient border-bottom border-white border-5'>
         <div class='bg-holder overlay overlay-light'
             style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
         </div>
         
-        <div class='container'>
-            <div class='row flex-center'>
-                <div class='col-12 mb-10'>
-                    <div class='d-flex align-items-center flex-column'>
-                        <h1 class='fw-normal text-center'>Elevate Your Aura with Premium Perfumes</h1>
-                        <h1 class='fs-4 fs-lg-8 fs-md-6 fw-bold'>Fragrances That Define You</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </section>
+    <div id="carouselExampleControlsNoTouching" class="carousel slide container mt-8 rounded" style="margin-top: -23rem !important;" data-bs-touch="false">
+  <div class="carousel-inner">
+  <div class="carousel-item position-relative active">
+    <div><img src="./assets/img/gallery/perfume.jpg" class="d-block w-100 rounded" style="object-fit: cover;" alt="..."></div>
+    <div class="position-absolute ms-6 rounded p-3" style="top: 50%; text-shadow: 3px 3px 5px grey;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%); background-color: rgba(0,0,0,.4);" >
+        <p class="fs-4 fs-lg-8 fs-md-6 fw-bold text-white">Enjoy our 20% sales</p>
+        <h1 class="fw-normal text-white">Use code: <b>20ORNG</b></h1>
+        <a class="btn btn-light mt-4" href="#Top_Selling">Shop Now</a>
+    </div>
+    </div>
+    <div class="carousel-item">
+    <a href="productDisplay_page.php?category_name=Packages">
+        <img src="./assets/img/gallery/slider2.png" class="d-block w-100 rounded" alt="...">
+    </a>
+    </div>
     
-    <section class="py-0" id="header" style="margin-top: -23rem !important;">
+    <div class="carousel-item">
+        <a href="productDisplay_page.php?category_name=Packages"><img src="./assets/img/gallery/slider1.png" class="d-block w-100 rounded" alt="..."></a>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+    <section class="py-0 mt-6" id="header" >
         <div class="container mb-6">
             <div class="row g-4">
                 <div class="col-md-6">
                     <a class="card card-span h-100 text-white rounded category border-primary1" href="productDisplay_page.php?category_name=Women"> 
-                        <img class="img-fluid rounded" src="assets/img/gallery/women.png" width="590" alt="..." style="aspect-ratio: 1 / 1;" />
+                        <img class="img-fluid rounded w-100" src="assets/img/gallery/women.png" width="590" alt="..." style="aspect-ratio: 1 / 1;" />
                         <div class="card-img-overlay d-flex flex-center"> 
                             <span class="btn btn-lg btn-light">For Her</span>
                         </div>
@@ -94,7 +135,7 @@ class HTMLDocument {
                 </div>
                 <div class="col-md-6">
                     <a class="card card-span h-100 text-white rounded category border-primary1" href="productDisplay_page.php?category_name=Men"> 
-                        <img class="img-fluid rounded" src="assets/img/gallery/men.png" width="590" alt="..." />
+                        <img class="img-fluid rounded w-100" src="assets/img/gallery/men.png" width="590" alt="..." />
                         <div class="card-img-overlay d-flex flex-center"> 
                             <span class="btn btn-lg btn-light">For Him</span>
                         </div>
@@ -107,20 +148,25 @@ class HTMLDocument {
     <!-- Include the insert data form -->
     <?php include "insert_data_form.php" ?>
 
-    <h1 class='text-center mb-4'>Top Selling</h1>
+    <h1 class='text-center mb-4' id="Top_Selling">Top Selling</h1>
 
 <?php
 // Fetch and display the top selling products
-$productDisplay = new ProductDisplay();
-$products = $conn->query("SELECT * FROM products LIMIT 6" )->fetchAll();
 
 
 ?>
     <?php
     // Display the top selling products
     $productDisplay = new ProductDisplay();
-    $productDisplay->render("SELECT * FROM products LIMIT 8");
+    $productDisplay->render("SELECT order_items.product_id, `product_name`, `product_description`, `product_image`, products.price, `stock_quantity`, `category_id`, `updated_at`, products.is_deleted , sum(order_items.quantity) as q FROM `order_items` JOIN `products` on order_items.product_id = products.product_id JOIN `orders` on orders.order_id = order_items.order_id WHERE order_status = 'processing' GROUP By product_id ORDER by q DESC; LIMIT 8");
 
+    ?>
+
+    <div class="container mb-6">
+        <img src=".\assets\img\gallery\offers.jpg" alt="offers">
+    </div>
+
+    <?php
     // Display the categories
     $categoryDisplay = new CategoryDisplay();
     $categoryDisplay->render();

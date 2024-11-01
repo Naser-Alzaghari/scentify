@@ -73,7 +73,7 @@ if (!$product) {
                                     <input type="num" class="p-2 text-center" name="quantity" id="quantity_num" value="1" style="width:50px" readonly>
                                     <input type="button" value="+" id="add_quantity" onclick="addbutton(<?=$product['stock_quantity']?>)">
                                 </div>
-                                <button type='submit' class='btn w-100 add-to' style='background-color: #705C53; color: #F5F5F7;'>
+                                <button type='submit' class='btn w-100 add-to' style='background-color: #705C53; color: #F5F5F7;' id="add_item_<?=$product['product_id']?>">
                             <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cart' viewBox='0 0 16 16'>
                                 <path d='M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2'>
                                 </path>
@@ -135,7 +135,10 @@ $related_products = $related_query->fetchAll(PDO::FETCH_ASSOC);
                                 // min_quantity.setAttribute('disabled', '');
                                 // product_description.innerHTML='{$this->product['product_description']}';
                             });
+                            
                             if(<?php echo htmlspecialchars($product['stock_quantity']); ?> <= 0){
+                                
+                                
                                 document.getElementById('add_item_<?php echo htmlspecialchars($product['product_id']); ?>').setAttribute('disabled','');
                                 document.getElementById('add_item_<?php echo htmlspecialchars($product['product_id']); ?>').innerHTML='SOLD OUT';
                                 document.querySelector('.quantity').classList.add('d-none');

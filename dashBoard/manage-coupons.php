@@ -1,26 +1,22 @@
 <?php
-session_start();
-// تضمين الملفات الضرورية
 require_once 'config.php';
 require_once 'CouponManager.php';
 
-// إنشاء كائن الاتصال بقاعدة البيانات باستخدام الفئة الموجودة في config.php
 $database = new Database();
 $pdo = $database->getConnection();
 
-// إنشاء كائن CouponManager وتمرير الاتصال بقاعدة البيانات
 $couponObj = new CouponManager($pdo);
-$couponObj->updateExpiredCoupons(); // تحديث الكوبونات المنتهية الصلاحية تلقائيًا
+$couponObj->updateExpiredCoupons(); // Update expired coupons automatically
 
-// إعداد pagination
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // الصفحة الحالية
-$limit = 4; // عدد الكوبونات في كل صفحة
-$offset = ($page - 1) * $limit; // الإزاحة
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
+$limit = 10;
+$offset = ($page - 1) * $limit; 
 
 $totalCoupons = $couponObj->getCouponsCount();
 $totalPages = ceil($totalCoupons / $limit); 
 
-// جلب الكوبونات مع الإزاحة وحدود العرض
+// Get coupons with offset and display limits
 $query = "SELECT * FROM coupons WHERE is_deleted = 0 LIMIT :limit OFFSET :offset";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -43,61 +39,52 @@ $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
-    .search-bar-wrapper {
-        max-width: 400px;
-        /* أقصى عرض لشريط البحث */
-    }
-
-    .search-bar {
-        background-color: white;
-        width: 250px;
-        /* عرض كامل للعنصر */
-        padding: 10px 20px;
-        /* حشوة داخلية */
-        border: none;
-        /* إزالة الحدود */
-        border-radius: 50px;
-        /* زوايا دائرية */
-        outline: none;
-        /* إزالة الخط الخارجي عند التركيز */
-        font-size: 16px;
-        /* حجم الخط */
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-        /* ظل خفيف */
-        transition: all 0.3s ease;
-        /* تأثيرات انتقالية */
-    }
-
-    .search-bar:focus {
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-        /* ظل خفيف */
-    }
-    .pagination {
-    margin-top: 20px; /* إضافة مساحة بين الجدول والـ pagination */
-    margin-bottom: 20px; /* إضافة مساحة في الأسفل إذا لزم الأمر */
-    justify-content: center; /* لتوسيط العناصر داخل الـ pagination */
+    /* Sidebar CSS */
+.sidebar-offcanvas {
+    position: fixed !important; 
+    top: 60px;!important;
+    left: 0 !important;
+    width: 250px !important; 
+    height: 100vh !important; 
+    overflow-y: auto !important; 
+    background-color: #f8f9fa; 
+    z-index: 1000; 
 }
+
+/* Main content CSS */
+.content-wrapper {
+    margin-left: 250px; 
+    padding: 20px; 
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Styling for pagination */
+.pagination {
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    justify-content: center; 
 
 .pagination .page-item .page-link {
-    border: 1px solid #007bff; /* إضافة حدود للروابط */
-}
+    border: 1px solid #007bff; 
 
 .pagination .active .page-link {
-    background-color: #007bff; /* لون خلفية للصفحة النشطة */
-    color: white; /* لون النص للصفحة النشطة */
+    background-color: #007bff;
+    color: white; 
 }
 
 .pagination .disabled .page-link {
-    color: #6c757d; /* لون النص للصفحات المعطلة */
-}
+    color: #6c757d;
+
+/* Navbar active link */
 .nav .nav-link.active {
-    background-color: #007bff !important; /* لون الخلفية عند التفعيل */
-    color: #ffffff !important; /* لون النص الأبيض */
+    background-color: #007bff !important;
+    color: #ffffff !important; 
 }
 
 .nav .nav-link.active .menu-title {
-    color: #ffffff !important; /* تأكد من أن النص داخل العنصر يكون لونه أبيض أيضًا */
+    color: #ffffff !important; 
 }
+
     </style>
 </head>
 
@@ -109,7 +96,7 @@ $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Sidebar -->
   
         <?php
-// Get the current page name
+// Get the current page namec
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">

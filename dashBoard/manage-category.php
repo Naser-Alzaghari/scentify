@@ -1,25 +1,21 @@
 <?php
-session_start();
-// تضمين الملفات الضرورية
 include_once 'config.php';
 include_once 'Category.php';
 
-// إنشاء كائن الاتصال بقاعدة البيانات باستخدام الفئة الموجودة في config.php
 $database = new Database();
 $pdo = $database->getConnection();
 
-// إنشاء كائن فئة Category وتمرير الاتصال بقاعدة البيانات
 $category = new Category($pdo);
 
-// إعداد pagination
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // الصفحة الحالية
-$limit = 4; // عدد الفئات في كل صفحة
-$offset = ($page - 1) * $limit; // الإزاحة
 
-$totalCategories = $category->getCategoriesCount(); // إجمالي عدد الفئات
-$totalPages = ceil($totalCategories / $limit); // إجمالي الصفحات
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
+$limit = 10; 
+$offset = ($page - 1) * $limit; 
 
-// جلب جميع الفئات غير المحذوفة مع استخدام LIMIT و OFFSET
+$totalCategories = $category->getCategoriesCount(); // Total number of categories
+$totalPages = ceil($totalCategories / $limit); // Total pages
+
+// Get all un-deleted classes using LIMIT and OFFSET
 $query = "SELECT * FROM categories WHERE is_deleted = 0 LIMIT :limit OFFSET :offset";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -41,81 +37,53 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="Css.css">
     <style>
-                .search-bar-wrapper {
-    max-width: 400px; /* أقصى عرض لشريط البحث */
+  /* Sidebar CSS */
+.sidebar-offcanvas {
+    position: fixed !important;
+    top: 60px;!important;
+    left: 0 !important;
+    width: 250px !important; 
+    height: 100vh !important; 
+    overflow-y: auto !important; 
+    background-color: #f8f9fa; 
+    z-index: 1000; 
 }
 
-.search-bar {
-    background-color: white;
-    width: 250px; /* عرض كامل للعنصر */
-    padding: 10px 20px; /* حشوة داخلية */
-    border: none; /* إزالة الحدود */
-    border-radius: 50px; /* زوايا دائرية */
-    outline: none; /* إزالة الخط الخارجي عند التركيز */
-    font-size: 16px; /* حجم الخط */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* ظل خفيف */
-    transition: all 0.3s ease; /* تأثيرات انتقالية */
+/* Main content CSS */
+.content-wrapper {
+    margin-left: 250px;
+    padding: 20px; 
+    transition: margin-left 0.3s ease-in-out; 
 }
 
-.search-bar:focus {
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* ظل خفيف */
-}
+/* Styling for pagination */
 .pagination {
-    margin-top: 20px; /* إضافة مساحة بين الجدول والـ pagination */
-    margin-bottom: 20px; /* إضافة مساحة في الأسفل إذا لزم الأمر */
-    justify-content: center; /* لتوسيط العناصر داخل الـ pagination */
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    justify-content: center;
 }
 
 .pagination .page-item .page-link {
-    border: 1px solid #007bff; /* إضافة حدود للروابط */
+    border: 1px solid #007bff; 
 }
 
 .pagination .active .page-link {
-    background-color: #007bff; /* لون خلفية للصفحة النشطة */
-    color: white; /* لون النص للصفحة النشطة */
+    background-color: #007bff;
+    color: white;
 }
 
 .pagination .disabled .page-link {
-    color: #6c757d; /* لون النص للصفحات المعطلة */
+    color: #6c757d; 
 }
+
+/* Navbar active link */
 .nav .nav-link.active {
-    background-color: #007bff !important; /* لون الخلفية عند التفعيل */
-    color: #ffffff !important; /* لون النص الأبيض */
+    background-color: #007bff !important;
+    color: #ffffff !important;
 }
 
 .nav .nav-link.active .menu-title {
-    color: #ffffff !important; /* تأكد من أن النص داخل العنصر يكون لونه أبيض أيضًا */
-}
-
-.sidebar-offcanvas {
-    width: 250px; /* عرض ثابت للشريط الجانبي */
-    background-color: #f8f9fa; /* لون الخلفية */
-    padding: 0;
-    margin: 0;
-}
-
-.nav-item {
-    margin: 0; /* إزالة المسافات بين العناصر */
-    padding: 0;
-}
-
-.nav-link {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px; /* حشوة داخلية متساوية */
-    color: #000000; /* لون النص الأساسي */
-    font-weight: 500;
-    text-decoration: none; /* إزالة الخط السفلي */
-}
-
-.nav-link:hover,
-.nav-link.active {
-    background-color: #007bff; /* لون الخلفية عند التفعيل أو التمرير */
-    color: #ffffff; /* لون النص عند التفعيل أو التمرير */
-}
-
-.menu-icon {
-    margin-right: 10px; /* مسافة بين الأيقونة والنص */
+    color: #ffffff !important; 
 }
 
 
@@ -123,59 +91,57 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-   
-<?php include "header.php" ?>
-    </div>
+    <?php include "header.php" ?>
     <div class="container-fluid page-body-wrapper">
         <!-- Sidebar -->
         <?php
-// Get the current page name
-$current_page = basename($_SERVER['PHP_SELF']);
-?>
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-users.php') ? 'active' : ''; ?>" href="manage-users.php">
-                <i class="icon-head menu-icon"></i>
-                <span class="menu-title">Manage Users</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-orders.php') ? 'active' : ''; ?>" href="manage-orders.php">
-                <i class="icon-cart menu-icon"></i>
-                <span class="menu-title">Orders</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-products.php') ? 'active' : ''; ?>" href="manage-products.php">
-                <i class="icon-box menu-icon"></i>
-                <span class="menu-title">Products</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-category.php') ? 'active' : ''; ?>" href="manage-category.php">
-                <i class="icon-tag menu-icon"></i>
-                <span class="menu-title">Category</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-coupons.php') ? 'active' : ''; ?>" href="manage-coupons.php">
-                <i class="icon-tag menu-icon"></i>
-                <span class="menu-title">Coupons</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+        // Get the current page name
+        $current_page = basename($_SERVER['PHP_SELF']);
+        ?>
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
+                        <i class="icon-grid menu-icon"></i>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-users.php') ? 'active' : ''; ?>" href="manage-users.php">
+                        <i class="icon-head menu-icon"></i>
+                        <span class="menu-title">Manage Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-orders.php') ? 'active' : ''; ?>" href="manage-orders.php">
+                        <i class="icon-cart menu-icon"></i>
+                        <span class="menu-title">Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-products.php') ? 'active' : ''; ?>" href="manage-products.php">
+                        <i class="icon-box menu-icon"></i>
+                        <span class="menu-title">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-category.php') ? 'active' : ''; ?>" href="manage-category.php">
+                        <i class="icon-tag menu-icon"></i>
+                        <span class="menu-title">Category</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'manage-coupons.php') ? 'active' : ''; ?>" href="manage-coupons.php">
+                        <i class="icon-tag menu-icon"></i>
+                        <span class="menu-title">Coupons</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-        <div class="container-fluid content-background">
-        <div class="content-wrapper">
-        <h2 class="mt-4">Manage Categories</h2>
+        <!-- Main Content -->
+        <div class="container-fluid content-wrapper">
+            <h2 class="mt-4">Manage Categories</h2>
         <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">

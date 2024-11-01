@@ -1,34 +1,34 @@
 <?php
-// استدعاء الملفات الضرورية
+
 require 'config.php';
 require 'UserManager.php';
 session_start();
 
-// التحقق من وجود الدور في الجلسة
+
 if (isset($_SESSION['user_role'])) {
     $currentUserRole = $_SESSION['user_role'];
     echo $currentUserRole;
 } 
 
-// إنشاء كائن الاتصال بقاعدة البيانات باستخدام الفئة الموجودة في config.php
+
 $database = new Database();
 $pdo = $database->getConnection();
 
-// إنشاء كائن UserManager باستخدام الاتصال بقاعدة البيانات
+
 $userManager = new UserManager($pdo);
 
-// تعيين قيم التصفح الافتراضية
-$limit = 4; // عدد المستخدمين لكل صفحة
-$page = isset($_GET['page']) ? (int) $_GET['page'] : 1; // الصفحة الحالية
-$offset = ($page - 1) * $limit; // حساب الإزاحة
 
-// الحصول على العدد الكلي للمستخدمين بناءً على دور المستخدم
-$totalUsers = $userManager->getUserCount($currentUserRole); // العدد الكلي للمستخدمين
-$totalPages = ceil($totalUsers / $limit); // حساب عدد الصفحات الكلي
+$limit = 10; 
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1; 
+$offset = ($page - 1) * $limit; 
 
-// جلب المستخدمين للصفحة الحالية
+
+$totalUsers = $userManager->getUserCount(currentUserRole: $currentUserRole); 
+$totalPages = ceil($totalUsers / $limit); 
+
+
 $users = $userManager->getUsers($currentUserRole, $limit, $offset);
-// إذا كان الطلب يحتوي على مصطلح بحث، قم بإرجاع نتائج البحث فقط
+
 echo $currentUserRole;
 ?>
 
@@ -45,69 +45,55 @@ echo $currentUserRole;
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
 
     <style>
-        .search-bar-wrapper {
-            max-width: 400px;
-            /* أقصى عرض لشريط البحث */
-        }
+  /* Sidebar CSS */
+.sidebar-offcanvas {
+    position: fixed !important;
+    top: 60px;!important;
+    left: 0 !important;
+    width: 250px !important; 
+    height: 100vh !important; 
+    overflow-y: auto !important;
+    background-color: #f8f9fa; 
+    z-index: 1000; 
+}
 
-        .search-bar {
-            background-color: white;
-            width: 250px;
-            /* عرض كامل للعنصر */
-            padding: 10px 20px;
-            /* حشوة داخلية */
-            border: none;
-            /* إزالة الحدود */
-            border-radius: 50px;
-            /* زوايا دائرية */
-            outline: none;
-            /* إزالة الخط الخارجي عند التركيز */
-            font-size: 16px;
-            /* حجم الخط */
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-            /* ظل خفيف */
-            transition: all 0.3s ease;
-            /* تأثيرات انتقالية */
-        }
+/* Main content CSS */
+.content-wrapper {
+    margin-left: 250px;
+    padding: 20px; 
+    transition: margin-left 0.3s ease-in-out;
+}
 
-        .search-bar:focus {
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-            /* ظل خفيف */
-        }
+/* Styling for pagination */
+.pagination {
+    margin-top: 20px; 
+    margin-bottom: 20px;
+    justify-content: center;
+}
 
-        .pagination {
-            margin-top: 20px;
-            /* إضافة مساحة بين الجدول والـ pagination */
-            margin-bottom: 20px;
-            /* إضافة مساحة في الأسفل إذا لزم الأمر */
-            justify-content: center;
-            /* لتوسيط العناصر داخل الـ pagination */
-        }
+.pagination .page-item .page-link {
+    border: 1px solid #007bff; 
+}
 
-        .pagination .page-item .page-link {
-            border: 1px solid #007bff;
-            /* إضافة حدود للروابط */
-        }
+.pagination .active .page-link {
+    background-color: #007bff;
+    color: white; 
+}
 
-        .pagination .active .page-link {
-            background-color: #007bff;
-            /* لون خلفية للصفحة النشطة */
-            color: white;
-            /* لون النص للصفحة النشطة */
-        }
+.pagination .disabled .page-link {
+    color: #6c757d; 
+}
 
-        .pagination .disabled .page-link {
-            color: #6c757d;
-            /* لون النص للصفحات المعطلة */
-        }
-        .nav .nav-link.active {
-    background-color: #007bff !important; /* لون الخلفية عند التفعيل */
-    color: #ffffff !important; /* لون النص الأبيض */
+/* Navbar active link */
+.nav .nav-link.active {
+    background-color: #007bff !important; 
+    color: #ffffff !important; 
 }
 
 .nav .nav-link.active .menu-title {
-    color: #ffffff !important; /* تأكد من أن النص داخل العنصر يكون لونه أبيض أيضًا */
+    color: #ffffff !important; 
 }
+
     </style>
 </head>
 

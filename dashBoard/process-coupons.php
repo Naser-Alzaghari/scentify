@@ -2,28 +2,23 @@
 require 'config.php';
 require 'CouponManager.php';
 
-// إنشاء كائن الاتصال بقاعدة البيانات
 $db = new Database();
 $pdo = $db->getConnection();
 
-// إنشاء كائن CouponManager
 $couponObj = new CouponManager($pdo);
 
-// **معالجة طلبات POST**
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = [];
     $action = isset($_POST['action']) ? $_POST['action'] : '';
 
-    // التحقق من جميع المدخلات
     $couponCode = isset($_POST['couponCode']) ? trim($_POST['couponCode']) : '';
     $discountPercentage = isset($_POST['discountPercentage']) ? (int)$_POST['discountPercentage'] : 0;
     $expirationDate = isset($_POST['expirationDate']) ? $_POST['expirationDate'] : '';
     $usageLimit = isset($_POST['usageLimit']) ? (int)$_POST['usageLimit'] : 0;
     $couponStatus = isset($_POST['couponStatus']) ? (int)$_POST['couponStatus'] : 0;
 
-    // التحقق من صيغة اسم الكوبون (يجب أن يكون 4 أحرف ورقمين فقط)
-    if (!preg_match('/^[A-Za-z]{4}[0-9]{2}$/', $couponCode)) {
-        echo json_encode(['status' => 'error', 'message' => 'Coupon code must consist of exactly 4 letters followed by 2 digits.']);
+    if (!preg_match('/^[0-9]{2}[A-Za-z]{4}$/', $couponCode)) {
+        echo json_encode(['status' => 'error', 'message' => 'Coupon code must consist of exactly 2 digits followed by 4 letters.']);
         exit();
     }
 
@@ -56,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 
-// **معالجة الحذف الناعم**
+
 if (isset($_GET['delete'])) {
     $couponId = (int)$_GET['delete'];
     if ($couponId <= 0) {

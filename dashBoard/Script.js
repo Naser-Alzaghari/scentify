@@ -10,11 +10,10 @@ function clearForm() {
     document.getElementById('role').value = 'user';
 }
 
-// إضافة مستخدم جديد
 document.getElementById('userForm').addEventListener('submit', function (e) {
-    e.preventDefault(); // منع إعادة تحميل الصفحة
+    e.preventDefault();// Prevent page reloading
 
-    const formData = new FormData(this); // جمع بيانات النموذج
+    const formData = new FormData(this); 
 
     fetch('add_user.php', {
         method: 'POST',
@@ -23,7 +22,7 @@ document.getElementById('userForm').addEventListener('submit', function (e) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // إظهار SweetAlert عند نجاح الإضافة
+            // Show SweetAlert when the add is successful
                 Swal.fire({
                     title: 'Success!',
                     text: 'User added successfully!',
@@ -31,10 +30,10 @@ document.getElementById('userForm').addEventListener('submit', function (e) {
                     confirmButtonText: 'OK'
                 }).then(() => {
                     $('#addUserModal').modal('hide');
-                    location.reload(); // (اختياري) إعادة تحميل الصفحة لتحديث البيانات
+                    location.reload();// (Optional) Reload the page to update the data.
                 });
             } else {
-                // عرض الأخطاء داخل SweetAlert
+
                 let errorMessages = data.errors.join('<br>');
                 Swal.fire({
                     title: 'Error!',
@@ -55,9 +54,8 @@ document.getElementById('userForm').addEventListener('submit', function (e) {
         });
 });
 
-// تعديل مستخدم
 $(document).ready(function () {
-    // عند إرسال نموذج التعديل
+
     $(document).on('submit', '.editUserForm', function (e) {
         e.preventDefault();
 
@@ -69,10 +67,10 @@ $(document).ready(function () {
             data: formData,
             dataType: 'json',
             success: function (response) {
-                console.log(response); // تحقق من الاستجابة هنا
+                console.log(response); 
 
                 if (response.success) {
-                    // إظهار SweetAlert عند نجاح التحديث
+                
                     Swal.fire({
                         title: 'Success!',
                         text: 'User updated successfully!',
@@ -80,14 +78,14 @@ $(document).ready(function () {
                         confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // تأخير إعادة تحميل الصفحة بعد الضغط على OK
+                         
                             setTimeout(() => {
                                 location.reload();
-                            }, 500); // تأخير إعادة التحميل لمدة نصف ثانية (500ms)
+                            }, 500); 
                         }
                     });
                 } else {
-                    // عرض الأخطاء داخل SweetAlert
+                  
                     let errorMessages = response.errors.join('<br>');
                     Swal.fire({
                         title: 'Error!',
