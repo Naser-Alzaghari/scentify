@@ -369,7 +369,7 @@ function deleteItem(orderItemId) {
                     
                     
                     let cart_total = document.getElementById('cart-total');
-                    
+                    let newTotal = parseFloat(data.newTotalCartAmount);
 
                     if (!isNaN(newTotal) && newTotal > 0) {
                         // If the new total is a valid number and greater than 0
