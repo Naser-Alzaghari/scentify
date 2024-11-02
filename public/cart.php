@@ -32,6 +32,7 @@ $stmt->execute(['user_id' => $user_id]);
 
 // Fetch the results if needed
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// print_r($results);
 
 
 
@@ -44,6 +45,23 @@ $stmt_user = $conn->prepare($query_user);
 $stmt_user->bindParam('user_id', $user_id);
 $stmt_user->execute();
 $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
+
+// Initialize an empty associative array
+$productQuantities = array();
+
+// Loop through the results to fill the associative array
+foreach ($results as $result) {
+    $productId = $result['product_id']; // Get the product ID
+    $quantity = $result['total_quantity']; // Get the quantity
+
+    // Assign the quantity to the associative array using the product ID as the key
+    $productQuantities[$productId] = $quantity;
+}
+
+// Print the associative array to see the result
+print_r($productQuantities);
+$productQuantitiesJson = json_encode($productQuantities);
+
 
 
 
@@ -171,6 +189,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
             <form action="checkout.php" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="order_id" value="<?=$results [0]['order_id']?>" >
+                    <input type="hidden" name="total_quantity" value='<?php echo $productQuantitiesJson; ?>'>
                     
                     <div class="mb-4">
                         <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo $user_checkout['first_name'] ." ".$user_checkout['last_name'] ; ?>" required readonly>
