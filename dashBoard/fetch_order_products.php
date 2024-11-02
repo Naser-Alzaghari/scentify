@@ -18,7 +18,7 @@ if (isset($_POST['order_id']) && is_numeric($_POST['order_id'])) {
    // Check implementation and pass only one parameter
     if ($stmt->execute([$orderId])) {
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-
+        
         if (!empty($products)) {
             $totalPrice = 0; 
             echo '<table class="table table-bordered">
@@ -32,7 +32,7 @@ if (isset($_POST['order_id']) && is_numeric($_POST['order_id'])) {
                     <tbody>';
             foreach ($products as $product) {
                
-                $productTotal = $product['quantity'] * $product['price'];
+                $productTotal = $product['price'];
                 $totalPrice += $productTotal; 
 
                 echo '<tr>
@@ -42,10 +42,7 @@ if (isset($_POST['order_id']) && is_numeric($_POST['order_id'])) {
                       </tr>';
             }
            
-            echo '<tr>
-                    <td colspan="2"><strong>Total Price</strong></td>
-                    <td><strong>' . htmlspecialchars(number_format($totalPrice, 2)) . '</strong></td>
-                  </tr>';
+            
             echo '</tbody></table>';
         } else {
             echo "No products found for order ID: " . htmlspecialchars($orderId);

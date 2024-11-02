@@ -232,7 +232,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Phone Number</label>
-                                                                <input type="text" class="form-control" name="phone_number"
+                                                                <input type="text" class="form-control" name="phone_number" maxlength="14"
                                                                     value="<?= $user['phone_number']; ?>">
                                                             </div>
                                                             <div class="form-group">
@@ -331,7 +331,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                 </div>
                                 <div class="form-group">
                                     <label for="phone_number">Phone Number</label>
-                                    <input type="text" class="form-control" id="phone_number" name="phone_number"
+                                    <input type="text" class="form-control" id="phone_number" name="phone_number" maxlength="14"
                                         placeholder="Enter Phone Number">
                                 </div>
                                 <div class="form-group">

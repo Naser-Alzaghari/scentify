@@ -270,7 +270,7 @@ $productQuantitiesJson = json_encode($productQuantities);
                         document.getElementById('checkout-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         console.log(data.newTotalCartAmount);
-                        
+                        total_amount_global = parseFloat(data.newTotalCartAmount);
                         
                     } else {
                         alert('Failed to update quantity');
@@ -303,6 +303,7 @@ $productQuantitiesJson = json_encode($productQuantities);
                     success: function (response) {
                         if (response.status == "success") {
                             if (response.is_valid) {
+                                
                                 $('p#coupon_error').html('Coupon is valid');
                                 $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-success');
                                 var discount_percentage = parseFloat(response.discount_percentage);
@@ -368,8 +369,7 @@ function deleteItem(orderItemId) {
                     
                     
                     let cart_total = document.getElementById('cart-total');
-                    let newTotal = parseFloat(data.newTotalCartAmount);
-                    total_amount_global =newTotal;
+                    
 
                     if (!isNaN(newTotal) && newTotal > 0) {
                         // If the new total is a valid number and greater than 0
