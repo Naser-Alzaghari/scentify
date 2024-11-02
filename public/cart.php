@@ -196,7 +196,8 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                         <input type="text" class="form-control mb-2" id="coupon" name="coupon" placeholder="Coupon" style="border-bottom-left-radius:0; border-bottom-right-radius: 0;">
                         <button type="button" class="btn btn-primary1 rounded" style="" onclick="checkCoupon();">Add coupon</button>
                     </div>
-                    <input type="hidden" name="up_to_date_total_amount" value="<?= $totalAmount; ?>">
+                    <input type="radio" name="payment" value="cash on delivary" required><label class="ms-1 mb-0" for="" >cash on delivary</label>
+                    <input type="text" name="up_to_date_total_amount" id="checkout-total-hidden" value="<?= $totalAmount; ?>">
 
                     <hr class="mb-4">
                     <p>Total Amount: <span id="checkout-total">$<?php echo $totalAmount; ?></span></p>
@@ -247,6 +248,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                     if (data.success) {
                         document.getElementById('cart-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         document.getElementById('checkout-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
+                        document.getElementById('checkout-total-hidden').value = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         console.log(data.newTotalCartAmount);
                         total_amount_global = data.newTotalCartAmount
                         
@@ -285,7 +287,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                 $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-success');
                                 var discount_percentage = parseFloat(response.discount_percentage);
                                 let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
-                                $('#checkout-total').html(final_value);
+                                $('#checkout-total').html(final_value.toFixed(2));
                                 $('input[name=up_to_date_total_amount]').val(final_value);
                             } else {
                                 // Its not valid.
@@ -340,7 +342,19 @@ function deleteItem(orderItemId) {
 
                     // Update the total amount in the cart
                     document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
+                    document.getElementById('checkout-total').textContent = `$${data.newTotalCartAmount}`;
+                    document.getElementById('checkout-total-hidden').value = `${data.newTotalCartAmount}`;
+                    
+                    let cart_total = document.getElementById('cart-total');
+                    let newTotal = parseFloat(data.newTotalCartAmount);
 
+                    if (!isNaN(newTotal) && newTotal > 0) {
+                        // If the new total is a valid number and greater than 0
+                        cart_total.textContent = `$${newTotal.toFixed(2)}`;
+                    } else {
+                        // If the new total is NaN or 0
+                        location.reload();
+                    }
                     
                 } else {
                     // Handle failure to delete

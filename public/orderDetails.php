@@ -2,6 +2,7 @@
 session_start();
 include 'conn.php';
 
+// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("location: LoginPage.php");
     exit();
@@ -9,47 +10,11 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Query to get the latest order and its items details
-$query = "
-SELECT 
-    o.order_id,
-    o.total_amount,
-    o.order_status,
-    o.payment_status,
-    o.shipping_address,
-    o.created_at,
-    o.order_checkout_date,
-    o.comments,
-    oi.order_item_id,
-    oi.product_id,
-    oi.quantity,
-    oi.price,
-    (oi.quantity * oi.price) AS total_price,
-    p.product_image,
-    p.product_description
-FROM 
-    orders o
-JOIN 
-    order_items oi ON o.order_id = oi.order_id
-JOIN 
-    products p ON oi.product_id = p.product_id
-WHERE 
-    o.user_id = :user_id 
-ORDER BY 
-    o.order_checkout_date DESC 
-LIMIT 1
-";
+// Get the order_id from the URL
+if (isset($_GET['order_id'])) {
+    $order_id = $_GET['order_id'];
 
-$stmt = $conn->prepare($query);
-$stmt->execute(['user_id' => $user_id]);
-$orderDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-// Get the latest order ID to fetch all items in it
-if (!empty($orderDetails)) {
-    $order_id = $orderDetails[0]['order_id'];
-    echo $order_id;
+    // Query to get order details and items for the specific order ID
     $query = "
     SELECT `order_item_id`, `order_id`, products.product_id, `quantity`, products.price, `on_cart`, product_image, product_description, order_items.price total_price FROM `order_items` JOIN products on products.product_id = order_items.product_id WHERE `order_id` = :order_id
     ";
@@ -63,7 +28,20 @@ if (!empty($orderDetails)) {
     $stmt_user = $conn->prepare($query_user);
     $stmt_user->execute(['user_id' => $user_id, 'order_id'=> $order_id]);
     $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
+} else {
+    // Redirect if no order_id is provided
+    header("location: orderHistory.php"); // Or some other page
+    exit();
 }
+
+// Check if orderDetails has any data
+if (empty($items)) {
+    // Handle case when no order details are found
+    echo "No order details found.";
+    exit();
+}
+
+// Rest of your HTML and PHP code here...
 ?>
 
 <!DOCTYPE html>

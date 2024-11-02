@@ -105,6 +105,10 @@ $userInfo = $user->getUserInfo($user_id);
             height: 35px;
             width: 35px;
         }
+        .order-detail {
+            display: none;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -229,53 +233,47 @@ $userInfo = $user->getUserInfo($user_id);
                             </div>
                         </div>
 
-                        <!-- Account Settings Section (For future extension) -->
+                        <!-- Order History Section -->
                         <div class="tab-pane" id="account">
-    <h6>ORDER HISTORY</h6>
-    <hr>
-    <div class="panel-body">
-        <?php include "orderHistory.php"; 
-        $orders = getOrderHistory($conn, $user_id);
-        // print_r($orders);
-        ?>
+                            <h6>ORDER HISTORY</h6>
+                            <hr>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Quantity</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        include "orderHistory.php"; 
+                                        $orders = getOrderHistory($db, $user_id);
 
-        
-<?php 
-       if ($orders == []) {
-        // print_r($orders);
-         echo "<p>No orders found.</p>";
-        } else {
-            foreach ($orders as $order): ?>
-                <div class="row">
-                    <div class="col-md-1">
-                    <img src="../public/assets/img/gallery/radio_button.png"  class="radio_button"/>
-
-                        
-                    </div>
-                    <div class="col-md-11">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="pull-right">
-                                    <label class="label <?php echo strtolower($order['order_status']); ?>">
-                                        <?php echo $order['order_status']; ?>
-                                    </label>
-                                </div>
-                                <span><strong>Order ID:</strong> <?php echo $order['order_id']; ?></span><br>
-                                <span><strong>Quantity:</strong> <?php echo $order['quantity']; ?></span><br>
-                                <span><strong>Date:</strong> <?php echo date("Y-m-d", strtotime($order['created_at'])); ?></span>
-                                <span><strong>Product:</strong> <?php echo htmlspecialchars($order['product_id']); ?></span><br>
+                                        if (empty($orders)) {
+                                            echo "<tr><td colspan='5'>No orders found.</td></tr>";
+                                        } else {
+                                            foreach ($orders as $order) {
+                                                echo "<tr>";
+                                                echo "<td>" . htmlspecialchars($order['order_id']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($order['quantity']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($order['created_at']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($order['order_status']) . "</td>";
+                                                echo "<td>
+                                                <a href='orderDetails.php?order_id=" . htmlspecialchars($order['order_id']) . "' class='btn btn-info'>View</a>
+                                              </td>";
+                                        
+                                                echo "</tr>";
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <hr>
-            <?php endforeach; 
-        } ?>
-
-        
-       
-    </div>
-</div>
                     </div>
                 </div>
             </div>
@@ -289,63 +287,35 @@ $userInfo = $user->getUserInfo($user_id);
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// JavaScript to Toggle Update Form
-function checkPasswordRequirements() {
-    const password = document.getElementById("password").value;
-    const uppercase = /[A-Z]/.test(password);
-    const lowercase = /[a-z]/.test(password);
-    const number = /[0-9]/.test(password);
-    const specialChar = /[!@#$%^&*]/.test(password);
-    const minLength = password.length >= 10;
-    console.log(password.length);
-    
-    document.getElementById("length").className = minLength ? "valid" : "invalid";
-    document.getElementById("uppercase").className = uppercase ? "valid" : "invalid";
-    document.getElementById("lowercase").className = lowercase ? "valid" : "invalid";
-    document.getElementById("number").className = number ? "valid" : "invalid";
-    document.getElementById("special").className = specialChar ? "valid" : "invalid";
-}
+    $(document).ready(function() {
+        $("#updateBtn").click(function() {
+            $("#updateFormSection").toggle();
+        });
 
-function showPasswordMessage() {
-    document.getElementById("password-message").style.display = "block";
-}
+        $(".view-details").click(function() {
+            var orderId = $(this).data('order-id');
+            // Fetch and display order details using AJAX or any preferred method
+            // For example: $.get('getOrderDetails.php', { order_id: orderId }, function(data) { ... });
+            alert("Fetch details for Order ID: " + orderId);
+        });
+    });
 
-function hidePasswordMessage() {
-    document.getElementById("password-message").style.display = "none";
-}
-
-document.getElementById('updateBtn').addEventListener('click', function() {
-    var formSection = document.getElementById('updateFormSection');
-    if (formSection.style.display === "none") {
-        formSection.style.display = "block";
-    } else {
-        formSection.style.display = "none";
+    function checkPasswordRequirements() {
+        var password = document.getElementById("password").value;
+        document.getElementById("length").classList.toggle("valid", password.length >= 6);
+        document.getElementById("uppercase").classList.toggle("valid", /[A-Z]/.test(password));
+        document.getElementById("lowercase").classList.toggle("valid", /[a-z]/.test(password));
+        document.getElementById("number").classList.toggle("valid", /\d/.test(password));
+        document.getElementById("special").classList.toggle("valid", /[!@#$%^&*(),.?":{}|<>]/.test(password));
     }
-});
 
-// Password validation before form submission
-const updateForm = document.querySelector('form[action="update.php"]');
-updateForm.addEventListener('submit', function(e) {
-    const password = document.getElementById("password").value;
-    const minLength = password.length >= 10;
-    
-    const uppercase = /[A-Z]/.test(password);
-    const lowercase = /[a-z]/.test(password);
-    const number = /[0-9]/.test(password);
-    const specialChar = /[!@#$%^&*]/.test(password);
-
-    if ((!minLength || !uppercase || !lowercase || !number || !specialChar) && password.length != 0) {
-        e.preventDefault(); // Prevent form submission
-        swal("Error!", "Please make sure your password meets all requirements.", "error");
-    } else {
-        sessionStorage.setItem("profile_update","Your changes have been saved!");
+    function showPasswordMessage() {
+        document.getElementById("password-message").style.display = "block";
     }
-});
 
-if(sessionStorage.getItem("profile_update") != null){
-    document.getElementById("profile_update").classList.remove("d-none");
-    sessionStorage.removeItem("profile_update");
-}
+    function hidePasswordMessage() {
+        document.getElementById("password-message").style.display = "none";
+    }
 </script>
 </body>
 </html>

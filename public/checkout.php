@@ -1,6 +1,8 @@
 <?php 
+if(!isset($_SESSION)){
+    session_start();
+}
 
-session_start();
 include 'conn.php';
 
 
@@ -8,6 +10,8 @@ $address = $_POST['address'];
 $comments = $_POST['comments'];
 $order_id=$_POST['order_id'];
 $final_amount = $_POST['up_to_date_total_amount'];
+
+echo $final_amount;
 
 if(isset($_SESSION['user_id'])){
     $user_id = $_SESSION['user_id'];
@@ -31,6 +35,8 @@ $stmt->execute();
 
 header('Location: checkoutComplete.php?success=1');
 
+} else{
+    echo "not set";
 }
 
 echo "address" . $address . " comments" . $comments;

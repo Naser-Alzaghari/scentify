@@ -147,8 +147,6 @@ if (!$product) {
                             });
                             
                             if(<?php echo htmlspecialchars($product['stock_quantity']); ?> <= 0){
-                                
-                                
                                 document.getElementById('add_item_<?php echo htmlspecialchars($product['product_id']); ?>').setAttribute('disabled','');
                                 document.getElementById('add_item_<?php echo htmlspecialchars($product['product_id']); ?>').innerHTML='SOLD OUT';
                                 document.querySelector('.quantity').classList.add('d-none');
