@@ -59,7 +59,6 @@ foreach ($results as $result) {
 }
 
 // Print the associative array to see the result
-print_r($productQuantities);
 $productQuantitiesJson = json_encode($productQuantities);
 
 
@@ -159,6 +158,7 @@ $productQuantitiesJson = json_encode($productQuantities);
                                                     <h5 class="text-uppercase">Items <?php echo count($results); ?></h5>
                                                     <h5 id="cart-total"><?php echo  "$" .$totalAmount; ?></h5>
                                                 </div>
+                                                <p class="text-danger d-none" id="stock_message">you exeeded stock limit</p>
                                                 <!-- button procced -->
                                                 <button  class="btn btn-primary1 btn-block btn-lg w-100 rounded" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed</button>
                                                 </div>
@@ -388,7 +388,11 @@ function deleteItem(orderItemId) {
         }
     });
 }
-
+        if("<?php if(isset($_SESSION['stock_limit'])){echo $_SESSION['stock_limit'];}else{echo "";} ?>" == "stock exeed limit"){
+            document.getElementById("stock_message").classList.remove("d-none");
+        }
+        <?php unset($_SESSION['stock_limit'])?>
+        
 
         </script>
         

@@ -21,11 +21,25 @@ if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     
     try {
-        // Use a prepared statement to update the `orders` table
-        $sql = "UPDATE `orders` SET `shipping_address` = :shipping_address, `comments` = :comments, `total_amount` = :total_amount, `order_status` = 'processing', `order_checkout_date` = NOW() WHERE `user_id` = :user_id AND `order_id` = :order_id";
+        $sql = "SELECT order_items.product_id, quantity, stock_quantity FROM `order_items` JOIN products on order_items.product_id = products.product_id Where order_id = :order_id";
         $stmt = $conn->prepare($sql);
+        $stmt->bindParam("order_id", $order_id);
+        $stmt->execute();
+        $products_stock = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt->bindParam(':user_id', $user_id);
+        $allAvailable = true;
+
+        foreach ($products_stock as $item) {
+            if ($item["quantity"] >= $item["stock_quantity"]) {
+                $allAvailable = false;
+                break;
+            }
+        }
+        echo $allAvailable;
+        if ($allAvailable) {
+            $sql = "UPDATE `orders` SET `shipping_address` = :shipping_address, `comments` = :comments, `total_amount` = :total_amount, `order_status` = 'processing', `order_checkout_date` = NOW() WHERE `user_id` = :user_id AND `order_id` = :order_id";
+        $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':shipping_address', $address);
         $stmt->bindParam(':total_amount', $final_amount);
         $stmt->bindParam(':comments', $comments);
@@ -57,6 +71,18 @@ if (isset($_SESSION['user_id'])) {
         // Redirect to checkout complete page
         header('Location: checkoutComplete.php?success=1');
         exit(); // Add exit to prevent further code execution after redirect
+        } else {
+            $_SESSION['stock_limit'] = "stock exeed limit";
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
+        
+        // Use a prepared statement to update the `orders` table
+        $sql = "UPDATE `orders` SET `shipping_address` = :shipping_address, `comments` = :comments, `total_amount` = :total_amount, `order_status` = 'processing', `order_checkout_date` = NOW() WHERE `user_id` = :user_id AND `order_id` = :order_id";
+        $stmt = $conn->prepare($sql);
+        
+
+
+        
 
     } catch (PDOException $e) {
         // Handle any errors
