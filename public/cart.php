@@ -32,6 +32,7 @@ $stmt->execute(['user_id' => $user_id]);
 
 // Fetch the results if needed
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// print_r($results);
 
 
 
@@ -44,6 +45,22 @@ $stmt_user = $conn->prepare($query_user);
 $stmt_user->bindParam('user_id', $user_id);
 $stmt_user->execute();
 $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
+
+// Initialize an empty associative array
+$productQuantities = array();
+
+// Loop through the results to fill the associative array
+foreach ($results as $result) {
+    $productId = $result['product_id']; // Get the product ID
+    $quantity = $result['total_quantity']; // Get the quantity
+
+    // Assign the quantity to the associative array using the product ID as the key
+    $productQuantities[$productId] = $quantity;
+}
+
+// Print the associative array to see the result
+$productQuantitiesJson = json_encode($productQuantities);
+
 
 
 
@@ -141,6 +158,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                     <h5 class="text-uppercase">Items <?php echo count($results); ?></h5>
                                                     <h5 id="cart-total"><?php echo  "$" .$totalAmount; ?></h5>
                                                 </div>
+                                                <p class="text-danger d-none" id="stock_message">you exeeded stock limit</p>
                                                 <!-- button procced -->
                                                 <button  class="btn btn-primary1 btn-block btn-lg w-100 rounded" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed</button>
                                                 </div>
@@ -171,6 +189,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
             <form action="checkout.php" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="order_id" value="<?=$results [0]['order_id']?>" >
+                    <input type="hidden" name="total_quantity" value='<?php echo $productQuantitiesJson; ?>'>
                     
                     <div class="mb-4">
                         <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo $user_checkout['first_name'] ." ".$user_checkout['last_name'] ; ?>" required readonly>
@@ -198,7 +217,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                         <button type="button" class="btn btn-primary1 rounded" style="" onclick="checkCoupon();">Add coupon</button>
                     </div>
                     <input type="radio" name="payment" value="cash on delivary" required><label class="ms-1 mb-0" for="" >cash on delivary</label>
-                    <input type="text" name="up_to_date_total_amount" id="checkout-total-hidden" value="<?= $totalAmount; ?>">
+                    <input type="hidden" name="up_to_date_total_amount" id="checkout-total-hidden" value="<?= $totalAmount; ?>">
 
                     <hr class="mb-4">
                     <p>Total Amount: <span id="checkout-total">$<?php echo $totalAmount; ?></span></p>
@@ -251,7 +270,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                         document.getElementById('checkout-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         console.log(data.newTotalCartAmount);
-                        total_amount_global = data.newTotalCartAmount
+                        
                         
                     } else {
                         alert('Failed to update quantity');
@@ -288,6 +307,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                 $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-success');
                                 var discount_percentage = parseFloat(response.discount_percentage);
                                 let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
+                                console.log(total_amount_global);
                                 $('#checkout-total').html(final_value.toFixed(2));
                                 $('input[name=up_to_date_total_amount]').val(final_value.toFixed(2));
                             } else {
@@ -346,8 +366,10 @@ function deleteItem(orderItemId) {
                     document.getElementById('checkout-total').textContent = `$${data.newTotalCartAmount}`;
                     document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                     
+                    
                     let cart_total = document.getElementById('cart-total');
                     let newTotal = parseFloat(data.newTotalCartAmount);
+                    total_amount_global =newTotal;
 
                     if (!isNaN(newTotal) && newTotal > 0) {
                         // If the new total is a valid number and greater than 0
@@ -369,7 +391,11 @@ function deleteItem(orderItemId) {
         }
     });
 }
-
+        if("<?php if(isset($_SESSION['stock_limit'])){echo $_SESSION['stock_limit'];}else{echo "";} ?>" == "stock exeed limit"){
+            document.getElementById("stock_message").classList.remove("d-none");
+        }
+        <?php unset($_SESSION['stock_limit'])?>
+        
 
         </script>
         

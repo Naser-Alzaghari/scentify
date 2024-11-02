@@ -50,7 +50,7 @@ session_start();
                                 <h3 class="register-heading">Registration</h3>
                                 <div class="row register-form">
                                     <div class="col-md-6">
-                                        <form action="register.php" method="POST">
+                                        <form action="register.php" method="POST" id="register">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="FName" placeholder="First Name *"
                                                     required />
@@ -78,7 +78,7 @@ session_start();
                                                 placeholder="Your Phone *" required />
                                         </div>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="dob" required />
+                                            <input type="date" class="form-control" name="dob" id="date_of_birth" required />
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="Add"
@@ -147,6 +147,7 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>
+        
     function checkPasswordRequirements() {
         const password = document.getElementById("pws").value;
         const uppercase = /[A-Z]/.test(password);
@@ -169,6 +170,69 @@ session_start();
             document.getElementById("password-message").style.display = "none";
         }
     </script>
+
+
+        <script>
+            document.querySelector("form[action='register.php']").addEventListener("submit", function (event) {
+    // Get form elements
+    const password = document.getElementById("pws").value;
+    const confirmPassword = document.querySelector("input[name='pwer']").value;
+    const email = document.querySelector("input[name='Email']").value;
+    const dob = new Date(document.querySelector("input[name='dob']").value);
+    const errorContainer = document.createElement("div");
+    errorContainer.className = "error-message";
+    let errors = [];
+
+    // Password validation
+    const uppercase = /[A-Z]/.test(password);
+    const lowercase = /[a-z]/.test(password);
+    const number = /[0-9]/.test(password);
+    const specialChar = /[!@#$%^&*]/.test(password);
+    const minLength = password.length >= 6;
+
+    if (!minLength || !uppercase || !lowercase || !number || !specialChar) {
+        errors.push("Password must be strong and contain at least 6 characters, one uppercase letter, one lowercase letter, one number, and one special character.");
+    }
+
+    if (password !== confirmPassword) {
+        errors.push("Passwords do not match.");
+    }
+
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        errors.push("Please enter a valid email address.");
+    }
+
+    // Age validation
+    const today = new Date();
+    const age = today.getFullYear() - dob.getFullYear();
+    const month = today.getMonth() - dob.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < dob.getDate())) {
+        age--;
+    }
+
+    if (age < 16) {
+        errors.push("You must be at least 16 years old.");
+    }
+
+    // Show errors if any
+    if (errors.length > 0) {
+        event.preventDefault(); // Prevent form submission
+        errorContainer.innerHTML = errors.join("<br>");
+        
+        // Remove previous error messages if any
+        const previousError = document.querySelector(".error-message");
+        if (previousError) {
+            previousError.remove();
+        }
+
+        // Append new error message
+        document.querySelector(".register-right .register-heading").after(errorContainer);
+    }
+});
+ 
+        </script>
 </body>
 
 </html>

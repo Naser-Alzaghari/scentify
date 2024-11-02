@@ -316,6 +316,15 @@ $userInfo = $user->getUserInfo($user_id);
     function hidePasswordMessage() {
         document.getElementById("password-message").style.display = "none";
     }
+
+    
 </script>
+    <?php
+        if(isset($_SESSION["message"])) {
+            echo "<script>document.getElementById('profile_update').classList.remove('d-none');</script>";
+            unset($_SESSION["message"]);
+        }
+        
+    ?>
 </body>
 </html>

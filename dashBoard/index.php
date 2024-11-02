@@ -290,7 +290,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <div class="row">
                                             <div class="col-md-12 col-xl-3 d-flex flex-column justify-content-start">
                                                 <div class="ml-xl-4 mt-3">
-                                                    <p class="card-title">User Countries</p>
+                                                    <p class="card-title">User Cities</p>
                                                     <h1 class="text-primary" id="user-country-percentage">75%</h1>
                                                     <h3 class="font-weight-500 mb-xl-4 text-primary">Jordan
                                                     </h3>

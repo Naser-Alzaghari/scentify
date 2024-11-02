@@ -75,7 +75,7 @@ try {
 
     <section class="py-5">
         <div class="container mt-5">
-        <h2 class="mb-4 text-center">Wichlist</h2>
+        <h2 class="mb-4 text-center">Wishlist</h2>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
                 <?php
                 if (empty($all_products_in_wishlist)) {
@@ -108,7 +108,7 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-        
+    <script src="./assets/js/script.js"></script>
    
         
 </body>

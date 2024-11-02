@@ -97,12 +97,12 @@ if (!empty($orderDetails)) {
                 <div class="col-lg-10 col-xl-8">
                     <div class="card" style="border-radius: 10px;">
                         <div class="card-header px-4 py-5">
-                            <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #a8729a;">
+                            <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #cfa1a4;">
                                 <?php echo htmlspecialchars($user_checkout['first_name'] . ' ' . $user_checkout['last_name']); ?>
                             </span>!</h5>
                         </div>
                         <div class="card-body p-4">
-                        <p class="lead fw-normal mb-2" style="color: #a8729a;">Order Status: 
+                        <p class="lead fw-normal mb-2" style="color: #cfa1a4;">Order Status: 
     <span class="fw-bold"><?php echo htmlspecialchars($user_checkout['order_status']); ?></span>
 </p>
 
@@ -145,7 +145,7 @@ if (!empty($orderDetails)) {
                             <?php endif; ?>
                         </div>
                         <div class="card-footer border-0 px-4 py-5"
-                            style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                            style="background-color: #cfa1a4; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
                             <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
                                 Paid: <span class="h2 mb-0 ms-2">$<?php echo htmlspecialchars($user_checkout['total_amount']); ?></span></h5>
                         </div>

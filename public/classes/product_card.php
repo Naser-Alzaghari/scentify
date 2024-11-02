@@ -18,7 +18,7 @@
             $current_user_wishlist_product_ids = array_map(function ($ar) {return $ar['product_id'];}, $current_user_wishlist_items);
             $fill_or_not = in_array($this->product['product_id'], $current_user_wishlist_product_ids) ? "currentColor" : "none";
             echo "
-            <form action='newindex.php' method='get' class='col-sm-6 col-md-4 col-lg-3 mb-3 mb-md-0 h-100'>
+            <form action='newindex.php' method='get' class='col-6 col-md-4 col-lg-3 mb-3 mb-md-0 h-100'>
             <input type='hidden' value='{$this->product['product_id']}' name='product_id'>
                 <div class='card card-span text-white p-2 mb-3 animate-card' style='background-color: #EDDFE0 !important;'>
                     <a href='product_page.php?product_id={$this->product['product_id']}' class='text-decoration-none'>
