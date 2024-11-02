@@ -8,14 +8,15 @@ $input = json_decode(file_get_contents('php://input'), true);
 $order_item_id = $input['order_item_id'];
 $new_quantity = $input['quantity'];
 $order_id = $input['order_id'];
+$newTotalPrice = $input['newTotalPrice'];
 
 try {
     // $conn->beginTransaction();
 
     // Update quantity in `order_items`
-    $updateQuery = "UPDATE order_items SET quantity = :quantity WHERE order_item_id = :order_item_id";
+    $updateQuery = "UPDATE order_items SET quantity = :quantity, price = :price WHERE order_item_id = :order_item_id";
     $stmt = $conn->prepare($updateQuery);
-    $stmt->execute(['quantity' => $new_quantity, 'order_item_id' => $order_item_id]);
+    $stmt->execute(['quantity' => $new_quantity, 'order_item_id' => $order_item_id, 'price' => $newTotalPrice]);
     $stmt = null;
 
     // Calculate the new total cart amount for the user

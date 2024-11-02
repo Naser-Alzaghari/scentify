@@ -116,6 +116,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                                         </div>
                                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                                             <h6 class="mb-0 total-price">$<?php echo $item['total_price'] ?></h6>
+                                                            <input type="hidden" name="newTotalPrice" value="<?php echo $item['total_price'] ?>">
                                                         </div>
                                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end">
 
@@ -241,7 +242,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ order_item_id: orderItemId, quantity: newQuantity, order_id: order_id })
+                    body: JSON.stringify({ order_item_id: orderItemId, quantity: newQuantity, order_id: order_id, newTotalPrice: newTotalPrice })
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -288,7 +289,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                                 var discount_percentage = parseFloat(response.discount_percentage);
                                 let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
                                 $('#checkout-total').html(final_value.toFixed(2));
-                                $('input[name=up_to_date_total_amount]').val(final_value);
+                                $('input[name=up_to_date_total_amount]').val(final_value.toFixed(2));
                             } else {
                                 // Its not valid.
                                 $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-danger');
@@ -343,7 +344,7 @@ function deleteItem(orderItemId) {
                     // Update the total amount in the cart
                     document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
                     document.getElementById('checkout-total').textContent = `$${data.newTotalCartAmount}`;
-                    document.getElementById('checkout-total-hidden').value = `${data.newTotalCartAmount}`;
+                    document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                     
                     let cart_total = document.getElementById('cart-total');
                     let newTotal = parseFloat(data.newTotalCartAmount);
