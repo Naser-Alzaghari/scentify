@@ -248,7 +248,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                     if (data.success) {
                         document.getElementById('cart-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         document.getElementById('checkout-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
-                        document.getElementById('checkout-total-hidden').value = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
+                        document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         console.log(data.newTotalCartAmount);
                         total_amount_global = data.newTotalCartAmount
                         

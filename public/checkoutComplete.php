@@ -49,7 +49,7 @@ $orderDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Get the latest order ID to fetch all items in it
 if (!empty($orderDetails)) {
     $order_id = $orderDetails[0]['order_id'];
-    echo $order_id;
+    
     $query = "
     SELECT `order_item_id`, `order_id`, products.product_id, `quantity`, products.price, `on_cart`, product_image, product_description, order_items.price total_price FROM `order_items` JOIN products on products.product_id = order_items.product_id WHERE `order_id` = :order_id
     ";
@@ -72,12 +72,20 @@ if (!empty($orderDetails)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    
+    <title>Order Completion</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/gallery/title_logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/gallery/title_logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/gallery/title_logo.png">
+    <meta name="msapplication-TileImage" content="assets/img/gallery/title_logo.png">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/theme.css">
-    <title>Order Completion</title>
+    
 </head>
+
 <body>
-<?php include "nav_bar.php"; ?>
+
 
 <main class="main" id="top">
     <section class="bg-light-gradient border-bottom border-white border-5">
@@ -147,9 +155,18 @@ if (!empty($orderDetails)) {
         </div>
     </section>
 </main>
-
+<?php include "nav_bar.php"; ?>
 <?php include "footer.html"; ?>
 
+<script src="vendors/@popperjs/popper.min.js"></script>
+    <script src="vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="vendors/feather-icons/feather.min.js"></script>
+    <script>
+    feather.replace();
+    </script>
+    <script src="assets/js/theme.js"></script>
+    
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
