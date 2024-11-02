@@ -21,7 +21,7 @@ if(isset($_SESSION['user_id'])){
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="productDisplay_page.php?category_name=Women">Women</a></li>
                 <li class="nav-item px-2"><a class="nav-link fw-medium" href="productDisplay_page.php?category_name=Men">Men</a></li>
-                <li class="nav-item px-2"><a class="nav-link fw-medium" href="#Categoreys">Categoreys</a></li>
+                <li class="nav-item px-2"><a class="nav-link fw-medium" href="#Categoreys">Catigories</a></li>
             </ul>
             <form class="d-flex align-items-center" action="search.php" method="post">
           <?php

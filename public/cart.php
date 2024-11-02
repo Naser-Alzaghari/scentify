@@ -217,7 +217,7 @@ $productQuantitiesJson = json_encode($productQuantities);
                         <button type="button" class="btn btn-primary1 rounded" style="" onclick="checkCoupon();">Add coupon</button>
                     </div>
                     <input type="radio" name="payment" value="cash on delivary" required><label class="ms-1 mb-0" for="" >cash on delivary</label>
-                    <input type="text" name="up_to_date_total_amount" id="checkout-total-hidden" value="<?= $totalAmount; ?>">
+                    <input type="hidden" name="up_to_date_total_amount" id="checkout-total-hidden" value="<?= $totalAmount; ?>">
 
                     <hr class="mb-4">
                     <p>Total Amount: <span id="checkout-total">$<?php echo $totalAmount; ?></span></p>
@@ -270,7 +270,7 @@ $productQuantitiesJson = json_encode($productQuantities);
                         document.getElementById('checkout-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                         console.log(data.newTotalCartAmount);
-                        total_amount_global = data.newTotalCartAmount
+                        
                         
                     } else {
                         alert('Failed to update quantity');
@@ -307,6 +307,7 @@ $productQuantitiesJson = json_encode($productQuantities);
                                 $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-success');
                                 var discount_percentage = parseFloat(response.discount_percentage);
                                 let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
+                                console.log(total_amount_global);
                                 $('#checkout-total').html(final_value.toFixed(2));
                                 $('input[name=up_to_date_total_amount]').val(final_value.toFixed(2));
                             } else {
@@ -365,8 +366,10 @@ function deleteItem(orderItemId) {
                     document.getElementById('checkout-total').textContent = `$${data.newTotalCartAmount}`;
                     document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
                     
+                    
                     let cart_total = document.getElementById('cart-total');
                     let newTotal = parseFloat(data.newTotalCartAmount);
+                    total_amount_global =newTotal;
 
                     if (!isNaN(newTotal) && newTotal > 0) {
                         // If the new total is a valid number and greater than 0

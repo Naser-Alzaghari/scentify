@@ -30,7 +30,7 @@ if (isset($_SESSION['user_id'])) {
         $allAvailable = true;
 
         foreach ($products_stock as $item) {
-            if ($item["quantity"] >= $item["stock_quantity"]) {
+            if ($item["quantity"] > $item["stock_quantity"]) {
                 $allAvailable = false;
                 break;
             }

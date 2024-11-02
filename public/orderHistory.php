@@ -15,6 +15,7 @@
 include "conn.php";
 
 function getOrderHistory($conn, $user_id) {
+    
     $query = "
     SELECT 
         o.order_id, 
@@ -31,7 +32,7 @@ function getOrderHistory($conn, $user_id) {
         oi.on_cart
     FROM orders o
     JOIN order_items oi ON o.order_id = oi.order_id
-    WHERE o.user_id = :user_id
+    WHERE o.user_id = :user_id AND o.order_status != 'pending' GROUP By o.order_id;
 ";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
