@@ -112,7 +112,7 @@ if (!$product) {
         <div class="row justify-content-center">
         <?php
         $productDisplay = new ProductDisplay();
-        $productDisplay->render("SELECT * FROM products Where category_id = {$product['category_id']} and stock_quantity > 0 and product_id != {$product['product_id']} ORDER BY RAND() LIMIT 4");
+        $productDisplay->render("SELECT * FROM products Where category_id = {$product['category_id']} AND stock_quantity > 0 AND product_id != {$product['product_id']} AND products.is_deleted != 1 ORDER BY RAND() LIMIT 4");
         ?>
             
         </div>

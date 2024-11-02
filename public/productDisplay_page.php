@@ -64,7 +64,7 @@ class HTMLDocument {
     </div>
     <?php
     $productDisplay = new ProductDisplay();
-    $productDisplay->render("SELECT * FROM `products` JOIN `categories` on products.category_id = categories.category_id WHERE category_name = '{$_GET['category_name']}'");
+    $productDisplay->render("SELECT * FROM `products` JOIN `categories` on products.category_id = categories.category_id WHERE category_name = '{$_GET['category_name']}' AND products.is_deleted != 1");
     ?>
     </section>
     </main>
