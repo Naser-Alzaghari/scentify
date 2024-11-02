@@ -26,8 +26,8 @@ class UserManager {
         }
 
         // Phone Number validation (up to 20 digits)
-        if (!preg_match('/^\d{8,20}$/', $phone_number)) {
-            $errors[] = "Phone Number must be between 8 and 20 digits.";
+        if (!preg_match('/^\d{14}$/', $phone_number)) {
+            $errors[] = "Phone Number must be between 14 digits.";
         }
 
         // Password validation (if provided)
