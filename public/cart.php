@@ -370,7 +370,7 @@ function deleteItem(orderItemId) {
                     
                     let cart_total = document.getElementById('cart-total');
                     let newTotal = parseFloat(data.newTotalCartAmount);
-
+                    total_amount_global = newTotal;
                     if (!isNaN(newTotal) && newTotal > 0) {
                         // If the new total is a valid number and greater than 0
                         cart_total.textContent = `$${newTotal.toFixed(2)}`;
