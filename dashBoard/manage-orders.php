@@ -181,7 +181,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <th>User ID</th>
                                         <th>Total Amount</th>
                                         <th>Order Status</th>
-                                        <th>Payment Status</th>
                                         <th>Shipping Address</th>
                                         <th>Actions</th>
                                     </tr>
@@ -195,7 +194,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <td class="<?php echo 'order-status-' . strtolower($order['order_status']); ?>">
                                             <?php echo $order['order_status']; ?>
                                         </td>
-                                        <td><?php echo $order['payment_status']; ?></td>
                                         <td><?php echo $order['shipping_address']; ?></td>
                                         <td>
                                             <button class="btn btn-sm btn-primary"
@@ -203,6 +201,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                             <?php if (strtolower($order['order_status']) !== 'cancelled' && strtolower($order['order_status']) !== 'completed'): ?>
                                             <button class="btn btn-sm btn-danger"
                                                 onclick="cancelOrder(<?php echo $order['order_id']; ?>)">Cancel</button>
+                                                <button class="btn btn-sm btn-success"
+                                                onclick="completeOrder(<?php echo $order['order_id']; ?>)">complete</button>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -313,6 +313,45 @@ $current_page = basename($_SERVER['PHP_SELF']);
                             Swal.fire(
                                 'Error!',
                                 'Failed to cancel the order.',
+                                'error'
+                            );
+                        }
+                    }
+
+                });
+            }
+        });
+    }
+
+    function completeOrder(orderId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, complete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'completeOrder.php',
+                    method: 'POST',
+                    data: {
+                        order_id: orderId
+                    },
+                    success: function(response) {
+                        var result = JSON.parse(response);
+                        if (result.status === 'success') {
+                            Swal.fire(
+                                'Completed!',
+                                'The order has been completed.',
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                'Failed to complete the order.',
                                 'error'
                             );
                         }

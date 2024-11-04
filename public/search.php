@@ -13,7 +13,7 @@
         require_once "conn.php";
 
         // Search query 
-        $query = "SELECT * FROM products WHERE product_name LIKE :usersearch";
+        $query = "SELECT * FROM products WHERE product_name LIKE :usersearch AND is_deleted != 1";
         $stmt = $conn->prepare($query);
 
         $search_term = "%" . $usersearch . "%";

@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $couponCode = isset($_POST['couponCode']) ? trim($_POST['couponCode']) : '';
     $discountPercentage = isset($_POST['discountPercentage']) ? (int)$_POST['discountPercentage'] : 0;
     $expirationDate = isset($_POST['expirationDate']) ? $_POST['expirationDate'] : '';
-    $usageLimit = isset($_POST['usageLimit']) ? (int)$_POST['usageLimit'] : 0;
     $couponStatus = isset($_POST['couponStatus']) ? (int)$_POST['couponStatus'] : 0;
 
     if (!preg_match('/^[0-9]{2}[A-Za-z]{4}$/', $couponCode)) {
@@ -22,13 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    if (empty($couponCode) || $discountPercentage <= 0 || $usageLimit <= 0 || empty($expirationDate)) {
+    if (empty($couponCode) || $discountPercentage <= 0 || empty($expirationDate)) {
         echo json_encode(['status' => 'error', 'message' => 'All fields are required and must be valid.']);
         exit();
     }
 
     if ($action === 'add') {
-        $added = $couponObj->addCoupon($couponCode, $discountPercentage, $expirationDate, $usageLimit, $couponStatus);
+        $added = $couponObj->addCoupon($couponCode, $discountPercentage, $expirationDate, $couponStatus);
         if ($added) {
             $response = ['status' => 'success', 'message' => 'Coupon added successfully!'];
         } else {
@@ -40,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['status' => 'error', 'message' => 'Invalid coupon ID.']);
             exit();
         }
-        $updated = $couponObj->editCoupon($couponId, $couponCode, $discountPercentage, $expirationDate, $usageLimit, $couponStatus);
+        $updated = $couponObj->editCoupon($couponId, $couponCode, $discountPercentage, $expirationDate, $couponStatus);
         if ($updated) {
             $response = ['status' => 'success', 'message' => 'Coupon updated successfully!'];
         } else {

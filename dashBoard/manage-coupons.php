@@ -160,7 +160,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <th>Coupon Code</th>
                                         <th>Discount (%)</th>
                                         <th>Expiration Date</th>
-                                        <th>Usage Limit</th>
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
@@ -173,7 +172,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <td class="coupon-code"><?= $coupon['coupon_code'] ?></td>
                                         <td class="discount-percentage"><?= $coupon['discount_percentage'] ?></td>
                                         <td class="expiration-date"><?= $coupon['expiration_date'] ?></td>
-                                        <td class="usage-limit"><?= $coupon['usage_limit'] ?></td>
                                         <td class="coupon-status"
                                             style="background-color: <?= $coupon['coupon_status'] == 1 ? '#c8e6c9' : '#ffcccb' ?>;">
                                             <?= $coupon['coupon_status'] == 1 ? 'Active' : 'Inactive' ?>
@@ -247,11 +245,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                             name="expirationDate" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="usageLimit">Usage Limit</label>
-                                        <input type="number" class="form-control" id="usageLimit" name="usageLimit"
-                                            placeholder="Enter usage limit" required>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="couponStatus">Status</label>
                                         <select class="form-control" id="couponStatus" name="couponStatus">
                                             <option value="1">Active</option>
@@ -295,7 +288,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
         document.getElementById('couponCode').value = row.querySelector('.coupon-code').textContent;
         document.getElementById('discountPercentage').value = row.querySelector('.discount-percentage').textContent;
         document.getElementById('expirationDate').value = row.querySelector('.expiration-date').textContent;
-        document.getElementById('usageLimit').value = row.querySelector('.usage-limit').textContent;
         document.getElementById('couponStatus').value = row.querySelector('.coupon-status').textContent === 'Active' ?
             '1' : '0';
         $('#couponModal').modal('show'); // Show the modal after populating the fields

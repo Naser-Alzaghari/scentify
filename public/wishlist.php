@@ -82,7 +82,7 @@ try {
                     $image_path = "assets/img/gallery/search-not-found.svg";
                     echo "<div class='no-result container'>";
                     echo '<img src="' . $image_path . '" alt="No results found">';
-                    echo "<p>Wichlist is empty</p>";
+                    echo "<p>Wishlist is empty</p>";
                     echo "</div>";
                 } else {
                     // Display wichlist results

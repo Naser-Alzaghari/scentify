@@ -21,7 +21,7 @@ if(isset($_SESSION['user_id'])){
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="productDisplay_page.php?category_name=Women">Women</a></li>
                 <li class="nav-item px-2"><a class="nav-link fw-medium" href="productDisplay_page.php?category_name=Men">Men</a></li>
-                <li class="nav-item px-2"><a class="nav-link fw-medium" href="#Categoreys">Catigories</a></li>
+                <li class="nav-item px-2"><a class="nav-link fw-medium" href="index.php#Categoreys">Categories</a></li>
             </ul>
             <form class="d-flex align-items-center" action="search.php" method="post">
           <?php
@@ -56,7 +56,7 @@ if(isset($_SESSION['user_id'])){
                 <li><a class="dropdown-item" href="logout.php">logout</a></li>
             </ul>
         </div>
-        <a class="text-1000" href="wishlist.php">
+        <a class="text-1000" href="<?php if(isset($_SESSION["user_id"])){echo "wishlist.php";}else{echo "LoginPage.php";} ?>">
             <svg class="feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg></a></form>

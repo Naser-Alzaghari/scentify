@@ -303,7 +303,6 @@ $productQuantitiesJson = json_encode($productQuantities);
                     success: function (response) {
                         if (response.status == "success") {
                             if (response.is_valid) {
-                                
                                 $('p#coupon_error').html('Coupon is valid');
                                 $('p#coupon_error').removeClass('text-danger').removeClass('text-success').addClass('text-success');
                                 var discount_percentage = parseFloat(response.discount_percentage);
