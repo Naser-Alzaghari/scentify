@@ -171,7 +171,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <th>Last Name</th>
                                         <th>Email</th>
                                         <th>Phone Number</th>
-                                        <th>Birth of Date</th>
                                         <th>Address</th>
                                         <?php if ($currentUserRole === 'super_admin'): ?>
                                             <th>Role</th>
@@ -187,7 +186,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                             <td><?= $user['last_name']; ?></td>
                                             <td><?= $user['email']; ?></td>
                                             <td><?= $user['phone_number']; ?></td>
-                                            <td><?= $user['birth_of_date']; ?></td>
                                             <td><?= $user['address'];?></td>
                                             <?php if ($currentUserRole === 'super_admin'): ?>
                                                 <td><?= $user['role']; ?></td>

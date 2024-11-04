@@ -6,6 +6,7 @@
     }
 
     $userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest';
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,13 +39,12 @@
     }
 
     .stats-card {
-        background-color: #2ad766;
+        background-color: #f2797e;
         padding: 15px;
-        border-radius: 8px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        color: white;
     }
 
     .stats-card-content {
@@ -52,6 +52,7 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        
     }
 
     .stats-card-text {
@@ -174,6 +175,10 @@ color: #ffffff !important;
     flex-grow: 1;
 }
 
+#top-products div {
+    font-size: 1rem;
+    line-height: 1.5;
+}
 
     </style>
 </head>
@@ -243,50 +248,48 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         </div>
                     </div>
                 </div>
-                <div class="stats-card text-center col-4">
-                        <div class="stats-card-content">
-                            <div class="stats-card-text">
-                                <h5 class="stats-card-title">Number of Clients</h5>
-                                <p class="stats-card-number" id="clients-count">Loading...</p>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                <!-- Number of Clients -->
-
-
-                <!-- Order Details and Sales Report -->
-                <div class="row">
-                    <div class="col-md-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="card-title">Order Details</p>
-                                <div class="chart-container">
-                                    <canvas id="order-chart"></canvas>
+             </div>
+           
+               <!-- Dashboard Cards -->
+               <div class="grid-margin transparent mb-4">
+                    <div class="row d-flex justify-content-between">
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card card-tale w-100">
+                                <div class="card-body">
+                                    <p class="mb-4">Total sales</p>
+                                    <p class="fs-30 mb-2" id="total-sales">Loading...</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="card-title">Sales Report</p>
-                                <div class="chart-container">
-                                    <canvas id="sales-chart"></canvas>
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card card-dark-blue w-100">
+                                <div class="card-body">
+                                <p class="mb-4">Number of Clients</p>
+                                <p class="fs-30 mb-2" id="clients-count">Loading...</p>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card card-light-blue w-100">
+                                <div class="card-body">
+                                    <p class="mb-4">Number of Orders</p>
+                                    <p class="fs-30 mb-2" id="number-orders">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                     
+                    </div>
                 </div>
-
+                
                 <!-- User Countries and Top Product in a Slider -->
-                <div class="col-md-12 grid-margin stretch-card">
+                <div class="grid-margin stretch-card">
                     <div class="card position-relative">
                         <div class="card-body">
                             <div id="detailedReports"
                                 class="carousel slide detailed-report-carousel position-static pt-2"
                                 data-ride="carousel">
                                 <div class="carousel-inner">
-                                    <div class="carousel-item active">
+                                    <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-md-12 col-xl-3 d-flex flex-column justify-content-start">
                                                 <div class="ml-xl-4 mt-3">
@@ -304,7 +307,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="carousel-item">
+                                    <div class="carousel-item active">
                                         <div class="row">
                                             <div class="col-md-12 col-xl-3 d-flex flex-column justify-content-start">
                                                 <div class="ml-xl-4 mt-3">
@@ -338,8 +341,32 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         </div>
                     </div>
                 </div>
+                
+                <!-- Order Details and Sales Report -->
+                <div class="row">
+                    <div class="col-md-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">Order Details</p>
+                                <div class="chart-container">
+                                    <canvas id="order-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">Sales Report</p>
+                                <div class="chart-container">
+                                    <canvas id="sales-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                </div>
 
-                <!-- Footer -->
+                
+
              
             </div>
         </div>
@@ -352,111 +379,107 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/29bcb0d26a.js" crossorigin="anonymous"></script>
     <script>
-    // Fetch data using AJAX
-    $(document).ready(function() {
-        $.ajax({
-            url: 'dashboard.php',
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                // Update number of clients dynamically
-                $('#clients-count').text(data.clients);
+     $(document).ready(function () {
+    $.ajax({
+        url: 'dashboard.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // تحديث بيانات البطاقات بناءً على البيانات المسترجعة
+            $('#clients-count').text(data.clients); // عدد العملاء
+            $('#total-sales').text(data.salesReport.reduce((a, b) => a + b, 0).toFixed(2) + " $"); // مجموع المبيعات مع تنسيق
+            $('#top-products').html(
+    data.topProducts.slice(0, 3).map(product => `<div style="text-align: left;">${product.product_name}</div>`).join('')
+);
+            $('#number-orders').text(data.orderDetails.reduce((a, b) => a + b, 0)); // عدد الطلبات
 
-                // Order Details chart
-                var ctxOrderDetails = document.getElementById('order-chart').getContext('2d');
-                var orderDetailsChart = new Chart(ctxOrderDetails, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                        datasets: [{
-                            label: 'Orders',
-                            data: data.orderDetails.total_orders,
-                            borderColor: '#f64e60',
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
+            // تعريف الشهور باستخدام JavaScript للحصول على الأسماء بشكل صحيح
+            const orderChartLabels = Array.from({length: 12}, (_, i) => new Date(0, i).toLocaleString('en', {month: 'short'}));
 
-                // Sales Report chart
-                var ctxSalesReport = document.getElementById('sales-chart').getContext('2d');
-                var salesReportChart = new Chart(ctxSalesReport, {
-                    type: 'bar',
-                    data: {
-                        labels: data.salesReport.map(item => item.month),
-                        datasets: [{
-                            label: 'Total Sales',
-                            data: data.salesReport.map(item => item.total_sales),
-                            backgroundColor: '#1f3bb3'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
+            // رسم Order Details chart
+            var ctxOrderDetails = document.getElementById('order-chart').getContext('2d');
+            new Chart(ctxOrderDetails, {
+                type: 'line',
+                data: {
+                    labels: orderChartLabels,
+                    datasets: [{
+                        label: 'Orders',
+                        data: data.orderDetails,
+                        borderColor: '#f64e60',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
                     }
-                });
+                }
+            });
 
-                // User Countries chart
-                var ctxUserCountries = document.getElementById('user-countries-chart').getContext(
-                    '2d');
-                var userCountriesChart = new Chart(ctxUserCountries, {
-                    type: 'doughnut',
-                    data: {
-                        labels: data.userCountries.map(item => item.country),
-                        datasets: [{
-                            data: data.userCountries.map(item => item.total),
-                            backgroundColor: ['#d9aaf7', '#1f3bb3', '#00c5dc',
-                                '#f64e60', '#f7f700', '#04f702','#fb5708','#8e2a5c','#800000','#c0c0c0','#c4ead2','#fbc457'
-                            ],
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
+            // رسم Sales Report chart
+            var ctxSalesReport = document.getElementById('sales-chart').getContext('2d');
+            new Chart(ctxSalesReport, {
+                type: 'bar',
+                data: {
+                    labels: orderChartLabels,
+                    datasets: [{
+                        label: 'Total Sales',
+                        data: data.salesReport,
+                        backgroundColor: '#1f3bb3'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
                     }
-                });
+                }
+            });
 
-                // Top Product chart
-                var ctxTopProduct = document.getElementById('top-product-chart').getContext('2d');
-                var topProductChart = new Chart(ctxTopProduct, {
-                    type: 'bar',
-                    data: {
-                        labels: data.topProducts.map(item => item.product_name),
-                        datasets: [{
-                            label: 'Sales',
-                            data: data.topProducts.map(item => item.total_sold),
-                            backgroundColor: ['#1f3bb3', '#00c5dc', '#f64e60', ''],
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
+            // رسم User Countries chart
+            var ctxUserCountries = document.getElementById('user-countries-chart').getContext('2d');
+            new Chart(ctxUserCountries, {
+                type: 'doughnut',
+                data: {
+                    labels: data.userCountries.map(item => item.country),
+                    datasets: [{
+                        data: data.userCountries.map(item => item.total),
+                        backgroundColor: ['#d9aaf7', '#1f3bb3', '#00c5dc', '#f64e60', '#f7f700']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // رسم Top Product chart
+            var ctxTopProduct = document.getElementById('top-product-chart').getContext('2d');
+            new Chart(ctxTopProduct, {
+                type: 'bar',
+                data: {
+                    labels: data.topProducts.map(item => item.product_name),
+                    datasets: [{
+                        label: 'Sales',
+                        data: data.topProducts.map(item => item.total_sold),
+                        backgroundColor: ['#1f3bb3', '#00c5dc', '#f64e60']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
                     }
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching data: ', error);
-            }
-        });
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching data: ', error);
+        }
     });
+});
+
     </script>
 </body>
 
