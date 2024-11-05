@@ -1,3 +1,5 @@
+
+
 <?php
 session_start();
 include 'conn.php';
@@ -33,36 +35,8 @@ $stmt->execute(['user_id' => $user_id]);
 // Fetch the results if needed
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $length = count($results);
-// print_r($results);
-
-
 
 $totalAmount = array_sum(array_column($results, 'total_price'));
-
-
-// // model update
-// $query_user = "SELECT   `first_name`,`last_name`,`email`,`phone_number`,`address`  FROM `users` WHERE `user_id`=:user_id ;";
-// $stmt_user = $conn->prepare($query_user);
-// $stmt_user->bindParam('user_id', $user_id);
-// $stmt_user->execute();
-// $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
-
-// // Initialize an empty associative array
-// $productQuantities = array();
-
-// // Loop through the results to fill the associative array
-// foreach ($results as $result) {
-//     $productId = $result['product_id']; // Get the product ID
-//     $quantity = $result['total_quantity']; // Get the quantity
-
-//     // Assign the quantity to the associative array using the product ID as the key
-//     $productQuantities[$productId] = $quantity;
-// }
-
-// // Print the associative array to see the result
-// $productQuantitiesJson = json_encode($productQuantities);
-
-
 
 
 ?>
@@ -235,9 +209,6 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                 .then(data => {
                     if (data.success) {
                         document.getElementById('cart-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
-                        document.getElementById('checkout-total').textContent = `$${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
-                        document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
-                        console.log(data.newTotalCartAmount);
                         total_amount_global = parseFloat(data.newTotalCartAmount);
 
                     } else {
@@ -276,7 +247,7 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                             var discount_percentage = parseFloat(response.discount_percentage);
                             let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
                             console.log(total_amount_global);
-                            $('#checkout-total').html(final_value.toFixed(2));
+                            
                             $('input[name=up_to_date_total_amount]').val(final_value.toFixed(2));
                         } else {
                             // Its not valid.
@@ -308,13 +279,17 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                 cancelButtonText: "No, cancel!",
                 reverseButtons: true,
                 willOpen: () => {
+                    
                     // Add space between buttons
                     const swalActions = document.querySelector('.swal2-actions');
                     if (swalActions) swalActions.style.gap = '10px';
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
+                
+                    // Send AJAX request to delete the item from the database
                     // Proceed with deletion if confirmed
+                    
                     fetch('delete_item.php', {
                             method: 'POST',
                             headers: {
@@ -333,8 +308,6 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
 
                                 // Update the total amount in the cart
                                 document.getElementById('cart-total').textContent = `$${data.newTotalCartAmount}`;
-                                document.getElementById('checkout-total').textContent = `$${data.newTotalCartAmount}`;
-                                document.getElementById('checkout-total-hidden').value = `${parseFloat(data.newTotalCartAmount).toFixed(2)}`;
 
 
                                 let cart_total = document.getElementById('cart-total');
@@ -356,18 +329,15 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                         .catch(error => {
                             console.error("Error:", error);
                             Swal.fire("Error", "An error occurred. Check the console for details.", "error");
+                            location.reload();
                         });
                 }
             });
         }
-        if ("<?php if (isset($_SESSION['stock_limit'])) {
-                    echo $_SESSION['stock_limit'];
-                } else {
-                    echo "";
-                } ?>" == "stock exeed limit") {
+        if("<?php if(isset($_SESSION['stock_limit'])){echo $_SESSION['stock_limit'];}else{echo "";} ?>" == "stock exeed limit"){
             document.getElementById("stock_message").classList.remove("d-none");
         }
-        <?php unset($_SESSION['stock_limit']) ?>
+        <?php unset($_SESSION['stock_limit'])?>
     </script>
 
     <?php include 'footer.html'; ?>
