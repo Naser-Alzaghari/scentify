@@ -49,7 +49,6 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $totalAmount = array_sum(array_column($results, 'total_price'));
 $user_id = $_SESSION['user_id'];
-
 // model update
 $query_user = "SELECT   `first_name`,`last_name`,`email`,`phone_number`,`address`  FROM `users` WHERE `user_id`=:user_id ;";
 $stmt_user = $conn->prepare($query_user);
@@ -142,7 +141,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
                                 <div class="card-footer border-0 px-4 py-4"
                                     style="background-color: #cfa1a4; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; color: #F5F5F7">
-                                    <p style="font-size: 1.5rem;">Total Amount: <span id="checkout-total">$<?php echo $totalAmount; ?></span></p>
+                                    <p style="font-size: 1.5rem;">Total Amount: <span class="me-3 d-none" style="text-decoration: line-through;" id="price_before"></span><span id="checkout-total">$<?php echo $totalAmount; ?></span></p>
                                     <div class="d-flex justify-content-end">
                                         <button type="button" class="btn" style="background-color: #F5F5F7;" onclick="window.location.href='/scentify/public/cart.php';">Close</button>
                                         <button type="submit" class="btn btn-primary1 ms-2" style="background-color: #4a4a4a;">Checkout</button>
@@ -199,6 +198,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                             var discount_percentage = parseFloat(response.discount_percentage);
                             let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
                             console.log(total_amount_global);
+                            document.getElementById("price_before").classList.remove("d-none");
                             $('#checkout-total').html(final_value.toFixed(2));
                             $('input[name=up_to_date_total_amount]').val(final_value.toFixed(2));
                         } else {
@@ -210,6 +210,8 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                 }
             });
         }
+        var total_amount_global = <?= $totalAmount ?>;
+        document.getElementById("price_before").innerHTML = "$"+total_amount_global;
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

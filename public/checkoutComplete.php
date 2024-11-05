@@ -88,6 +88,7 @@ if (!empty($orderDetails)) {
 
 
 <main class="main" id="top">
+<?php include "nav_bar.php"; ?>
     <section class="bg-light-gradient border-bottom border-white border-5">
         <div class='bg-holder overlay overlay-light'
              style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'></div>
@@ -155,7 +156,7 @@ if (!empty($orderDetails)) {
         </div>
     </section>
 </main>
-<?php include "nav_bar.php"; ?>
+
 <?php include "footer.html"; ?>
 
 <script src="vendors/@popperjs/popper.min.js"></script>

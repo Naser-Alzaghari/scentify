@@ -159,7 +159,7 @@ $productQuantitiesJson = json_encode($productQuantities);
                                             </div>
                                             <p class="text-danger d-none" id="stock_message">you exeeded stock limit</p>
 
-                                            <form action="/scentify/public/chekoutPage.php" method="POST">
+                                            <form action="chekoutPage.php" method="POST">
                                                 <input type="hidden" name="order_id" value="<?= $results[0]['order_id'] ?>">
                                                <input type="hidden" name="length_of_order"  value="<?= $length ?>">
                                                <input type="hidden" name="total_quantity" value="<?=$totalAmount?>">
