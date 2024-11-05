@@ -66,11 +66,11 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 .pagination .page-item .page-link {
-    border: 1px solid #007bff; 
+    border: 1px solid #705C53; 
 }
 
 .pagination .active .page-link {
-    background-color: #007bff;
+    background-color: #705C53;
     color: white;
 }
 
@@ -80,7 +80,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 /* Navbar active link */
 .nav .nav-link.active {
-    background-color: #007bff !important;
+    background-color: #705C53 !important;
     color: #ffffff !important;
 }
 
@@ -181,8 +181,8 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td>{$updated_at}</td>
                         <td><img src='../public/assets/img/gallery/{$image}' alt='Category Image' class='img-thumbnail'></td>
                         <td>
-                            <button class='btn btn-primary btn-sm' data-toggle='modal' data-target='#categoryModal' onclick=\"editCategory({$id}, '{$name}', '{$image}')\">Edit</button>
-                            <button class='btn btn-danger btn-sm' onclick='confirmDelete({$id})'>Delete</button>
+                            <a class='p-2 text-secondary' data-toggle='modal' data-target='#categoryModal' onclick=\"editCategory({$id}, '{$name}', '{$image}')\"><i class='fa-solid fa-pen-to-square'></i></a>
+                            <a class='p-2 text-danger' onclick='confirmDelete({$id})'><i class='fa-solid fa-trash-can'></i></a>
                         </td>
                         </tr>";
                         $num++;
@@ -254,6 +254,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://kit.fontawesome.com/29bcb0d26a.js" crossorigin="anonymous"></script>
         <script src="./Search.js"></script>
         <script>
     $(document).ready(function() {

@@ -96,10 +96,11 @@ $productQuantitiesJson = json_encode($productQuantities);
         }
     </style>
 </head>
-<body>
-  <?php include 'nav_bar.php'; ?>
-    <main class="main" id="top">
-        <section class="pt-9 pb-4 bg-light-gradient border-bottom border-white border-5">
+<?php include 'nav_bar.php'; ?>
+<body class="h-100 d-flex flex-column">
+  
+    <main class="main flex-grow-1" id="top">
+        <section class="d-flex flex-column justify-content-center bg-light-gradient">
         <div class='bg-holder overlay overlay-light'
         style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
         </div>
@@ -173,9 +174,9 @@ $productQuantitiesJson = json_encode($productQuantities);
                         </div>
                     </div>
                 </div>
-            <section class="py-5"></section>
 
         </main>
+        <?php include 'footer.html'; ?>
         
                 <!-- Checkout Modal -->
         <!-- Checkout Modal -->
@@ -229,7 +230,9 @@ $productQuantitiesJson = json_encode($productQuantities);
                 </div>
             </form>
         </div>
+        
     </div>
+    
 </div>
 
         <script src="vendors/@popperjs/popper.min.js"></script>
@@ -399,6 +402,6 @@ function deleteItem(orderItemId) {
 
         </script>
         
-        <?php include 'footer.html'; ?>
+        
     </body>
 </html>

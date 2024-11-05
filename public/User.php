@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 class User {
     private $conn;
     private $table_name = "users";
@@ -29,8 +29,6 @@ class User {
         if (!$this->isAgeValid()) {
             return "age up 16";
         }
-
-        // تحقق من أن كلمة المرور تحقق الشروط
         if (!$this->isPasswordValid()) {
             return "password not strong ";
         }
@@ -39,7 +37,7 @@ class User {
             return "email Exist before";
         }
 
-        // تشفير كلمة المرور
+        // تشفير كلمة السر
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
 
         // إعداد استعلام SQL

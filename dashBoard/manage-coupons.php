@@ -65,10 +65,10 @@ $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
     justify-content: center; 
 
 .pagination .page-item .page-link {
-    border: 1px solid #007bff; 
+    border: 1px solid #705C53; 
 
 .pagination .active .page-link {
-    background-color: #007bff;
+    background-color: #705C53;
     color: white; 
 }
 
@@ -77,7 +77,7 @@ $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 /* Navbar active link */
 .nav .nav-link.active {
-    background-color: #007bff !important;
+    background-color: #705C53 !important;
     color: #ffffff !important; 
 }
 
@@ -178,10 +178,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         </td>
                                         <td><?= $coupon['created_at'] ?></td>
                                         <td>
-                                            <button onclick="editCoupon(<?= $coupon['coupon_id'] ?>)"
-                                                class="btn btn-sm btn-primary">Edit</button>
-                                            <button class="btn btn-sm btn-danger"
-                                                onclick="confirmDelete(<?= $coupon['coupon_id'] ?>)">Delete</button>
+                                            <a onclick="editCoupon(<?= $coupon['coupon_id'] ?>)"
+                                                class="p-3 text-secondary"><i class='fa-solid fa-pen-to-square'></i></a>
+                                            <a class="p-3 text-danger"
+                                                onclick="confirmDelete(<?= $coupon['coupon_id'] ?>)"><i class='fa-solid fa-trash-can'></i></a>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -342,6 +342,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             });
     };
     </script>
+    <script src="https://kit.fontawesome.com/29bcb0d26a.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

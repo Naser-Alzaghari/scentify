@@ -64,8 +64,10 @@ session_start();
                                                     placeholder="Password *" required oninput="checkPasswordRequirements()" onfocus="showPasswordMessage()" onblur="hidePasswordMessage()" />
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" class="form-control" name="pwer"
+                                                <input type="password" class="form-control" name="pwer" id="pwsConfirm"
                                                     placeholder="Confirm Password *" required />
+                                                    <p class="text-danger d-none" id="password_match">password does not match</p>
+                                                    <p class="text-danger d-none" id="password_strong">password is not strong</p>
                                             </div>
                                     </div>
                                     <div class="col-md-6">
@@ -99,9 +101,10 @@ session_start();
                                     <input type="submit" class="btnRegister" name="registration" value="Register" />
                                     </div>
                                     
-                                    </form>
-                                    <!-- <h5>متطلبات كلمة السر:</h5> -->
                                     
+                                    
+                                    </form>
+                                   
         
                                 </div>
                             </div>
@@ -147,21 +150,42 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>
-        
-    function checkPasswordRequirements() {
-        const password = document.getElementById("pws").value;
-        const uppercase = /[A-Z]/.test(password);
-        const lowercase = /[a-z]/.test(password);
-        const number = /[0-9]/.test(password);
-        const specialChar = /[!@#$%^&*]/.test(password);
-        const minLength = password.length >= 6;
+    document.getElementById("register").addEventListener("submit", function(e) {
+    let passwordMatch = document.getElementById("pws").value === document.getElementById("pwsConfirm").value;
+    let strongPassword = checkPasswordRequirements();
 
-        document.getElementById("length").className = minLength ? "valid" : "invalid";
-        document.getElementById("uppercase").className = uppercase ? "valid" : "invalid";
-        document.getElementById("lowercase").className = lowercase ? "valid" : "invalid";
-        document.getElementById("number").className = number ? "valid" : "invalid";
-        document.getElementById("special").className = specialChar ? "valid" : "invalid";
+    if (!passwordMatch) {
+        e.preventDefault();
+        document.getElementById("password_match").classList.remove("d-none");
+    } else {
+        document.getElementById("password_match").classList.add("d-none");
     }
+
+    if (!strongPassword) {
+        e.preventDefault();
+        document.getElementById("password_strong").classList.remove("d-none");
+    } else {
+        document.getElementById("password_strong").classList.add("d-none");
+    }
+});
+
+    function checkPasswordRequirements() {
+    const password = document.getElementById("pws").value;
+    const uppercase = /[A-Z]/.test(password);
+    const lowercase = /[a-z]/.test(password);
+    const number = /[0-9]/.test(password);
+    const specialChar = /[!@#$%^&*]/.test(password);
+    const minLength = password.length >= 6;
+
+    document.getElementById("length").className = minLength ? "valid" : "invalid";
+    document.getElementById("uppercase").className = uppercase ? "valid" : "invalid";
+    document.getElementById("lowercase").className = lowercase ? "valid" : "invalid";
+    document.getElementById("number").className = number ? "valid" : "invalid";
+    document.getElementById("special").className = specialChar ? "valid" : "invalid";
+
+    return minLength && uppercase && lowercase && number && specialChar;
+}
+
     function showPasswordMessage() {
             document.getElementById("password-message").style.display = "block";
         }
@@ -231,6 +255,8 @@ session_start();
         document.querySelector(".register-right .register-heading").after(errorContainer);
     }
 });
+
+    
  
         </script>
 </body>

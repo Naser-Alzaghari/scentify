@@ -67,11 +67,11 @@ foreach ($categories as $category) {
 }
 
 .pagination .page-item .page-link {
-    border: 1px solid #007bff; 
+    border: 1px solid #705C53; 
 }
 
 .pagination .active .page-link {
-    background-color: #007bff; 
+    background-color: #705C53; 
     color: white; 
 }
 
@@ -81,7 +81,7 @@ foreach ($categories as $category) {
 
 /* Navbar active link */
 .nav .nav-link.active {
-    background-color: #007bff !important; 
+    background-color: #705C53 !important; 
     color: #ffffff !important; 
 }
 
@@ -190,11 +190,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <td><img src="../public/assets/img/gallery/<?php echo $product['product_image']; ?>" alt="Product Image"
                                                 class="img-thumbnail" width="50"></td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                            <a class="p-3" data-toggle="modal"
                                                 data-target="#productModal"
-                                                onclick="editProduct(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>', '<?php echo $product['product_description']; ?>', '<?php echo $product['price']; ?>', '<?php echo $product['stock_quantity']; ?>', '<?php echo $product['category_id']; ?>', '<?php echo $product['product_image']; ?>')">Edit</button>
-                                            <button class="btn btn-sm btn-danger"
-                                                onclick="confirmDelete(<?php echo $product['product_id']; ?>)">Delete</button>
+                                                onclick="editProduct(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>', '<?php echo $product['product_description']; ?>', '<?php echo $product['price']; ?>', '<?php echo $product['stock_quantity']; ?>', '<?php echo $product['category_id']; ?>', '<?php echo $product['product_image']; ?>')"><i class='fa-solid fa-pen-to-square'></i></a>
+                                            <a class="p-3 text-danger"
+                                                onclick="confirmDelete(<?php echo $product['product_id']; ?>)"><i class='fa-solid fa-trash-can'></i></a>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -443,7 +443,7 @@ for (let i = 0; i < tables.length; i++) {
     });
 }
 </script>
-
+<script src="https://kit.fontawesome.com/29bcb0d26a.js" crossorigin="anonymous"></script>
 
 </body>
 

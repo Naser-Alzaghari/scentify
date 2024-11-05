@@ -78,7 +78,7 @@
     }
 
 .nav .nav-link.active {
-background-color: #007bff !important; 
+background-color: #705C53 !important; 
 color: #ffffff !important; 
 }
 
@@ -95,7 +95,7 @@ color: #ffffff !important;
     top: 10px;
     width: 30px; 
     height: 30px; 
-    background-color: #007bff;
+    background-color: #705C53;
     border: none;
     border-radius: 50%;
     display: flex;

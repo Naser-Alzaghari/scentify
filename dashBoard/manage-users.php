@@ -72,11 +72,11 @@ echo $currentUserRole;
 }
 
 .pagination .page-item .page-link {
-    border: 1px solid #007bff; 
+    border: 1px solid #705C53; 
 }
 
 .pagination .active .page-link {
-    background-color: #007bff;
+    background-color: #705C53;
     color: white; 
 }
 
@@ -86,7 +86,7 @@ echo $currentUserRole;
 
 /* Navbar active link */
 .nav .nav-link.active {
-    background-color: #007bff !important; 
+    background-color: #705C53 !important; 
     color: #ffffff !important; 
 }
 
