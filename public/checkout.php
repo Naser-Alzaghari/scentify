@@ -69,7 +69,7 @@ if (isset($_SESSION['user_id'])) {
         echo "Stock quantities updated successfully!";
 
         // Redirect to checkout complete page
-        header('Location: checkoutComplete.php?success=1');
+        header('Location: thank_you.php?success=1');
         exit(); // Add exit to prevent further code execution after redirect
         } else {
             $_SESSION['stock_limit'] = "stock exeed limit";
