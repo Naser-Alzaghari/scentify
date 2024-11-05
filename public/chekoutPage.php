@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $order_id = isset($_POST['order_id']) ? $_POST['order_id'] : null;
     $total_quantity = $_POST['total_quantity'];
     $length = $_POST['length_of_order'];
+    $productQuantitiesJson = $_POST['total_quantity'];
 }
 
 $query = "SELECT 
@@ -57,21 +58,6 @@ $stmt_user->execute();
 $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
 
-// Initialize an empty associative array
-$productQuantities = array();
-
-// Loop through the results to fill the associative array
-
-for ($i = 0; $i < $length; $i++) {
-    $productId = $results[$i]['product_id']; // Get the product ID
-    $quantity = $results[$i]['total_quantity']; // Get the quantity
-
-    // Assign the quantity to the associative array using the product ID as the key
-    $productQuantities[$productId] = $quantity;
-}
-
-// Print the associative array to see the result
-$productQuantitiesJson = json_encode($productQuantities);
 
 
 ?>

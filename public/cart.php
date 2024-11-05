@@ -37,7 +37,26 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $length = count($results);
 
 $totalAmount = array_sum(array_column($results, 'total_price'));
+$query_user = "SELECT   `first_name`,`last_name`,`email`,`phone_number`,`address`  FROM `users` WHERE `user_id`=:user_id ;";
+$stmt_user = $conn->prepare($query_user);
+$stmt_user->bindParam('user_id', $user_id);
+$stmt_user->execute();
+$user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
+// Initialize an empty associative array
+$productQuantities = array();
+
+// Loop through the results to fill the associative array
+foreach ($results as $result) {
+    $productId = $result['product_id']; // Get the product ID
+    $quantity = $result['total_quantity']; // Get the quantity
+
+    // Assign the quantity to the associative array using the product ID as the key
+    $productQuantities[$productId] = $quantity;
+}
+
+// Print the associative array to see the result
+$productQuantitiesJson = json_encode($productQuantities);
 
 ?>
 
@@ -144,6 +163,7 @@ $totalAmount = array_sum(array_column($results, 'total_price'));
                                                 <input type="hidden" name="order_id" value="<?= $results[0]['order_id'] ?>">
                                                <input type="hidden" name="length_of_order"  value="<?= $length ?>">
                                                <input type="hidden" name="total_quantity" value="<?=$totalAmount?>">
+                                               <input type="hidden" name="total_quantity" value='<?php echo $productQuantitiesJson; ?>'>
                                                 <button type="submit" class="btn btn-primary1 btn-block btn-lg w-100 rounded">
                                                     Proceed
                                                 </button>
