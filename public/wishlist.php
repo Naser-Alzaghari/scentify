@@ -39,6 +39,9 @@ try {
 
     <link href="assets/css/theme.css" rel="stylesheet" />
     <style>
+        body{
+            background-color: #f3f3f3 !important;
+        }
         @media (min-width: 1025px) {
             .h-custom {
                 height: 100vh !important;
@@ -53,12 +56,42 @@ try {
         .card-registration .select-arrow {
             top: 13px;
         }
+
+        /* Container styling */
+.no-result-container {
+   /* margin-left: 300px; */
+   /* margin: 0 100px; */
+
+   display: flex!important;
+   justify-content: center!important;
+   align-items: center !important;
+   flex-direction: column;
+   margin: 0 auto !important;
+    
+}
+
+/* Video styling with fixed width and height */
+.no-result-video {
+    width: 500px; /* Set desired width */
+    height: 300px; /* Set desired height */
+    border-radius: 10px; /* Optional rounded corners */
+    
+}
+
+/* Text styling */
+.no-result-text {
+    margin-top: 15px;
+    color: #555;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+    
     </style>
 </head>
-<body>
-<section class='py-4 bg-light-gradient border-bottom border-white border-5'>
-    <div class='bg-holder overlay overlay-light'
-         style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
+<body >
+
+
     </div>
     <?php
     $document = new HTMLDocument("Scentify");
@@ -72,18 +105,26 @@ try {
     ?>
 
     
-
+<div class='bg-light-gradient'>
+        <div class='bg-holder overlay overlay-light'
+            style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
+        </div>
     <section class="py-5">
         <div class="container mt-5">
         <h2 class="mb-4 text-center">Wishlist</h2>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
                 <?php
                 if (empty($all_products_in_wishlist)) {
-                    $image_path = "assets/img/gallery/search-not-found.svg";
-                    echo "<div class='no-result container'>";
-                    echo '<img src="' . $image_path . '" alt="No results found">';
-                    echo "<p>Wishlist is empty</p>";
+                    $video_path = "assets/video/no-result.mp4"; // Corrected path
+                    echo "<div class='no-result-container'>";
+                    echo '<img src="./assets/img/gallery/not_found.gif" style="max-width: 300px;">';
+                    echo "<p class='no-result-text'>Wishlist is empty</p>";
                     echo "</div>";
+
+
+
+                   
+                 
                 } else {
                     // Display wichlist results
                     foreach ($all_products_in_wishlist as $row){
@@ -96,6 +137,7 @@ try {
         </div>
     </section>
     </section>
+    </div>
     <?php include "footer.html"; ?>
 
     <!-- Scripts -->
