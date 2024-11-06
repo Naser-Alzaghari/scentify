@@ -96,8 +96,8 @@ $productQuantitiesJson = json_encode($productQuantities);
 
 <body>
     <?php include 'nav_bar.php'; ?>
-    <main class="main" id="top">
-        <section class="pt-9 pb-4 bg-light-gradient border-bottom border-white border-5">
+    <main class="main d-flex flex-column" style="min-height:100vh;" id="top">
+        <section class="d-flex flex-column justify-content-center bg-light-gradient flex-grow-1">
             <div class='bg-holder overlay overlay-light'
                 style='background-image:url(assets/img/gallery/background_perfume.PNG);background-size:cover;'>
             </div>
@@ -181,22 +181,26 @@ $productQuantitiesJson = json_encode($productQuantities);
                     </div>
                 </div>
             </div>
-            <section class="py-5"></section>
-
+        </section>
+            <?php include 'footer.html'; ?>
     </main>
+    
+
 
 
 
     <script src="vendors/@popperjs/popper.min.js"></script>
     <script src="vendors/bootstrap/bootstrap.min.js"></script>
     <script src="vendors/is/is.min.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="vendors/feather-icons/feather.min.js"></script>
     <script src="assets/js/theme.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/29bcb0d26a.js" crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-
+    <script>
+    feather.replace();
+    </script>
     <script>
         // script name
         var total_amount_global = <?= $totalAmount ?>;
@@ -359,8 +363,7 @@ $productQuantitiesJson = json_encode($productQuantities);
         }
         <?php unset($_SESSION['stock_limit'])?>
     </script>
-
-    <?php include 'footer.html'; ?>
+    
 </body>
 
 </html>

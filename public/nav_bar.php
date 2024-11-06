@@ -27,7 +27,7 @@ if(isset($_SESSION['user_id'])){
           <?php
 
           ?>
-          <input class="px-3" id ="search" type="text" name ="usersearch" placeholder="Search a product">
+          
             <form class="d-flex align-items-center"> <?php
             
           ?> <a type="button" href="LoginPage.php" class="btn btn-primary1 me-3 d-none" id="login_button">login</a>
@@ -59,7 +59,10 @@ if(isset($_SESSION['user_id'])){
         <a class="text-1000" href="<?php if(isset($_SESSION["user_id"])){echo "wishlist.php";}else{echo "LoginPage.php";} ?>">
             <svg class="feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg></a></form>
+            </svg></a>
+            <input class="px-3 me-0 ms-3" id ="search" type="text" name ="usersearch" placeholder="Search a product">
+          
+          </form>
     </div>
     </div>
 </nav> <?php
