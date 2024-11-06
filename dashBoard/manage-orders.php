@@ -45,8 +45,7 @@ $orders = $orderManager->getOrders($limit, $offset);
     }
 
     .order-status-pending {
-        color: yellow;
-        font-weight: bold;
+        color: black;
     }
 
     .order-status-processing {

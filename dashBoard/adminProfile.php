@@ -63,7 +63,7 @@ $userInfo = $admin->getUserInfo($user_id);
 }
 
 .table th {
-    background-color: #4CAF50; /* اللون الأساسي لعناوين الأعمدة */
+    background-color: #705C53; /* اللون الأساسي لعناوين الأعمدة */
     color: #fff;
     font-weight: bold;
     text-transform: uppercase;
@@ -79,8 +79,8 @@ $userInfo = $admin->getUserInfo($user_id);
 }
 
 /* تحسين زر التحديث ليصبح متناسقاً */
-.btn-primary {
-    background-color: #4CAF50;
+.btn-primary1 {
+    background-color: #705C53;
     border: none;
     color: #fff;
     padding: 10px 20px;
@@ -88,9 +88,7 @@ $userInfo = $admin->getUserInfo($user_id);
     transition: background-color 0.3s ease;
 }
 
-.btn-primary:hover {
-    background-color: #45a049; /* لون أغمق عند التمرير */
-}
+
 
 /* تحسين النصوص لجعلها أكثر جاذبية */
 .table th, .table td {
@@ -103,9 +101,13 @@ $userInfo = $admin->getUserInfo($user_id);
     margin-bottom: 15px;
 }
 
-        .btn-primary {
+        .btn-primary1 {
     margin-top: 20px; /* يبعد الزر 20 بكسل عن الجدول */
     border-radius: 0;
+}
+.btn-primary1:hover, .btn-primary1:active{
+    background-color: #806C63;
+    color: #fff;
 }
 
     </style>
@@ -192,7 +194,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </tr>
         </table>
 
-        <button type="button" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
+        <button type="button" class="btn btn-primary1 mt-4 rounded" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
             Update Profile
         </button>
     </div>
@@ -240,7 +242,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <button type="submit" class="btn btn-outline-warning" style="">Save Changes</button>
                 </div>
             </form>
         </div>

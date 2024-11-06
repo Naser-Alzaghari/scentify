@@ -199,7 +199,7 @@ $user_checkout = $stmt_user->fetch(PDO::FETCH_ASSOC);
                             let final_value = total_amount_global - (total_amount_global * (discount_percentage / 100));
                             console.log(total_amount_global);
                             document.getElementById("price_before").classList.remove("d-none");
-                            $('#checkout-total').html(final_value.toFixed(2));
+                            $('#checkout-total').html("$"+final_value.toFixed(2));
                             $('input[name=up_to_date_total_amount]').val(final_value.toFixed(2));
                         } else {
                             // Its not valid.

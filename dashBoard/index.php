@@ -118,7 +118,7 @@ color: #ffffff !important;
 
 .custom-slider-button-prev:hover,
 .custom-slider-button-next:hover {
-    background-color: #0056b3;
+    background-color: #806C63;
     transform: scale(1.1);
 }
 
@@ -327,14 +327,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                     </div>
                                 </div>
                                 
-                                <a class="custom-slider-button-prev" href="#detailedReports" role="button" data-slide="prev">
+                                <button class="custom-slider-button-prev" href="#detailedReports" role="button" data-slide="prev">
     <span class="custom-icon"><i class="fa-solid fa-arrow-left"></i></span>
     <span class="sr-only">Previous</span>
-</a>
-<a class="custom-slider-button-next" href="#detailedReports" role="button" data-slide="next">
+</button>
+<button class="custom-slider-button-next" href="#detailedReports" role="button" data-slide="next">
     <span class="custom-icon"><i class="fa-solid fa-arrow-right"></i></span>
     <span class="sr-only">Next</span>
-</a>
+</button>
 
 
                             </div>

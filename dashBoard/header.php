@@ -54,12 +54,13 @@ $profileImage = !empty($userData['profile_picture']) ? "../public/assets/img/gal
                         <?php foreach ($contactMessages as $message): ?>
                         <a class="dropdown-item preview-item">
                             <div class="preview-thumbnail">
-                                <div class="preview-icon bg-success">
+                                <div class="preview-icon" style="background-color: #705C53;
+;">
                                     <i class="fas fa-envelope mx-0"></i>
                                 </div>
                             </div>
                             <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">
+                                <h6 class="preview-subject font-weight-normal text-black">
                                     <?= htmlspecialchars($message['full_name']); ?></h6>
                                 <p class="font-weight-light small-text mb-0 text-muted">
                                     <?= htmlspecialchars($message['message']); ?></p>
