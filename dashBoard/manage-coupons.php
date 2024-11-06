@@ -146,7 +146,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#couponModal"
+                            <button class="btn btn-secondary text-white" data-toggle="modal" data-target="#couponModal"
                                 onclick="clearForm()">Add New Coupon</button>
                                 <div class="search-bar-wrapper ml-auto">
                 <input id="searchQuery" type="text" class="search-bar form-control" placeholder="Search Coupons..." onkeyup="searchCoupons(this.value)">
@@ -162,7 +162,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <th>Expiration Date</th>
                                         <th>Status</th>
                                         <th>Created At</th>
-                                        <th>Actions</th>
+                                        <th width="100">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="coupons-table-body">
@@ -179,8 +179,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <td><?= $coupon['created_at'] ?></td>
                                         <td>
                                             <a onclick="editCoupon(<?= $coupon['coupon_id'] ?>)"
-                                                class="p-3 text-secondary"><i class='fa-solid fa-pen-to-square'></i></a>
-                                            <a class="p-3 text-danger"
+                                                class="p-2 text-secondary"><i class='fa-solid fa-pen-to-square'></i></a>
+                                            <a class="p-2 text-danger"
                                                 onclick="confirmDelete(<?= $coupon['coupon_id'] ?>)"><i class='fa-solid fa-trash-can'></i></a>
                                         </td>
                                     </tr>
@@ -251,7 +251,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                             <option value="0">Inactive</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="submit" class="btn btn-secondary text-white">Save Changes</button>
                                 </form>
                             </div>
                         </div>

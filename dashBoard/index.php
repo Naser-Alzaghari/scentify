@@ -241,7 +241,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <div class="col-md-12 grid-margin mb-3">
                         <div class="row">
                             <div class="col-12">
-                            <h3 class="font-weight-bold">Welcome, <span class="username"><?php echo htmlspecialchars($userName); ?></span></h3>
+                            <h3 class="font-weight-bold">Welcome, <span ><?php echo htmlspecialchars(ucfirst($userName)); ?></span></h3>
 
                                 <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6>
                             </div>

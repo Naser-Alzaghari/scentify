@@ -35,23 +35,23 @@ $orders = $orderManager->getOrders($limit, $offset);
 
     <style>
     .order-status-cancelled {
-        background-color: red;
-        color: white;
+        color: #ff4747;
+        font-weight: bold;
     }
 
     .order-status-completed {
-        background-color: green;
-        color: white;
+        color: #57b657;
+        font-weight: bold;
     }
 
     .order-status-pending {
-        background-color: yellow;
-        color: black;
+        color: yellow;
+        font-weight: bold;
     }
 
     .order-status-processing {
-        background-color: orange;
-        color: white;
+        color: gray;
+        font-weight: bold;
     }
 
     /* Sidebar CSS */
@@ -182,7 +182,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <th>Total Amount</th>
                                         <th>Order Status</th>
                                         <th>Shipping Address</th>
-                                        <th>Actions</th>
+                                        <th style="white-space: nowrap; width: 1%;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="orders-table-body">
@@ -195,14 +195,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                             <?php echo $order['order_status']; ?>
                                         </td>
                                         <td><?php echo $order['shipping_address']; ?></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary"
-                                                onclick="viewOrderProducts(<?php echo $order['order_id']; ?>)">View</button>
+                                        <td class="text-left" style="width: fit-content;">
+                                            <a href="#" class="p-2 text-info" 
+                                                onclick="viewOrderProducts(<?php echo $order['order_id']; ?>)"><i class="fa-solid fa-book-open"></i></a>
                                             <?php if (strtolower($order['order_status']) !== 'cancelled' && strtolower($order['order_status']) !== 'completed'): ?>
-                                            <button class="btn btn-sm btn-danger"
-                                                onclick="cancelOrder(<?php echo $order['order_id']; ?>)">Cancel</button>
-                                                <button class="btn btn-sm btn-success"
-                                                onclick="completeOrder(<?php echo $order['order_id']; ?>)">complete</button>
+                                            <a href="#" class="p-2 text-danger"
+                                                onclick="cancelOrder(<?php echo $order['order_id']; ?>)"><i class="fa-solid fa-xmark"></i></i></a>
+                                                <a href="#" class="p-2 text-success"
+                                                onclick="completeOrder(<?php echo $order['order_id']; ?>)"><i class="fa-solid fa-square-check"></i></a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -362,6 +362,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         });
     }
     </script>
+    <script src="https://kit.fontawesome.com/29bcb0d26a.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

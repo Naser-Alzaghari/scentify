@@ -147,7 +147,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#categoryModal" onclick="clearForm()">Add New Category</button>
+            <button class="btn btn-secondary text-white" data-toggle="modal" data-target="#categoryModal" onclick="clearForm()">Add New Category</button>
             <div class="search-bar-wrapper ml-auto">
                 <input id="searchQuery" type="text" class="search-bar form-control" placeholder="Search Category..." onkeyup="searchCategory(this.value)">
             </div>
@@ -243,7 +243,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <label for="categoryImage">Category Image</label>
                                 <input type="file" class="form-control-file" id="categoryImage" name="image">
                             </div>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-secondary text-white">Save Changes</button>
                         </form>
                     </div>
                 </div>

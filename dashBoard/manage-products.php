@@ -155,7 +155,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#productModal"
+                            <button class="btn btn-secondary text-white" data-toggle="modal" data-target="#productModal"
                                 onclick="clearForm()">Add New Product</button>
                             <div class="search-bar-wrapper ml-auto">
                                 <input id="searchQuery" type="text" class="search-bar form-control"
@@ -190,7 +190,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <td><img src="../public/assets/img/gallery/<?php echo $product['product_image']; ?>" alt="Product Image"
                                                 class="img-thumbnail" width="50"></td>
                                         <td>
-                                            <a class="p-3" data-toggle="modal"
+                                            <a class="p-3 text-secondary" data-toggle="modal"
                                                 data-target="#productModal"
                                                 onclick="editProduct(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>', '<?php echo $product['product_description']; ?>', '<?php echo $product['price']; ?>', '<?php echo $product['stock_quantity']; ?>', '<?php echo $product['category_id']; ?>', '<?php echo $product['product_image']; ?>')"><i class='fa-solid fa-pen-to-square'></i></a>
                                             <a class="p-3 text-danger"
@@ -279,7 +279,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         <input type="file" class="form-control" id="productImage" name="productImage"
                                             accept="image/*" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="submit" class="btn btn-secondary text-white">Save Changes</button>
                                 </form>
                             </div>
                         </div>

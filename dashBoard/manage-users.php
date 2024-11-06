@@ -154,7 +154,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">Add New
+                            <button class="btn btn-secondary text-white" data-toggle="modal" data-target="#addUserModal">Add New
                                 User</button>
                        
                             <div class="search-bar-wrapper ml-auto">
@@ -191,10 +191,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                                 <td><?= $user['role']; ?></td>
                                             <?php endif; ?>
                                             <td>
-                                                <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                                    data-target="#editUserModal<?= $user['user_id']; ?>">Edit</button>
-                                                <a href="#" class="btn btn-sm btn-danger"
-                                                    onclick="confirmDelete(<?= $user['user_id']; ?>)">Delete</a>
+                                                <a href="#" class="p-2 text-secondary" data-toggle="modal"
+                                                    data-target="#editUserModal<?= $user['user_id']; ?>"><i class='fa-solid fa-pen-to-square'></i></a>
+                                                <a href="#" class="p-2 text-danger"
+                                                    onclick="confirmDelete(<?= $user['user_id']; ?>)"><i class='fa-solid fa-trash-can'></i></i></a>
                                             </td>
                                         </tr>
 
@@ -352,7 +352,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                         </select>
                                     </div>
                                 <?php endif; ?>
-                                <button type="submit" class="btn btn-primary">Add User</button>
+                                <button type="submit" class="btn btn-secondary text-white">Add User</button>
                             </form>
                         </div>
                     </div>
@@ -364,6 +364,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="Script.js"></script>
+    <script src="https://kit.fontawesome.com/29bcb0d26a.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert inclusion -->
 <script src="./Search.js"></script> 
