@@ -387,7 +387,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         success: function (data) {
             // تحديث بيانات البطاقات بناءً على البيانات المسترجعة
             $('#clients-count').text(data.clients); // عدد العملاء
-            $('#total-sales').text(data.salesReport.reduce((a, b) => a + b, 0).toFixed(2) + " $"); // مجموع المبيعات مع تنسيق
+            $('#total-sales').text("$"+data.salesReport.reduce((a, b) => a + b, 0).toFixed(2)); // مجموع المبيعات مع تنسيق
             $('#top-products').html(
     data.topProducts.slice(0, 3).map(product => `<div style="text-align: left;">${product.product_name}</div>`).join('')
 );
