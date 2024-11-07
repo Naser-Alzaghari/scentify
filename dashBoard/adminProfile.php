@@ -213,7 +213,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <div class="modal-body">
                     <div class="form-group mb-3">
                         <label for="profilePicture">Profile Picture</label>
-                        <input type="file" name="profilePicture" class="form-control">
+                        <input type="file" name="profilePicture" class="form-control" accept="image/*">
                     </div>
                     <div class="form-group mb-3">
                         <label for="firstName">First Name</label>

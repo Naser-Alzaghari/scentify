@@ -37,7 +37,7 @@ class Dashboard
     // Get sales report by month (total sales per month)
     public function getSalesReport()
     {
-        $stmt = $this->pdo->query("SELECT MONTH(created_at) AS month, IFNULL(SUM(total_amount), 0) AS total_sales FROM orders WHERE order_status = 'completed' GROUP BY MONTH(created_at)");
+        $stmt = $this->pdo->query("SELECT MONTH(created_at) AS month, IFNULL(SUM(total_amount), 0) AS total_sales FROM orders WHERE order_status != 'pending' GROUP BY MONTH(created_at)");
         $salesReport = array_fill(0, 12, 0); // Initialize array for 12 months
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

@@ -81,6 +81,7 @@ session_start();
                                         </div>
                                         <div class="form-group">
                                             <input type="date" class="form-control" name="dob" id="date_of_birth" required />
+                                            <p class="text-danger d-none" id="age_check">age must be over 16 years</p>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="Add"
@@ -198,6 +199,7 @@ session_start();
 
         <script>
             document.querySelector("form[action='register.php']").addEventListener("submit", function (event) {
+                event.preventDefault();
     // Get form elements
     const password = document.getElementById("pws").value;
     const confirmPassword = document.querySelector("input[name='pwer']").value;
@@ -254,6 +256,39 @@ session_start();
         // Append new error message
         document.querySelector(".register-right .register-heading").after(errorContainer);
     }
+
+    const dobInput = document.getElementById("date_of_birth").value;
+    
+    
+        // Parse the date of birth string into a Date object
+        const dob = new Date(dobInput);
+
+        // Get today's date
+        const today = new Date();
+
+        // Calculate the difference in years
+        let age = today.getFullYear() - dob.getFullYear();
+
+        // Adjust for the case where the birthday hasn't occurred yet this year
+        const monthDiff = today.getMonth() - dob.getMonth();
+        const dayDiff = today.getDate() - dob.getDate();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+            age--;  // If the birthday hasn't occurred yet this year, subtract one year
+        }
+
+        // Check if the age is less than 16
+        if (age < 16) {
+            event.preventDefault();
+            document.getElementById("age_check").classList.remove("d-none");
+        } else {
+            document.getElementById("age_check").classList.add("d-none");
+            // Proceed with form submission or whatever logic you need
+        }
+        
+    
+
+    
 });
 
     

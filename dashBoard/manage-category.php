@@ -241,7 +241,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="form-group">
                                 <label for="categoryImage">Category Image</label>
-                                <input type="file" class="form-control-file" id="categoryImage" name="image">
+                                <input type="file" class="form-control-file" id="categoryImage" name="image" accept="image/*">
                             </div>
                             <button type="submit" class="btn btn-secondary text-white">Save Changes</button>
                         </form>

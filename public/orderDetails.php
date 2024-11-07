@@ -66,11 +66,19 @@ if (empty($items)) {
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-lg-10 col-xl-8">
                     <div class="card" style="border-radius: 10px;">
-                        <div class="card-header px-4 py-5">
+                        <div class="card-header px-4 py-4">
                             <h5 class="text-700 mb-0">Thanks for your Order, <span style="color: #cfa1a4;">
                                 <?php echo htmlspecialchars($user_checkout['first_name'] . ' ' . $user_checkout['last_name']); ?>
                             </span>!</h5>
+                            <div class="d-flex justify-content-between pt-2">
+                                    <p class="text-700 mb-0">Invoice Number: <?php echo htmlspecialchars($order_id); ?></p>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <p class="text-700 mb-0">Order Date: <?php echo htmlspecialchars($user_checkout['order_checkout_date']); ?></p>
+                                </div>
                         </div>
+                        
                         <div class="card-body p-4">
                         <p class="lead fw-normal mb-2" style="color: #cfa1a4;">Order Status: 
     <span class="fw-bold"><?php echo htmlspecialchars($user_checkout['order_status']); ?></span>
@@ -103,13 +111,7 @@ if (empty($items)) {
                                     <p class="text-700 mb-0"><span class="fw-bold me-4">Total</span> $<?php echo htmlspecialchars($user_checkout['total_amount']); ?></p>
                                 </div>
 
-                                <div class="d-flex justify-content-between pt-2">
-                                    <p class="text-700 mb-0">Invoice Number: <?php echo htmlspecialchars($order_id); ?></p>
-                                </div>
-
-                                <div class="d-flex justify-content-between">
-                                    <p class="text-700 mb-0">Order Date: <?php echo htmlspecialchars($user_checkout['order_checkout_date']); ?></p>
-                                </div>
+                                
                             <?php else : ?>
                                 <p class="text-700">No items found in your latest order.</p>
                             <?php endif; ?>
